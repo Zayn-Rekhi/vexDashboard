@@ -1,0 +1,768 @@
+{% extends "layouts/default.html" %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- (Almost) A blank page -->
+<div class="page-inner">
+    <!-- data  -->
+    <!-- Card -->
+    <div id="lineGraphData" data="{{driverBubblePlotData}}"></div>
+    <h4 class="page-title">{{team_name}}:</h4>
+    <div class="row row-card-no-pd mt--2">
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5><b>Driver Score</b></h5>
+                            <p class="text-muted">Current: {{DRIVERscore}}</p>
+                        </div>
+                        <h3 class="text-success fw-bold">{{skillsDriverGoalTotal}}%</h3>
+                    </div>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-success" style="width:{{skillsDriverGoalTotal}}%;" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                            aria-valuemax="100"></div>
+                    </div>
+                    <div class="d-flex justify-content-between mt-2">
+                        <p class="text-muted mb-0">Percentage</p>
+                        <p class="text-muted mb-0">Goal: {{skillsDriverGoal}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5><b>Programming Score</b></h5>
+                            <p class="text-muted">Current: {{PROGscore}}</p>
+                        </div>
+                        <h3 class="text-success fw-bold">{{skillsProgGoalTotal}}%</h3>
+                    </div>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-success" style="width:{{skillsProgGoalTotal}}%;" role="progressbar"
+                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="d-flex justify-content-between mt-2">
+                        <p class="text-muted mb-0">Percentage</p>
+                        <p class="text-muted mb-0">Goal: {{skillsProgGoal}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <h5><b>Combined Score</b></h5>
+                            <p class="text-muted">Current: {{COMBINEDscore}}</p>
+                        </div>
+                        <h3 class="text-success fw-bold">{{skillsCombinedGoalTotal}}%</h3>
+                    </div>
+                    <div class="progress progress-sm">
+                        <div class="progress-bar bg-success" style="width:{{skillsCombinedGoalTotal}}%;" role="progress"
+                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="d-flex justify-content-between mt-2">
+                        <p class="text-muted mb-0">Percentage</p>
+                        <p class="text-muted mb-0">Goal: {{skillsCombinedGoal}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- driver skills -->
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Driver Skills: </div>
+                    <div class="form-group col-md-2" style="margin-left:80%;margin-top:-4%;">
+                        <form action="">
+                            <select class="form-control form-control-sm" id="smallSelect">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" >
+                        <canvas id="driverSkillsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Driver Data: </h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basic-datatables" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>Top Score</th>
+                                    <th>Average</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>Top Score</th>
+                                    <th>Average</th>
+
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for team in tableList %}
+                                <tr>
+                                    {% for elem in team %}
+                                    <td>{{elem}}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{betterTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{betterTeamAverage1}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{betterTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{betterTeamAverage2}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{worseTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{worseTeamAverage1}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{worseTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{worseTeamAverage2}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- autonomous skills  -->
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Driver Skills: </div>
+                    <div class="form-group col-md-2" style="margin-left:80%;margin-top:-4%;">
+                        <form action="">
+                            <select class="form-control form-control-sm" id="smallSelect">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="programmingSkillsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Driver Data: </h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basic-datatables" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>Average</th>
+                                    <th>Office</th>
+                                    <th>Country</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>Average</th>
+                                    <th>Office</th>
+                                    <th>Country</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for team in tableList %}
+                                <tr>
+                                    {% for elem in team %}
+                                    <td>{{elem}}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{betterTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{betterTeamAverage1}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{betterTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{betterTeamAverage2}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{worseTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{worseTeamAverage1}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{worseTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{worseTeamAverage2}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- combined score  -->
+    <div class="row">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Driver Skills: </div>
+                    <div class="form-group col-md-2" style="margin-left:80%;margin-top:-4%;">
+                        <form action="">
+                            <select class="form-control form-control-sm" id="smallSelect">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="combinedSkillsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Driver Data: </h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basic-datatables" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>Average</th>
+                                    <th>Office</th>
+                                    <th>Country</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>Average</th>
+                                    <th>Office</th>
+                                    <th>Country</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for team in tableList %}
+                                <tr>
+                                    {% for elem in team %}
+                                    <td>{{elem}}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{betterTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{betterTeamAverage1}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{betterTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{betterTeamAverage2}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{worseTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{worseTeamAverage1}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{worseTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{worseTeamAverage2}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-8">
+            <label class="form-label">Choose:</label>
+            <form method="post">
+                {% csrf_token %}
+                <div class="selectgroup selectgroup-danger w-100">
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="tableInfo" value="myPosition" class="selectgroup-input"
+                            checked="checked">
+                        <span class="selectgroup-button">My Position</span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="tableInfo" value="myCompetitors" class="selectgroup-input">
+                        <span class="selectgroup-button">My Competitors</span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="tableInfo" value="top10" class="selectgroup-input">
+                        <span class="selectgroup-button">Top 10</span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="tableInfo" value="bottom10" class="selectgroup-input">
+                        <span class="selectgroup-button">Bottom 10</span>
+                    </label>
+                    <button name="submit" class="btn btn-danger btn-border ml-2">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Progression Data: </h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basic-datatables" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>Average</th>
+                                    <th>Office</th>
+                                    <th>Country</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Team</th>
+                                    <th>Average</th>
+                                    <th>Office</th>
+                                    <th>Country</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for team in tableList %}
+                                <tr>
+                                    {% for elem in team %}
+                                    <td>{{elem}}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <h2 class="page-title">Similar Teams: </h2>
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{betterTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{betterTeamAverage1}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark1"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{betterTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{betterTeamAverage2}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{worseTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{worseTeamAverage1}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body pb-0">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{worseTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{worseTeamAverage2}}</p>
+                    <div class="pull-in sparkline-fix">
+                        <div id="lineChartSpark4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row row-card-no-pd">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-head-row card-tools-still-right">
+                        <h4 class="card-title">Global Map: </h4>
+                        <div class="form-group form-group-default col-md-2" style="margin-left:70%;">
+                            <form method="POST" id="mapForm">
+                                {% csrf_token %}
+                                <label>Options</label>
+                                <select class="form-control" name="map"
+                                    onchange='if(this.value != "myPosition") { this.form.submit(); }'>
+                                    <option value="myPosition" selected>My Position</option>
+                                    <option value="myCompetitors">My Competitors</option>
+                                    <option value="top10">Top 10</option>
+                                    <option value="bottom10">Bottom 10</option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <p class="card-category">
+                    Scout For Teams All Around The World!</p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="table-responsive table-hover table-sales">
+                            <table class="table">
+                                <tbody>
+                                    {% for team in allTeamData %}
+                                    <tr>
+                                        <td>
+                                            <div class="flag">
+                                                <img src="/static/assets/img/flags/{{team.3}}.png" alt="{{team.0}}">
+                                            </div>
+                                        </td>
+                                        <td>{{team.1}}</td>
+                                        <td class="text-right">
+                                            {{team.2}}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mapcontainer">
+                            <div id="map-example" class="vmap"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script>
+    var driverBubblePlotElement = document.getElementById('driverSkillsChart').getContext('2d');
+    var programmingSkillsChart = document.getElementById('programmingSkillsChart').getContext('2d');
+    var combinedSkillsChart = document.getElementById('combinedSkillsChart').getContext('2d');
+    var driverScatterPlotData = eval(document.getElementById('lineGraphData').getAttribute('data'));
+
+
+    var myBubbleChart = new Chart(driverBubblePlotElement, {
+        type: 'bubble',
+        data: {
+            datasets: [{
+                label: "{{team_name}}",
+                data: driverScatterPlotData,
+                backgroundColor: "#35cd3a"
+            }],
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    ticks: {
+                        stepSize:1,
+                        callback: function (value, index, values) {
+                            return "Event " + (value+1);
+                        }
+                    }
+                }]
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 10,
+                }
+            },
+            tooltips: {
+                bodySpacing: 4,
+                mode: "nearest",
+                intersect: 0,
+                position: "nearest",
+                xPadding: 10,
+                yPadding: 10,
+                caretPadding: 10
+            },
+            layout: {
+                padding: { left: 15, right: 15, top: 15, bottom: 15 }
+            }
+        }
+    });
+
+    var programmingSkillsLineChart = new Chart(programmingSkillsChart, {
+        type: 'line',
+        
+        data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+                label: "Active Users",
+                borderColor: "#1d7af3",
+                pointBorderColor: "#FFF",
+                pointBackgroundColor: "#1d7af3",
+                pointBorderWidth: 2,
+                pointHoverRadius: 4,
+                pointHoverBorderWidth: 1,
+                pointRadius: 4,
+                backgroundColor: 'transparent',
+                fill: true,
+                borderWidth: 2,
+                data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 900]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 10,
+                    fontColor: '#1d7af3',
+                }
+            },
+            tooltips: {
+                bodySpacing: 4,
+                mode: "nearest",
+                intersect: 0,
+                position: "nearest",
+                xPadding: 10,
+                yPadding: 10,
+                caretPadding: 10
+            },
+            layout: {
+                padding: { left: 15, right: 15, top: 15, bottom: 15 }
+            }
+        }
+    });
+    var combinedSkillsLineChart = new Chart(combinedSkillsChart, {
+        type: 'line',
+        data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [{
+                label: "Active Users",
+                borderColor: "#1d7af3",
+                pointBorderColor: "#FFF",
+                pointBackgroundColor: "#1d7af3",
+                pointBorderWidth: 2,
+                pointHoverRadius: 4,
+                pointHoverBorderWidth: 1,
+                pointRadius: 4,
+                backgroundColor: 'transparent',
+                fill: true,
+                borderWidth: 2,
+                data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 900]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 10,
+                    fontColor: '#1d7af3',
+                }
+            },
+            tooltips: {
+                bodySpacing: 4,
+                mode: "nearest",
+                intersect: 0,
+                position: "nearest",
+                xPadding: 10,
+                yPadding: 10,
+                caretPadding: 10
+            },
+            layout: {
+                padding: { left: 15, right: 15, top: 15, bottom: 15 }
+            }
+        }
+    });
+    $('#lineChartSpark1').sparkline([10,20,30,50,60], {
+        type: 'line',
+        height: '70',
+        width: '100%',
+        lineWidth: '2',
+        lineColor: '#f3545d',
+        fillColor: 'rgba(243, 84, 93, 0.14)'
+    });
+    $('#lineChartSpark2').sparkline([10, 20, 30, 50, 60], {
+        type: 'line',
+        height: '70',
+        width: '100%',
+        lineWidth: '2',
+        lineColor: '#f3545d',
+        fillColor: 'rgba(243, 84, 93, 0.14)'
+    });
+    $('#lineChartSpark3').sparkline([10, 20, 30, 50, 60], {
+        type: 'line',
+        height: '70',
+        width: '100%',
+        lineWidth: '2',
+        lineColor: '#f3545d',
+        fillColor: 'rgba(243, 84, 93, 0.14)'
+    });
+    $('#lineChartSpark4').sparkline([10, 20, 30, 50, 60], {
+        type: 'line',
+        height: '70',
+        width: '100%',
+        lineWidth: '2',
+        lineColor: '#f3545d',
+        fillColor: 'rgba(243, 84, 93, 0.14)'
+    });
+</script>
+{% endblock javascripts %}
