@@ -10,81 +10,60 @@
 <!-- (Almost) A blank page -->
 <div class="page-inner">
     <!-- Card -->
-    <div id="myPositionData" xAxis="{{xAxis}}" yAxis="{{yAxis}}" teams="{{teams}}"></div>
-    <div id="betterAverageData" team1="{{betterAverageTeam1}}" team2="{{betterAverageTeam2}}"></div>
-    <div id="worseAverageData" team1="{{worseAverageTeam1}}" team2="{{worseAverageTeam2}}"></div>
+    <div id="barGraphData" data="{{barGraphData}}" labels="{{barLabels}}"></div>
+    <div id="betterData" team1="{{betterTeamData1}}" team2="{{betterTeamData2}}"></div>
+    <div id="worseData" team1="{{worseTeamData1}}" team2="{{worseTeamData2}}"></div>
     <div id="mapData" justCountry="{{justCountry}}"></div>
     <h4 class="page-title">{{team_name}}:</h4>
-    <div class="row">
-        <div class="col-8">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <h5><b>Current Average</b></h5>
-                            <p class="text-muted">Distance</p>
-                        </div>
-                        <h3 class="text-danger fw-bold">{{average}}</h3>
+    
+    <form method="post">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Events: </h4>
                     </div>
-                    <div class="progress progress-sm">
-                        <div class="progress-bar bg-danger" style="width:{{percentage}}%;" role="progressbar"
-                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div class="d-flex justify-content-between mt-2">
-                        <p class="text-muted mb-0">Percentage</p>
-                        <p class="text-muted mb-0">{{percentage}}%</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="card card-stats card-round" style="height:150px;">
-                <div class="card-body ">
-                    <div class="row" style="margin-top:25px;">
-                        <div class="col-5">
-                            <div class="icon-big text-center">
-                                <i class="flaticon-star-1 text-danger"></i>
-                            </div>
-                        </div>
-                        <div class="col-7 col-stats">
-                            <div class="numbers">
-                                <p class="card-category">Goal</p>
-                                <h4 class="card-title">{{goal}}</h4>
-                            </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">Choose:</label>
+                                {% csrf_token %}
+                                {% for event, sku in topBarList %}
+                                <div class="selectgroup selectgroup-danger w-100">
+                                    <label class="selectgroup-item">
+                                        <input type="checkbox" name="listInput" value="{{sku}}" class="selectgroup-input">
+                                        <span class="selectgroup-button">{{event}}</span>
+                                    </label>
+                                </div>
+                                {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Progression</div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container" style="height:500px;">
-                        <canvas id="lineChart"></canvas>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Progression</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" style="height:500px;">
+                            <canvas id="barChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-8">
-            <label class="form-label">Choose:</label>
-            <form method="post">
+        <div class="row">
+            <div class="form-group col-12">
+                <label class="form-label">Choose:</label>
                 {% csrf_token %}
                 <div class="selectgroup selectgroup-danger w-100">
                     <label class="selectgroup-item">
                         <input type="checkbox" name="tableInfo" value="myPosition" class="selectgroup-input"
                             checked="checked">
                         <span class="selectgroup-button">My Position</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="checkbox" name="tableInfo" value="myCompetitors" class="selectgroup-input">
-                        <span class="selectgroup-button">My Competitors</span>
                     </label>
                     <label class="selectgroup-item">
                         <input type="checkbox" name="tableInfo" value="top10" class="selectgroup-input">
@@ -96,39 +75,60 @@
                     </label>
                     <button name="submit" class="btn btn-danger btn-border ml-2">Submit</button>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
+                    <!-- tableData.append([team["number"],
+                    teamer["rank"],teamer["wins"],teamer["losses"],teamer["ties"],teamer["ap"],teamer["wp"],teamer["sp"],teamer["max_score"],teamer["opr"],teamer["dpr"],teamer["trsp"],teamer["ccwm"],teamer["rank"]]) -->
+
     <div class="row">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Porgression Data: </h4>
+                    <h4 class="card-title">Progression Data: </h4>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="basic-datatables" class="display table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>Team</th>
-                                    <th>Average</th>
-                                    <th>Office</th>
-                                    <th>Country</th>
+                                    <th>Number</th>
+                                    <th>Rank</th>
+                                    <th>Wins</th>
+                                    <th>Losses</th>
+                                    <th>Ties</th>
+                                    <th>AP</th>
+                                    <th>WP</th>
+                                    <th>SP</th>
+                                    <th>Max Score</th>
+                                    <th>OPR</th>
+                                    <th>DPR</th>
+                                    <th>TRSP</th>
+                                    <th>CCWM</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Team</th>
-                                    <th>Average</th>
-                                    <th>Office</th>
-                                    <th>Country</th>
+                                    <th>Number</th>
+                                    <th>Rank</th>
+                                    <th>Wins</th>
+                                    <th>Losses</th>
+                                    <th>Ties</th>
+                                    <th>AP</th>
+                                    <th>WP</th>
+                                    <th>SP</th>
+                                    <th>Max Score</th>
+                                    <th>OPR</th>
+                                    <th>DPR</th>
+                                    <th>TRSP</th>
+                                    <th>CCWM</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                {% for team in tableList %}
+                                {% for team in tableData %}
                                 <tr>
                                     {% for elem in team %}
-                                    <td>{{elem}}</td>
+                                        <td>{{elem}}</td>
                                     {% endfor %}
                                 </tr>
                                 {% endfor %}
@@ -139,47 +139,28 @@
             </div>
         </div>
         <div class="col-4">
-            <h2 class="page-title">Similar Teams: </h2>
-            <div class="card">
-                <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff1}}%</div>
-                    <h2 class="mb-2">{{betterTeamNumber1}}</h2>
-                    <p class="text-muted">Current Average: {{betterTeamAverage1}}</p>
-                    <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark1"></div>
+            {% for betterTeam in betterTeamData %}
+                <div class="card">
+                    <div class="card-body">
+                        <div class="h2 fw-bold float-right text-danger">Rank: {{betterTeam.1.11}}</div>
+                        <h2 class="mb-2">{{betterTeam.0}}</h2>
+                        <div class="d-flex justify-content-center p-3" style="height:200px;">
+                            <canvas id="BetbarChartCombined{{forloop.counter}}"></canvas>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff2}}%</div>
-                    <h2 class="mb-2">{{betterTeamNumber2}}</h2>
-                    <p class="text-muted">Current Average: {{betterTeamAverage2}}</p>
-                    <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark2"></div>
+            {% endfor %}
+            {% for worseTeam in worseTeamData %}
+                <div class="card">
+                    <div class="card-body">
+                        <div class="h2 fw-bold float-right text-danger">Rank: {{worseTeam.1.11}}</div>
+                        <h2 class="mb-2">{{worseTeam.0}}</h2>
+                        <div class="d-flex justify-content-center p-3" style="height:200px;">
+                            <canvas id="WorbarChartCombined{{forloop.counter}}"></canvas>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff1}}%</div>
-                    <h2 class="mb-2">{{worseTeamNumber1}}</h2>
-                    <p class="text-muted">Current Average: {{worseTeamAverage1}}</p>
-                    <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark3"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff2}}%</div>
-                    <h2 class="mb-2">{{worseTeamNumber2}}</h2>
-                    <p class="text-muted">Current Average: {{worseTeamAverage2}}</p>
-                    <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark4"></div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
     <div class="row row-card-no-pd">
@@ -187,20 +168,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
-                        <h4 class="card-title">Global Map: </h4>
-                        <div class="form-group form-group-default col-md-2" style="margin-left:70%;">
-                            <form method="POST" id="mapForm">
-                                {% csrf_token %}
-                                <label>Options</label>
-                                <select class="form-control" name="map"
-                                    onchange='if(this.value != "myPosition") { this.form.submit(); }'>
-                                    <option value="myPosition" selected>My Position</option>
-                                    <option value="myCompetitors">My Competitors</option>
-                                    <option value="top10">Top 10</option>
-                                    <option value="bottom10">Bottom 10</option>
-                                </select>
-                            </form>
-                        </div>
+                        <h4 class="card-title">Event Map: </h4>
                     </div>
                 </div>
                 <p class="card-category">
@@ -208,28 +176,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="table-responsive table-hover table-sales">
-                            <table class="table">
-                                <tbody>
-                                    {% for team in allTeamData %}
-                                    <tr>
-                                        <td>
-                                            <div class="flag">
-                                                <img src="/static/assets/img/flags/{{team.3}}.png" alt="{{team.0}}">
-                                            </div>
-                                        </td>
-                                        <td>{{team.1}}</td>
-                                        <td class="text-right">
-                                            {{team.2}}
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="mapcontainer">
                             <div id="map-example" class="vmap"></div>
                         </div>
@@ -246,25 +193,22 @@
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
 <script>
-    var lineChart = document.getElementById('lineChart').getContext('2d');
-    var xAxis = eval(document.getElementById('myPositionData').getAttribute('xAxis'));
-    var yAxis = eval(document.getElementById('myPositionData').getAttribute('yAxis'));
-    var teams = eval(document.getElementById('myPositionData').getAttribute('teams'));
-    var betterTeam1 = eval(document.getElementById('betterAverageData').getAttribute('team1'));
-    var betterTeam2 = eval(document.getElementById('betterAverageData').getAttribute('team2'));
-    var worseTeam1 = eval(document.getElementById('worseAverageData').getAttribute('team1'));
-    var worseTeam2 = eval(document.getElementById('worseAverageData').getAttribute('team2'));
-    var justCountry = eval(document.getElementById('mapData').getAttribute('justCountry'))
-    console.log(betterTeam1);
-    console.log(betterTeam2);
-    console.log(worseTeam1);
-    console.log(worseTeam2);
+    var barChart = document.getElementById('barChart').getContext('2d');
+    var barData = eval(document.getElementById('barGraphData').getAttribute('data'));
+    var barLabels = eval(document.getElementById('barGraphData').getAttribute('labels'));
 
+   
+    var justCountry = eval(document.getElementById('mapData').getAttribute('justCountry'))
+
+    var betterTeam1 = eval(document.getElementById('betterData').getAttribute('team1'));
+    var betterTeam2 = eval(document.getElementById('betterData').getAttribute('team2'));
+    var worseTeam1 = eval(document.getElementById('worseData').getAttribute('team1'));
+    var worseTeam2 = eval(document.getElementById('worseData').getAttribute('team2'));
 
     var datasetList = [];
     colorsList = ["#f3545d", "#EC3103", "#FF8F01", "#FFC101", "#F6E10D", "#11E80B", "#0BE880", "#0BD0E8", "#2AA1E9", "#385BDE", "#7A33B9", "#C541D5", "#FF00D1", "##FF00A2", "#00ff00", "#ffff66", "#ff6699", "#6699ff", "#00ccff", "#00cc66", "#1d7af3", "#f3545d", "#59d05d", "#1d7af3"]
 
-    for (index = 0; index < yAxis.length; index++) {
+    for (index = 0; index < barData.length; index++) {
         var hiddenVal;
         if (index == 0) {
             hiddenVal = false;
@@ -272,26 +216,18 @@
             hiddenVal = true;
         }
         data = {
-            label: teams[index],
+            label: barData[index][0],
             borderColor: colorsList[index],
-            pointBorderColor: "#FFF",
-            pointBackgroundColor: colorsList[index],
-            pointBorderWidth: 2,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 1,
-            pointRadius: 4,
-            backgroundColor: 'transparent',
-            fill: true,
-            borderWidth: 2,
+            backgroundColor: colorsList[index],
             hidden: hiddenVal,
-            data: yAxis[index]
+            data: barData[index][1]
         };
         datasetList.push(data);
     }
-    var myMultipleLineChart = new Chart(lineChart, {
-        type: 'line',
+    var BarChart = new Chart(barChart, {
+        type: 'bar',
         data: {
-            labels: xAxis,
+            labels: barLabels,
             datasets: datasetList,
         },
         options: {
@@ -313,39 +249,6 @@
                 padding: { left: 15, right: 15, top: 15, bottom: 15 }
             }
         }
-    });
-
-    $('#lineChartSpark1').sparkline(betterTeam1, {
-        type: 'line',
-        height: '70',
-        width: '100%',
-        lineWidth: '2',
-        lineColor: '#f3545d',
-        fillColor: 'rgba(243, 84, 93, 0.14)'
-    });
-    $('#lineChartSpark2').sparkline(betterTeam2, {
-        type: 'line',
-        height: '70',
-        width: '100%',
-        lineWidth: '2',
-        lineColor: '#f3545d',
-        fillColor: 'rgba(243, 84, 93, 0.14)'
-    });
-    $('#lineChartSpark3').sparkline(worseTeam1, {
-        type: 'line',
-        height: '70',
-        width: '100%',
-        lineWidth: '2',
-        lineColor: '#f3545d',
-        fillColor: 'rgba(243, 84, 93, 0.14)'
-    });
-    $('#lineChartSpark4').sparkline(worseTeam2, {
-        type: 'line',
-        height: '70',
-        width: '100%',
-        lineWidth: '2',
-        lineColor: '#f3545d',
-        fillColor: 'rgba(243, 84, 93, 0.14)'
     });
     $('#map-example').vectorMap(
         {
@@ -372,5 +275,226 @@
     $('#autoSubmit').click(function () {
         $('#mapForm').submit()
     });
+    var similarTeam1BarData = [];
+    for (index = 0; index < betterTeam1.length; index++) {
+        dataset = {
+            label: betterTeam1[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: betterTeam1[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam1BarData.push(dataset)
+    }
+    var similarTeam2BarData = [];
+    for (index = 0; index < betterTeam2.length; index++) {
+        dataset = {
+            label: betterTeam2[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: betterTeam2[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam2BarData.push(dataset)
+    }
+    var similarTeam3BarData = [];
+    for (index = 0; index < worseTeam1.length; index++) {
+        console.log(worseTeam1[index][0]);
+        dataset = {
+            label: worseTeam1[index][0],
+            backgroundColor: colorsList[index],
+            data: worseTeam1[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam3BarData.push(dataset)
+    }
+    var similarTeam4BarData = [];
+    for (index = 0; index <
+        worseTeam2.length; index++) {
+        dataset = {
+            label: worseTeam2[index][0],
+            backgroundColor: colorsList[index],
+            data: worseTeam2[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam4BarData.push(dataset)
+    }
+   
+    try {
+        var betterTeam1Chart = document.getElementById('BetbarChartCombined1').getContext('2d');
+        var similarBarChart1 = new Chart(similarTeam1BarData, {
+            type: 'bar',
+            data: {
+                datasets: similarTeam1BarData,
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                        gridLines: {
+                            display: false
+                        },
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        },
+                    }]
+                },
+                legend: {
+                    position: 'none',
+                    labels: {
+                        padding: 10,
+                        fontColor: '#1d7af3',
+                    }
+                },
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+    try {
+        var betterTeam2Chart = document.getElementById('BetbarChartCombined2').getContext('2d');
+        var similarBarChart2 = new Chart(betterTeam2Chart, {
+            type: 'bar',
+            data: {
+                datasets: similarTeam2BarData,
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                        gridLines: {
+                            display: false
+                        },
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        },
+                    }]
+                },
+                legend: {
+                    position: 'none',
+                    labels: {
+                        padding: 10,
+                        fontColor: '#1d7af3',
+                    }
+                },
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+    try {
+        var worseTeam1Chart = document.getElementById('WorbarChartCombined1').getContext('2d');
+        var similarBarChart3 = new Chart(worseTeam1Chart, {
+            type: 'bar',
+            data: {
+                datasets: similarTeam3BarData,
+                labels: barLabels,
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                        gridLines: {
+                            display: false
+                        },
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            display: false
+                        },
+                    }]
+                },
+                legend: {
+                    position: 'none',
+                    labels: {
+                        padding: 10,
+                        fontColor: '#1d7af3',
+                    }
+                },
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+    try {
+        var worseTeam2Chart = document.getElementById('WorbarChartCombined2').getContext('2d');
+        var similarBarChart4 = new Chart(worseTeam2Chart, {
+            type: 'bar',
+            data: {
+                datasets: similarTeam4BarData,
+                labels: barLabels,
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                        gridLines: {
+                            display: false
+                        },
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            display: false
+                        },
+                    }]
+                },
+                legend: {
+                    position: 'none',
+                    labels: {
+                        padding: 10,
+                        fontColor: '#1d7af3',
+                    }
+                },
+            }
+        });
+    }
+catch (err) {
+    console.log(err);
+
+}
+
 </script>
 {% endblock javascripts %}

@@ -18,6 +18,7 @@ class Initialize():
 
 class get_events():
     def __init__(self):
+        Initialize("webDB_VEX")
         params = ["sku", "name", "start", "end", "divisions", "loc_venue", "loc_city", "loc_region", "loc_country"]
         response = requests.get(
                 "https://api.vexdb.io/v1/get_events?season=Tower Takeover").text
@@ -57,91 +58,24 @@ class team():
         resp1 = requests.get(request).text
         resp2 = json.loads(resp1)
         response = resp2["result"]
-        blueTeams = ["blue1","blue2","blue3"]
-        redTeams = ["red1","red2","red3"]
         amt=len(response)
         curAverage=0
-        matchesList = []
-        for match in response:
-            for blueTeam in blueTeams:
-                if match[blueTeam] == self.team:
-                    ls = []
-                    score = match["bluescore"]
-                    scheduled = match["scheduled"]
-                    matchRound = match["round"]
-                    instance = match["instance"]
-                    sku = match["sku"]
-                    blue1 = match["blue1"]
-                    blue2 = match["blue2"]
-                    blue3 = match["blue3"]
-                    red1 = match["red1"]
-                    red2 = match["red2"]
-                    red3 = match["red3"]
-                    if matchRound > 2:
-                        query={"sku":sku}
-                        event = mycolEvents.find_one(query)
-                        startime = event["start"]
-                        scheduled=startime
-                    curAverage+=score
-                    ls.append(score)
-                    ls.append(scheduled)
-                    ls.append(matchRound)
-                    ls.append(instance)
-                    ls.append(sku)
-                    ls.append(blue1)
-                    ls.append(blue2)
-                    ls.append(blue3)
-                    ls.append(red1)
-                    ls.append(red2)
-                    ls.append(red3)
-                    matchesList.append(ls)
-
-
-            for redTeam in redTeams:
-                if match[redTeam] == self.team:
-                    ls = []
-                    score = match["redscore"]
-                    scheduled = match["scheduled"]
-                    matchRound = match["round"]
-                    instance = match["instance"]
-                    sku = match["sku"]
-                    blue1 = match["blue1"]
-                    blue2 = match["blue2"]
-                    blue3 = match["blue3"]
-                    red1 = match["red1"]
-                    red2 = match["red2"]
-                    red3 = match["red3"]
-                    if matchRound > 2:
-                        query={"sku":sku}
-                        event = mycolEvents.find_one(query)
-                        startime = event["start"]
-                        scheduled=startime
-                    curAverage+=score
-                    ls.append(score)
-                    ls.append(scheduled)
-                    ls.append(matchRound)
-                    ls.append(instance)
-                    ls.append(sku)
-                    ls.append(blue1)
-                    ls.append(blue2)
-                    ls.append(blue3)
-                    ls.append(red1)
-                    ls.append(red2)
-                    ls.append(red3)
-                    matchesList.append(ls)
-
-
+        for resp in response:
+            if resp["blue1"] == self.team or resp["blue2"] == self.team or resp["blue3"] == self.team:
+                curAverage+=resp["bluescore"]
+            if resp["red1"] == self.team or resp["red2"] == self.team or resp["red3"] == self.team:
+                curAverage += resp["redscore"]
         try:
             average=round(curAverage/amt, 2)
         except Exception as e:
+            print(e)
             average = 0
-
         data["average"] = average
         data["total_matches"] = amt
-        data["matches"] = matchesList
+        data["matches"] = response
 
     def get_rankings(self):
-        fields = ["wins","losses","ties","ap","wp","sp","max_score","opr","dpr","ccwm","rank"]
+        fields = ["wins","losses","ties","ap","wp","sp","max_score","opr","dpr","trsp","ccwm","rank"]
         request = f"https://api.vexdb.io/v1/get_rankings?team={self.team}&season=Tower Takeover"
         resp1 = requests.get(request).text
         resp2 = json.loads(resp1)
@@ -171,10 +105,14 @@ class team():
         if responseDriver != []:
             data["DriverData"] = responseDriver
             total = 0
+            driverTopList = []
             for skillsDriverData in responseDriver:
                 total += skillsDriverData["score"]
+                driverTopList.append(skillsDriverData["score"])
             data["driverAverage"] = total/len(responseDriver)
+            data["driverTopScore"] = max(driverTopList)
         else:
+            data["driverTopScore"] = 0 
             data["DriverData"] = []
             data["driverAverage"] = 0
 
@@ -186,10 +124,14 @@ class team():
         if responseProgramming != []:
             data["ProgrammingData"] = responseProgramming
             total = 0
+            programmingTopList = []
             for skillsProgrammingData in responseProgramming:
                 total += skillsProgrammingData["score"]
+                programmingTopList.append(skillsProgrammingData["score"])
             data["programmingAverage"] = total/len(responseProgramming)
+            data["programmingTopScore"] = max(programmingTopList)
         else:
+            data["programmingTopScore"] = 0
             data["ProgrammingData"] = []
             data["programmingAverage"] = 0
 
@@ -201,10 +143,14 @@ class team():
         if responseCombined != []:
             data["CombinedData"] = responseCombined
             total = 0
+            combinedTopList = [] 
             for skillsCombinedData in responseCombined:
                 total += skillsCombinedData["score"]
+                combinedTopList.append(skillsCombinedData["score"])
             data["combinedAverage"] = total/len(responseCombined)
+            data["combinedTopScore"] = max(combinedTopList)
         else:
+            data["combinedTopScore"] = 0 
             data["CombinedData"] = []
             data["combinedAverage"] = 0
 
@@ -220,44 +166,46 @@ class team():
 
 #     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
 #     code = 'core.fillDB'    # a unique code
-class fillDB():
-    def do():                
-        # MakeDB
-        Initialize("webDB_VEX")
-        # fillevents
-        get_events()
-        # FillDb
-        request = f"https://api.vexdb.io/v1/get_teams?season=Tower Takeover"
-        resp1 = requests.get(request).text
-        resp2 = json.loads(resp1)
-        response = resp2["result"]
-        for aTeam in response:
-            teamer = aTeam["number"]
-            instance = team(teamer)
-            threadTeams = threading.Thread(
-                target=instance.get_teams())
-            threadMatches = threading.Thread(
-                target=instance.get_matches())
-            threadRankings = threading.Thread(
-                target=instance.get_rankings())
-            threadSkills = threading.Thread(
-                target=instance.get_skills())
+
+def do(aTeam):                
+    # MakeDB
+    Initialize("webDB_VEX")
+    # fillevents
+
+    teamer = aTeam["number"]
+    instance = team(teamer)
+    threadTeams = threading.Thread(
+        target=instance.get_teams())
+    threadMatches = threading.Thread(
+        target=instance.get_matches())
+    threadRankings = threading.Thread(
+        target=instance.get_rankings())
+    threadSkills = threading.Thread(
+        target=instance.get_skills())
 
 
-            threadTeams.start()
-            threadMatches.start()
-            threadRankings.start()
-            threadSkills.start()
+    threadTeams.start()
+    threadMatches.start()
+    threadRankings.start()
+    threadSkills.start()
 
 
-            threadTeams.join()
-            threadMatches.join()
-            threadRankings.join()
-            threadSkills.join()
+    threadTeams.join()
+    threadMatches.join()
+    threadRankings.join()
+    threadSkills.join()
 
-            instance.insert()
-
-
+    instance.insert()
 
 
-fillDB.do()
+# get_events()
+request = f"https://api.vexdb.io/v1/get_teams?season=Tower Takeover"
+resp1 = requests.get(request).text
+resp2 = json.loads(resp1)
+response = resp2["result"]
+for aTeam in response:
+    x=threading.Thread(target=do(aTeam))
+    x.setDaemon(True)
+    x.start()
+
+

@@ -1,0 +1,122 @@
+{% extends "layouts/default.html" %}
+
+{% block title %} Forms {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+ <div class="page-inner">
+    <div id="data" data="{{events}}"></div>
+    <div id='top' style="display:none;">
+        <div class='left' style="display: none;">
+
+            <div id='theme-system-selector' class='selector'>
+                Theme System:
+    
+                <select style="display:none;">
+                    <option value='bootstrap' selected>Bootstrap 4</option>
+                    <option value='standard'>unthemed</option>
+                </select>
+            </div>
+    
+            <div data-theme-system="bootstrap" class='selector' style='display:none'>
+                Theme Name:
+    
+                <select style="display:none;">
+                    <option value='superhero' selected>Superhero</option>
+                    <option value='united'>United</option>
+                    <option value='yeti'>Yeti</option>
+                </select>
+            </div>
+    
+            <span id='loading' style='display:none'>loading theme...</span>
+    
+        </div>
+    
+        <div class='right'>
+            <span class='credits' data-credit-id='bootstrap-standard' style='display:none'>
+                <a href='https://getbootstrap.com/docs/3.3/' target='_blank'>Theme by Bootstrap</a>
+            </span>
+            <span class='credits' data-credit-id='bootstrap-custom' style='display:none'>
+                <a href='https://bootswatch.com/' target='_blank'>Theme by Bootswatch</a>
+            </span>
+        </div>
+    
+        <div class='clear'></div>
+    </div>
+    <form action="" id="event" method="post">
+        {% csrf_token %}
+        <input type="text" name="eventData" style="display:none;" id="eventData">
+    </form>
+    <div id='calendar'></div>
+ </div>
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src='http://fullcalendar.io/js/fullcalendar-2.1.1/lib/jquery.min.js'></script>
+<script>
+
+    var calendarEl = document.getElementById('calendar');
+    var actData = eval(document.getElementById('data').getAttribute('data'));
+    var fullData=[]
+    for (index = 0; index < actData.length; index++) {
+        trueOrFalse=false;
+        if(actData[index]['allDay'] == "true"){trueOrFalse=true}
+        else if (actData[index]['allDay'] == "false") { trueOrFalse = false }
+        allData = {
+            title:actData[index]['title'],
+            start: actData[index]['start'],
+            end: actData[index]['end'],
+            allDay: trueOrFalse,
+        }
+        fullData.push(allData)
+    }
+    console.log(fullData);
+    var calendar;
+    jq211 = jQuery.noConflict(true);
+    calendar = new FullCalendar.Calendar(calendarEl, {
+        plugins: ['bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list'],
+        header: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+        },
+        defaultDate: '2020-02-12',
+        navLinks: true, // can click day/week names to navigate views
+        editable: true,
+        selectable: true,
+        selectMirror: true,
+        
+        select: function (arg) {
+            eventDict = calendar.getEventSources()[0]['internalEventSource']['meta']
+            var title = prompt('Event Name:');
+            if (title) {                
+                var allDayVar = JSON.stringify(arg.allDay)
+                if (title) {
+                    event = {
+                        title: title,
+                        start: arg.start,
+                        end: arg.end,
+                        allDay: `${allDayVar}`
+                    }
+                    console.log(event);
+                    document.getElementById("eventData").value = JSON.stringify(event);
+                    document.getElementById("event").submit();
+                }
+            }
+        },
+        eventLimit: true, // allow "more" link when too many events
+        events: fullData,
+    });
+    calendar.render();
+
+
+
+
+</script>
+{% endblock javascripts %}

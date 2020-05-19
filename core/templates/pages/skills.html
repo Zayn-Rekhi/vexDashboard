@@ -11,7 +11,28 @@
 <div class="page-inner">
     <!-- data  -->
     <!-- Card -->
-    <div id="lineGraphData" data="{{driverBubblePlotData}}"></div>
+    <div id="scatterGraphDataDriver" data="{{driverLinePlotData}}"></div>
+    <div id="barGraphDataDriver" data="{{driverBarPlotData}}"></div>
+    <div id="betterAverageDataDriver" team1="{{betterDriverAverageTeam1}}" team2="{{betterDriverAverageTeam2}}"></div>
+    <div id="worseAverageDataDriver" team1="{{worseDriverAverageTeam1}}" team2="{{worseDriverAverageTeam2}}"></div>
+    <div id="BetterBarTeamDriver" team1="{{betterDriverAverageTeamtopScore1}}" team2="{{betterDriverAverageTeamtopScore2}}"></div>
+    <div id="WorseBarTeamDriver" team1="{{worseDriverAverageTeamtopScore1}}" team2="{{worseDriverAverageTeamtopScore2}}"></div>
+    
+    <div id="scatterGraphDataProgramming" data="{{programmingLinePlotData}}"></div>
+    <div id="barGraphDataProgramming" data="{{programmingBarPlotData}}"></div>
+    <div id="betterAverageDataProgramming" team1="{{betterProgrammingAverageTeam1}}" team2="{{betterProgrammingAverageTeam2}}"></div>
+    <div id="worseAverageDataProgramming" team1="{{worseProgrammingAverageTeam1}}" team2="{{worseProgrammingAverageTeam2}}"></div>
+    <div id="BetterBarTeamProgramming" team1="{{betterProgrammingAverageTeamtopScore1}}" team2="{{betterProgrammingAverageTeamtopScore2}}"></div>
+    <div id="WorseBarTeamProgramming" team1="{{worseProgrammingAverageTeamtopScore1}}" team2="{{worseProgrammingAverageTeamtopScore2}}"></div>
+
+    <div id="scatterGraphDataCombined" data="{{combinedLinePlotData}}"></div>
+    <div id="barGraphDataCombined" data="{{combinedBarPlotData}}"></div>
+    <div id="betterAverageDataCombined" team1="{{betterCombinedAverageTeam1}}" team2="{{betterCombinedAverageTeam2}}"></div>
+    <div id="worseAverageDataCombined" team1="{{worseCombinedAverageTeam1}}" team2="{{worseCombinedAverageTeam2}}"></div>
+    <div id="BetterBarTeamCombined" team1="{{betterCombinedAverageTeamtopScore1}}" team2="{{betterCombinedAverageTeamtopScore2}}"></div>
+    <div id="WorseBarTeamCombined" team1="{{worseCombinedAverageTeamtopScore1}}" team2="{{worseCombinedAverageTeamtopScore2}}"></div>
+
+    <div id="mapData" justCountry="{{justCountry}}"></div>
     <h4 class="page-title">{{team_name}}:</h4>
     <div class="row row-card-no-pd mt--2">
         <div class="col-12 col-sm-6 col-md-4">
@@ -22,10 +43,10 @@
                             <h5><b>Driver Score</b></h5>
                             <p class="text-muted">Current: {{DRIVERscore}}</p>
                         </div>
-                        <h3 class="text-success fw-bold">{{skillsDriverGoalTotal}}%</h3>
+                        <h3 class="text-danger fw-bold">{{skillsDriverGoalTotal}}%</h3>
                     </div>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-success" style="width:{{skillsDriverGoalTotal}}%;" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                        <div class="progress-bar bg-danger" style="width:{{skillsDriverGoalTotal}}%;" role="progressbar" aria-valuenow="75" aria-valuemin="0"
                             aria-valuemax="100"></div>
                     </div>
                     <div class="d-flex justify-content-between mt-2">
@@ -43,10 +64,10 @@
                             <h5><b>Programming Score</b></h5>
                             <p class="text-muted">Current: {{PROGscore}}</p>
                         </div>
-                        <h3 class="text-success fw-bold">{{skillsProgGoalTotal}}%</h3>
+                        <h3 class="text-danger fw-bold">{{skillsProgGoalTotal}}%</h3>
                     </div>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-success" style="width:{{skillsProgGoalTotal}}%;" role="progressbar"
+                        <div class="progress-bar bg-danger" style="width:{{skillsProgGoalTotal}}%;" role="progressbar"
                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <div class="d-flex justify-content-between mt-2">
@@ -64,10 +85,10 @@
                             <h5><b>Combined Score</b></h5>
                             <p class="text-muted">Current: {{COMBINEDscore}}</p>
                         </div>
-                        <h3 class="text-success fw-bold">{{skillsCombinedGoalTotal}}%</h3>
+                        <h3 class="text-danger fw-bold">{{skillsCombinedGoalTotal}}%</h3>
                     </div>
                     <div class="progress progress-sm">
-                        <div class="progress-bar bg-success" style="width:{{skillsCombinedGoalTotal}}%;" role="progress"
+                        <div class="progress-bar bg-danger" style="width:{{skillsCombinedGoalTotal}}%;" role="progress"
                             aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <div class="d-flex justify-content-between mt-2">
@@ -83,22 +104,22 @@
         <div class="col-8">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Driver Skills: </div>
-                    <div class="form-group col-md-2" style="margin-left:80%;margin-top:-4%;">
-                        <form action="">
-                            <select class="form-control form-control-sm" id="smallSelect">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </form>
-                    </div>
+                    <div class="card-title">Driver Skills Average: </div>
                 </div>
                 <div class="card-body">
-                    <div class="chart-container" >
-                        <canvas id="driverSkillsChart"></canvas>
+                    <div class="chart-container" style="height:600px;">
+                        <canvas id="driverSkillsChartScatter"></canvas>
+                    </div>                    
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Driver Skills Top Score: </div>
+                    
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" style="height:300px;">
+                        <canvas id="driverSkillsChartBar"></canvas>
                     </div>
                 </div>
             </div>
@@ -107,6 +128,18 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">Driver Data: </h4>
+                    <div class="form-group col-md-4" style="margin-left:60%;margin-top:-8%;">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <select class="form-control form-control-sm" name="driverLineGraph"
+                                onchange='if(this.value != "myPosition") { this.form.submit(); }'>
+                                <option value="myPosition">My Position</option>
+                                <option value="myCompetitors">My Competitors</option>
+                                <option value="top10">Top 10</option>
+                                <option value="bottom10">Bottom 10</option>
+                            </select>
+                        </form>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -139,15 +172,49 @@
                     </div>
                 </div>
             </div>
+            <div class="card card-stats card-round" style="padding: 10px 50px;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center">
+                                <i class="icon-graph text-danger"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-stats">
+                            <div class="numbers">
+                                <p class="card-category">My Average</p>
+                                <h4 class="card-title">{{myDriverAverage}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-stats card-round" style="padding: 10px 50px;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center">
+                                <i class="flaticon-graph-2 text-danger"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-stats">
+                            <div class="numbers">
+                                <p class="card-category">My Top Score</p>
+                                <h4 class="card-title">{{myDriverTopScore}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff1}}%</div>
-                    <h2 class="mb-2">{{betterTeamNumber1}}</h2>
-                    <p class="text-muted">Current Average: {{betterTeamAverage1}}</p>
+                    <div class="h1 fw-bold float-right text-danger">+{{betterDriverTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{betterDriverTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{betterDriverTeamAverage1}}</p>
                     <div class="pull-in sparkline-fix">
                         <div id="lineChartSpark1"></div>
                     </div>
@@ -157,9 +224,9 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff2}}%</div>
-                    <h2 class="mb-2">{{betterTeamNumber2}}</h2>
-                    <p class="text-muted">Current Average: {{betterTeamAverage2}}</p>
+                    <div class="h1 fw-bold float-right text-danger">+{{betterDriverTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{betterDriverTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{betterDriverTeamAverage2}}</p>
                     <div class="pull-in sparkline-fix">
                         <div id="lineChartSpark2"></div>
                     </div>
@@ -169,9 +236,9 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff1}}%</div>
-                    <h2 class="mb-2">{{worseTeamNumber1}}</h2>
-                    <p class="text-muted">Current Average: {{worseTeamAverage1}}</p>
+                    <div class="h1 fw-bold float-right text-danger">-{{worseDriverTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{worseDriverTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{worseDriverTeamAverage1}}</p>
                     <div class="pull-in sparkline-fix">
                         <div id="lineChartSpark3"></div>
                     </div>
@@ -181,11 +248,61 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff2}}%</div>
-                    <h2 class="mb-2">{{worseTeamNumber2}}</h2>
-                    <p class="text-muted">Current Average: {{worseTeamAverage2}}</p>
+                    <div class="h1 fw-bold float-right text-danger">-{{worseDriverTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{worseDriverTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{worseDriverTeamAverage2}}</p>
                     <div class="pull-in sparkline-fix">
                         <div id="lineChartSpark4"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterDriverTeamDifftopScore1}}%</div>
+                    <h2 class="mb-2">{{betterDriverTeamNumbertopScore1}}</h2>
+                    <p class="text-muted">Current Top Score: {{betterDriverTeamtopScore1}}</p>
+                    <div class="d-flex justify-content-center p-3" style="height:250px;">
+                        <canvas id="barChartDriver1"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterDriverTeamDifftopScore2}}%</div>
+                    <h2 class="mb-2">{{betterDriverTeamNumbertopScore2}}</h2>
+                    <p class="text-muted">Current Top Score: {{betterDriverTeamtopScore2}}</p>
+                    <div class="d-flex justify-content-center p-3" style="height:250px;">
+                        <canvas id="barChartDriver2"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseDriverTeamDifftopScore1}}%</div>
+                    <h2 class="mb-2">{{worseDriverTeamNumbertopScore1}}</h2>
+                    <p class="text-muted">Current Top Score: {{worseDriverTeamtopScore1}}</p>
+                    <div class="d-flex justify-content-center p-3" style="height:250px;">
+                        <canvas id="barChartDriver3"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseDriverTeamDifftopScore2}}%</div>
+                    <h2 class="mb-2">{{worseDriverTeamNumbertopScore2}}</h2>
+                    <p class="text-muted">Current Top Score: {{worseDriverTeamtopScore2}}</p>
+                    <div class="d-flex justify-content-center p-3" style="height:250px;">
+                        <canvas id="barChartDriver4"></canvas>
                     </div>
                 </div>
             </div>
@@ -196,22 +313,21 @@
         <div class="col-8">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Driver Skills: </div>
-                    <div class="form-group col-md-2" style="margin-left:80%;margin-top:-4%;">
-                        <form action="">
-                            <select class="form-control form-control-sm" id="smallSelect">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
-                        </form>
-                    </div>
+                    <div class="card-title">Programming Skills Average: </div>
                 </div>
                 <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="programmingSkillsChart"></canvas>
+                    <div class="chart-container" style="height:600px;">
+                        <canvas id="programmingSkillsChartScatter"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Programming Skills Top Score: </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" style="height:300px;">
+                        <canvas id="programmingSkillsChartBar"></canvas>
                     </div>
                 </div>
             </div>
@@ -219,7 +335,19 @@
         <div class="col-4">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Driver Data: </h4>
+                    <h4 class="card-title">Programming Data: </h4>
+                    <div class="form-group col-md-4" style="margin-left:60%;margin-top:-8%;">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <select class="form-control form-control-sm" name="programmingLineGraph"
+                                onchange='if(this.value != "myPosition") { this.form.submit(); }'>
+                                <option value="myPosition">My Position</option>
+                                <option value="myCompetitors">My Competitors</option>
+                                <option value="top10">Top 10</option>
+                                <option value="bottom10">Bottom 10</option>
+                            </select>
+                        </form>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -227,21 +355,20 @@
                             <thead>
                                 <tr>
                                     <th>Team</th>
+                                    <th>Top Score</th>
                                     <th>Average</th>
-                                    <th>Office</th>
-                                    <th>Country</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Team</th>
+                                    <th>Top Score</th>
                                     <th>Average</th>
-                                    <th>Office</th>
-                                    <th>Country</th>
+    
                                 </tr>
                             </tfoot>
                             <tbody>
-                                {% for team in tableList %}
+                                {% for team in tableListProgramming %}
                                 <tr>
                                     {% for elem in team %}
                                     <td>{{elem}}</td>
@@ -253,17 +380,51 @@
                     </div>
                 </div>
             </div>
+            <div class="card card-stats card-round" style="padding: 10px 50px;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center">
+                                <i class="icon-graph text-danger"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-stats">
+                            <div class="numbers">
+                                <p class="card-category">My Average</p>
+                                <h4 class="card-title">{{myProgrammingAverage}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-stats card-round" style="padding: 10px 50px;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center">
+                                <i class="flaticon-graph-2 text-danger"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-stats">
+                            <div class="numbers">
+                                <p class="card-category">My Top Score</p>
+                                <h4 class="card-title">{{myProgrammingTopScore}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff1}}%</div>
-                    <h2 class="mb-2">{{betterTeamNumber1}}</h2>
-                    <p class="text-muted">Current Average: {{betterTeamAverage1}}</p>
+                    <div class="h1 fw-bold float-right text-danger">+{{betterProgrammingTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{betterProgrammingTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{betterProgrammingTeamAverage1}}</p>
                     <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark1"></div>
+                        <div id="lineChartSpark5"></div>
                     </div>
                 </div>
             </div>
@@ -271,11 +432,11 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff2}}%</div>
-                    <h2 class="mb-2">{{betterTeamNumber2}}</h2>
-                    <p class="text-muted">Current Average: {{betterTeamAverage2}}</p>
+                    <div class="h1 fw-bold float-right text-danger">+{{betterProgrammingTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{betterProgrammingTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{betterProgrammingTeamAverage2}}</p>
                     <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark2"></div>
+                        <div id="lineChartSpark6"></div>
                     </div>
                 </div>
             </div>
@@ -283,11 +444,11 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff1}}%</div>
-                    <h2 class="mb-2">{{worseTeamNumber1}}</h2>
-                    <p class="text-muted">Current Average: {{worseTeamAverage1}}</p>
+                    <div class="h1 fw-bold float-right text-danger">-{{worseProgrammingTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{worseProgrammingTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{worseProgrammingTeamAverage1}}</p>
                     <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark3"></div>
+                        <div id="lineChartSpark7"></div>
                     </div>
                 </div>
             </div>
@@ -295,67 +456,127 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff2}}%</div>
-                    <h2 class="mb-2">{{worseTeamNumber2}}</h2>
-                    <p class="text-muted">Current Average: {{worseTeamAverage2}}</p>
+                    <div class="h1 fw-bold float-right text-danger">-{{worseProgrammingTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{worseProgrammingTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{worseProgrammingTeamAverage2}}</p>
                     <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark4"></div>
+                        <div id="lineChartSpark8"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- combined score  -->
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterProgrammingTeamDifftopScore1}}%</div>
+                    <h2 class="mb-2">{{betterProgrammingTeamNumbertopScore1}}</h2>
+                    <p class="text-muted">Current Top Score: {{betterProgrammingTeamtopScore1}}</p>
+                    <div class="d-flex justify-content-center p-3" style="height:250px;">
+                        <canvas id="barChartProgramming1"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterProgrammingTeamDifftopScore2}}%</div>
+                    <h2 class="mb-2">{{betterProgrammingTeamNumbertopScore2}}</h2>
+                    <p class="text-muted">Current Top Score: {{betterProgrammingTeamtopScore2}}</p>
+                    <div class="d-flex justify-content-center p-3" style="height:250px;">
+                        <canvas id="barChartProgramming2"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseProgrammingTeamDifftopScore1}}%</div>
+                    <h2 class="mb-2">{{worseProgrammingTeamNumbertopScore1}}</h2>
+                    <p class="text-muted">Current Top Score: {{worseProgrammingTeamtopScore1}}</p>
+                    <div class="d-flex justify-content-center p-3" style="height:250px;">
+                        <canvas id="barChartProgramming3"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseProgrammingTeamDifftopScore2}}%</div>
+                    <h2 class="mb-2">{{worseProgrammingTeamNumbertopScore2}}</h2>
+                    <p class="text-muted">Current Top Score: {{worseProgrammingTeamtopScore2}}</p>
+                    <div class="d-flex justify-content-center p-3" style="height:250px;">
+                        <canvas id="barChartProgramming4"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- combined skills -->
     <div class="row">
         <div class="col-8">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Driver Skills: </div>
-                    <div class="form-group col-md-2" style="margin-left:80%;margin-top:-4%;">
-                        <form action="">
-                            <select class="form-control form-control-sm" id="smallSelect">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
+                    <div class="card-title">Combined Skills Average: </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" style="height:600px;">
+                        <canvas id="combinedSkillsChartScatter"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Combined Skills Top Score: </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" style="height:300px;">
+                        <canvas id="combinedSkillsChartBar"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Combined Data: </h4>
+                    <div class="form-group col-md-4" style="margin-left:60%;margin-top:-8%;">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <select class="form-control form-control-sm" name="combinedLineGraph"
+                                onchange='if(this.value != "myPosition") { this.form.submit(); }'>
+                                <option value="myPosition">My Position</option>
+                                <option value="myCompetitors">My Competitors</option>
+                                <option value="top10">Top 10</option>
+                                <option value="bottom10">Bottom 10</option>
                             </select>
                         </form>
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="chart-container">
-                        <canvas id="combinedSkillsChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-4">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Driver Data: </h4>
-                </div>
-                <div class="card-body">
                     <div class="table-responsive">
                         <table id="basic-datatables" class="display table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>Team</th>
+                                    <th>Top Score</th>
                                     <th>Average</th>
-                                    <th>Office</th>
-                                    <th>Country</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Team</th>
+                                    <th>Top Score</th>
                                     <th>Average</th>
-                                    <th>Office</th>
-                                    <th>Country</th>
+    
                                 </tr>
                             </tfoot>
                             <tbody>
-                                {% for team in tableList %}
+                                {% for team in tableListCombined %}
                                 <tr>
                                     {% for elem in team %}
                                     <td>{{elem}}</td>
@@ -367,164 +588,137 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff1}}%</div>
-                    <h2 class="mb-2">{{betterTeamNumber1}}</h2>
-                    <p class="text-muted">Current Average: {{betterTeamAverage1}}</p>
-                    <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark1"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff2}}%</div>
-                    <h2 class="mb-2">{{betterTeamNumber2}}</h2>
-                    <p class="text-muted">Current Average: {{betterTeamAverage2}}</p>
-                    <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark2"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff1}}%</div>
-                    <h2 class="mb-2">{{worseTeamNumber1}}</h2>
-                    <p class="text-muted">Current Average: {{worseTeamAverage1}}</p>
-                    <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark3"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff2}}%</div>
-                    <h2 class="mb-2">{{worseTeamNumber2}}</h2>
-                    <p class="text-muted">Current Average: {{worseTeamAverage2}}</p>
-                    <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark4"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-8">
-            <label class="form-label">Choose:</label>
-            <form method="post">
-                {% csrf_token %}
-                <div class="selectgroup selectgroup-danger w-100">
-                    <label class="selectgroup-item">
-                        <input type="checkbox" name="tableInfo" value="myPosition" class="selectgroup-input"
-                            checked="checked">
-                        <span class="selectgroup-button">My Position</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="checkbox" name="tableInfo" value="myCompetitors" class="selectgroup-input">
-                        <span class="selectgroup-button">My Competitors</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="checkbox" name="tableInfo" value="top10" class="selectgroup-input">
-                        <span class="selectgroup-button">Top 10</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="checkbox" name="tableInfo" value="bottom10" class="selectgroup-input">
-                        <span class="selectgroup-button">Bottom 10</span>
-                    </label>
-                    <button name="submit" class="btn btn-danger btn-border ml-2">Submit</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Progression Data: </h4>
-                </div>
+            <div class="card card-stats card-round" style="padding: 10px 50px;">
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="basic-datatables" class="display table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Team</th>
-                                    <th>Average</th>
-                                    <th>Office</th>
-                                    <th>Country</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>Team</th>
-                                    <th>Average</th>
-                                    <th>Office</th>
-                                    <th>Country</th>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                {% for team in tableList %}
-                                <tr>
-                                    {% for elem in team %}
-                                    <td>{{elem}}</td>
-                                    {% endfor %}
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center">
+                                <i class="icon-graph text-danger"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-stats">
+                            <div class="numbers">
+                                <p class="card-category">My Average</p>
+                                <h4 class="card-title">{{myCombinedAverage}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-stats card-round" style="padding: 10px 50px;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="icon-big text-center">
+                                <i class="flaticon-graph-2 text-danger"></i>
+                            </div>
+                        </div>
+                        <div class="col-7 col-stats">
+                            <div class="numbers">
+                                <p class="card-category">My Top Score</p>
+                                <h4 class="card-title">{{myCombinedTopScore}}</h4>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-4">
-            <h2 class="page-title">Similar Teams: </h2>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff1}}%</div>
-                    <h2 class="mb-2">{{betterTeamNumber1}}</h2>
-                    <p class="text-muted">Current Average: {{betterTeamAverage1}}</p>
+                    <div class="h1 fw-bold float-right text-danger">+{{betterCombinedTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{betterCombinedTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{betterCombinedTeamAverage1}}</p>
                     <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark1"></div>
+                        <div id="lineChartSpark9"></div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff2}}%</div>
-                    <h2 class="mb-2">{{betterTeamNumber2}}</h2>
-                    <p class="text-muted">Current Average: {{betterTeamAverage2}}</p>
+                    <div class="h1 fw-bold float-right text-danger">+{{betterCombinedTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{betterCombinedTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{betterCombinedTeamAverage2}}</p>
                     <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark2"></div>
+                        <div id="lineChartSpark10"></div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff1}}%</div>
-                    <h2 class="mb-2">{{worseTeamNumber1}}</h2>
-                    <p class="text-muted">Current Average: {{worseTeamAverage1}}</p>
+                    <div class="h1 fw-bold float-right text-danger">-{{worseCombinedTeamDiff1}}%</div>
+                    <h2 class="mb-2">{{worseCombinedTeamNumber1}}</h2>
+                    <p class="text-muted">Current Average: {{worseCombinedTeamAverage1}}</p>
                     <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark3"></div>
+                        <div id="lineChartSpark11"></div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff2}}%</div>
-                    <h2 class="mb-2">{{worseTeamNumber2}}</h2>
-                    <p class="text-muted">Current Average: {{worseTeamAverage2}}</p>
+                    <div class="h1 fw-bold float-right text-danger">-{{worseCombinedTeamDiff2}}%</div>
+                    <h2 class="mb-2">{{worseCombinedTeamNumber2}}</h2>
+                    <p class="text-muted">Current Average: {{worseCombinedTeamAverage2}}</p>
                     <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark4"></div>
+                        <div id="lineChartSpark12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterCombinedTeamDifftopScore1}}%</div>
+                    <h2 class="mb-2">{{betterCombinedTeamNumbertopScore1}}</h2>
+                    <p class="text-muted">Current Top Score: {{betterCombinedTeamtopScore1}}</p>
+                    <div class="d-flex justify-content-center p-3" style="height:250px;">
+                        <canvas id="barChartCombined1"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 fw-bold float-right text-danger">+{{betterCombinedTeamDifftopScore2}}%</div>
+                    <h2 class="mb-2">{{betterCombinedTeamNumbertopScore2}}</h2>
+                    <p class="text-muted">Current Top Score: {{betterCombinedTeamtopScore2}}</p>
+                    <div class="d-flex justify-content-center p-3" style="height:250px;">
+                        <canvas id="barChartCombined2"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseCombinedTeamDifftopScore1}}%</div>
+                    <h2 class="mb-2">{{worseCombinedTeamNumbertopScore1}}</h2>
+                    <p class="text-muted">Current Top Score: {{worseCombinedTeamtopScore1}}</p>
+                    <div class="d-flex justify-content-center p-3" style="height:250px;">
+                        <canvas id="barChartCombined3"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 fw-bold float-right text-danger">-{{worseCombinedTeamDifftopScore2}}%</div>
+                    <h2 class="mb-2">{{worseCombinedTeamNumbertopScore2}}</h2>
+                    <p class="text-muted">Current Top Score: {{worseCombinedTeamtopScore2}}</p>
+                    <div class="d-flex justify-content-center p-3" style="height:250px;">
+                        <canvas id="barChartCombined4"></canvas>
                     </div>
                 </div>
             </div>
@@ -534,31 +728,60 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-head-row card-tools-still-right">
-                        <h4 class="card-title">Global Map: </h4>
-                        <div class="form-group form-group-default col-md-2" style="margin-left:70%;">
-                            <form method="POST" id="mapForm">
+                    <form method="POST" id="mapForm">
+                        <div class="card-head-row card-tools-still-right">
+                            <h4 class="card-title">Global Map: </h4>
+                            <div class="form-group form-group-default col-md-2" style="margin-left:60%;margin-top:1%;">
                                 {% csrf_token %}
                                 <label>Options</label>
-                                <select class="form-control" name="map"
-                                    onchange='if(this.value != "myPosition") { this.form.submit(); }'>
+                                <select class="form-control" name="map">
                                     <option value="myPosition" selected>My Position</option>
                                     <option value="myCompetitors">My Competitors</option>
                                     <option value="top10">Top 10</option>
                                     <option value="bottom10">Bottom 10</option>
                                 </select>
-                            </form>
+                            </div>
+                            <div class="form-group col-md-4" style="margin-left:5%;">
+                                <label class="form-label d-block">Type:</label>
+                                <div class="selectgroup selectgroup-danger selectgroup-pills">
+                                    <label class="selectgroup-item">
+                                        <input type="radio" name="type" value="driver" class="selectgroup-input" onchange='if(this.value != "myPosition") { this.form.submit(); }'>
+                                        <span class="selectgroup-button selectgroup-button-icon"><i class="fas fa-car"></i></span>
+                                    </label>
+                                    <label class="selectgroup-item">
+                                        <input type="radio" name="type" value="programming" class="selectgroup-input" onchange='if(this.value != "myPosition") { this.form.submit(); }'>
+                                        <span class="selectgroup-button selectgroup-button-icon"><i class="fas fa-laptop-code"></i></span>
+                                    </label>
+                                    <label class="selectgroup-item">
+                                        <input type="radio" name="type" value="combined" class="selectgroup-input" onchange='if(this.value != "myPosition") { this.form.submit(); }'>
+                                        <span class="selectgroup-button selectgroup-button-icon"><i class="flaticon-chain-1"></i></span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <p class="card-category">
                     Scout For Teams All Around The World!</p>
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="mapcontainer">
+                            <div id="map-example" class="vmap"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
                         <div class="table-responsive table-hover table-sales">
                             <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Team</th>
+                                        <th>Top Score</th>
+                                        <th>Top Score</th>
+                                        <th>Average</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     {% for team in allTeamData %}
                                     <tr>
@@ -568,18 +791,12 @@
                                             </div>
                                         </td>
                                         <td>{{team.1}}</td>
-                                        <td class="text-right">
-                                            {{team.2}}
-                                        </td>
+                                        <td>{{team.4}}</td>
+                                        <td>{{team.2}}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="mapcontainer">
-                            <div id="map-example" class="vmap"></div>
                         </div>
                     </div>
                 </div>
@@ -594,20 +811,108 @@
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
 <script>
-    var driverBubblePlotElement = document.getElementById('driverSkillsChart').getContext('2d');
-    var programmingSkillsChart = document.getElementById('programmingSkillsChart').getContext('2d');
-    var combinedSkillsChart = document.getElementById('combinedSkillsChart').getContext('2d');
-    var driverScatterPlotData = eval(document.getElementById('lineGraphData').getAttribute('data'));
 
+    // AllDriverJS
+    var driverBarPlotElement = document.getElementById('driverSkillsChartBar').getContext('2d');
+    var driverBarPlotData = eval(document.getElementById('barGraphDataDriver').getAttribute('data'));
+    var driverScatterPlotElement = document.getElementById('driverSkillsChartScatter').getContext('2d');
+    var driverScatterPlotData = eval(document.getElementById('scatterGraphDataDriver').getAttribute('data'));
+    var betterDriverTeam1 = eval(document.getElementById('betterAverageDataDriver').getAttribute('team1'));
+    var betterDriverTeam2 = eval(document.getElementById('betterAverageDataDriver').getAttribute('team2'));
+    var worseDriverTeam1 = eval(document.getElementById('worseAverageDataDriver').getAttribute('team1'));
+    var worseDriverTeam2 = eval(document.getElementById('worseAverageDataDriver').getAttribute('team2'));
+    var betterDriverTeam1Bar = document.getElementById('barChartDriver1').getContext('2d');
+    var betterDriverTeam1Data = eval(document.getElementById('BetterBarTeamDriver').getAttribute('team1'));
+    var betterDriverTeam2Bar = document.getElementById('barChartDriver2').getContext('2d');
+    var betterDriverTeam2Data = eval(document.getElementById('BetterBarTeamDriver').getAttribute('team2'));
+    var worseDriverTeam1Bar = document.getElementById('barChartDriver3').getContext('2d');
+    var worseDriverTeam1Data = eval(document.getElementById('WorseBarTeamDriver').getAttribute('team1'));
+    var worseDriverTeam2Bar = document.getElementById('barChartDriver4').getContext('2d');
+    var worseDriverTeam2Data = eval(document.getElementById('WorseBarTeamDriver').getAttribute('team2'));
+    // AllProgrammingJS
+    var programmingBarPlotElement = document.getElementById('programmingSkillsChartBar').getContext('2d');
+    var programmingBarPlotData = eval(document.getElementById('barGraphDataProgramming').getAttribute('data'));
+    var programmingScatterPlotElement = document.getElementById('programmingSkillsChartScatter').getContext('2d');
+    var programmingScatterPlotData = eval(document.getElementById('scatterGraphDataProgramming').getAttribute('data'));
+    var betterProgrammingTeam1 = eval(document.getElementById('betterAverageDataProgramming').getAttribute('team1'));
+    var betterProgrammingTeam2 = eval(document.getElementById('betterAverageDataProgramming').getAttribute('team2'));
+    var worseProgrammingTeam1 = eval(document.getElementById('worseAverageDataProgramming').getAttribute('team1'));
+    var worseProgrammingTeam2 = eval(document.getElementById('worseAverageDataProgramming').getAttribute('team2'));
+    var betterProgrammingTeam1Bar = document.getElementById('barChartProgramming1').getContext('2d');
+    var betterProgrammingTeam1Data = eval(document.getElementById('BetterBarTeamProgramming').getAttribute('team1'));
+    var betterProgrammingTeam2Bar = document.getElementById('barChartProgramming2').getContext('2d');
+    var betterProgrammingTeam2Data = eval(document.getElementById('BetterBarTeamProgramming').getAttribute('team2'));
+    var worseProgrammingTeam1Bar = document.getElementById('barChartProgramming3').getContext('2d');
+    var worseProgrammingTeam1Data = eval(document.getElementById('WorseBarTeamProgramming').getAttribute('team1'));
+    var worseProgrammingTeam2Bar = document.getElementById('barChartProgramming4').getContext('2d');
+    var worseProgrammingTeam2Data = eval(document.getElementById('WorseBarTeamProgramming').getAttribute('team2'));
 
-    var myBubbleChart = new Chart(driverBubblePlotElement, {
-        type: 'bubble',
+    var combinedBarPlotElement = document.getElementById('combinedSkillsChartBar').getContext('2d');
+    var combinedBarPlotData = eval(document.getElementById('barGraphDataCombined').getAttribute('data'));
+    var combinedScatterPlotElement = document.getElementById('combinedSkillsChartScatter').getContext('2d');
+    var combinedScatterPlotData = eval(document.getElementById('scatterGraphDataCombined').getAttribute('data'));
+    var betterCombinedTeam1 = eval(document.getElementById('betterAverageDataCombined').getAttribute('team1'));
+    var betterCombinedTeam2 = eval(document.getElementById('betterAverageDataCombined').getAttribute('team2'));
+    var worseCombinedTeam1 = eval(document.getElementById('worseAverageDataCombined').getAttribute('team1'));
+    var worseCombinedTeam2 = eval(document.getElementById('worseAverageDataCombined').getAttribute('team2'));
+    var betterCombinedTeam1Bar = document.getElementById('barChartCombined1').getContext('2d');
+    var betterCombinedTeam1Data = eval(document.getElementById('BetterBarTeamCombined').getAttribute('team1'));
+    var betterCombinedTeam2Bar = document.getElementById('barChartCombined2').getContext('2d');
+    var betterCombinedTeam2Data = eval(document.getElementById('BetterBarTeamCombined').getAttribute('team2'));
+    var worseCombinedTeam1Bar = document.getElementById('barChartCombined3').getContext('2d');
+    var worseCombinedTeam1Data = eval(document.getElementById('WorseBarTeamCombined').getAttribute('team1'));
+    var worseCombinedTeam2Bar = document.getElementById('barChartCombined4').getContext('2d');
+    var worseCombinedTeam2Data = eval(document.getElementById('WorseBarTeamCombined').getAttribute('team2'));
+
+    var justCountry = eval(document.getElementById('mapData').getAttribute('justCountry'))
+
+    var dataDriverGraphList = [];
+    colorsList = ["#f3545d", "#EC3103", "#FF8F01", "#FFC101", "#F6E10D", "#11E80B", "#0BE880", "#0BD0E8", "#2AA1E9", "#385BDE", "#7A33B9", "#C541D5", "#FF00D1", "##FF00A2", "#00ff00", "#ffff66", "#ff6699", "#6699ff", "#00ccff", "#00cc66", "#1d7af3", "#f3545d", "#59d05d", "#1d7af3"]
+    for (index = 0; index < driverScatterPlotData.length; index++) {
+        var hiddenVal;
+        if (index == 0) {
+            hiddenVal = false;
+        } else {
+            hiddenVal = true;
+        }
+        dataset = {
+            label: driverScatterPlotData[index][0],
+            backgroundColor: colorsList[index],
+            data: driverScatterPlotData[index][1],
+            borderColor: colorsList[index],
+            pointBorderColor: "#FFF",
+            pointBackgroundColor: colorsList[index],
+            pointBorderWidth: 2,
+            pointHoverRadius: 4,
+            pointHoverBorderWidth: 1,
+            pointRadius: 4,
+            backgroundColor: 'transparent',
+            fill: true,
+            borderWidth: 2,
+            showLine: true,
+            hidden:hiddenVal,
+        }
+        dataDriverGraphList.push(dataset);
+    }
+
+    var dataDriverGraphListBar = [];   
+    for (index = 0; index < driverBarPlotData.length; index++) {
+        dataset = {
+            label: driverBarPlotData[index][0],
+            backgroundColor: colorsList[index],
+            data: driverBarPlotData[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        dataDriverGraphListBar.push(dataset)
+    }
+
+    var scatterPlotDriver = new Chart(driverScatterPlotElement, {
+        type: 'scatter',
         data: {
-            datasets: [{
-                label: "{{team_name}}",
-                data: driverScatterPlotData,
-                backgroundColor: "#35cd3a"
-            }],
+            datasets: dataDriverGraphList,
         },
         options: {
             scales: {
@@ -645,34 +950,309 @@
         }
     });
 
-    var programmingSkillsLineChart = new Chart(programmingSkillsChart, {
-        type: 'line',
-        
+    var barPlotDriver = new Chart(driverBarPlotElement, {
+        type: 'bar',
         data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            datasets: [{
-                label: "Active Users",
-                borderColor: "#1d7af3",
-                pointBorderColor: "#FFF",
-                pointBackgroundColor: "#1d7af3",
-                pointBorderWidth: 2,
-                pointHoverRadius: 4,
-                pointHoverBorderWidth: 1,
-                pointRadius: 4,
-                backgroundColor: 'transparent',
-                fill: true,
-                borderWidth: 2,
-                data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 900]
-            }]
+            datasets: dataDriverGraphListBar,
         },
         options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 10,
+                }
+            },
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+        }
+    });
+    $('#lineChartSpark1').sparkline(betterDriverTeam1, {
+        type: 'line',
+        height: '70',
+        width: '100%',
+        lineWidth: '2',
+        lineColor: '#f3545d',
+        fillColor: 'rgba(243, 84, 93, 0.14)'
+    });
+    $('#lineChartSpark2').sparkline(betterDriverTeam2, {
+        type: 'line',
+        height: '70',
+        width: '100%',
+        lineWidth: '2',
+        lineColor: '#f3545d',
+        fillColor: 'rgba(243, 84, 93, 0.14)'
+    });
+    $('#lineChartSpark3').sparkline(worseDriverTeam1, {
+        type: 'line',
+        height: '70',
+        width: '100%',
+        lineWidth: '2',
+        lineColor: '#f3545d',
+        fillColor: 'rgba(243, 84, 93, 0.14)'
+    });
+    $('#lineChartSpark4').sparkline(worseDriverTeam2, {
+        type: 'line',
+        height: '70',
+        width: '100%',
+        lineWidth: '2',
+        lineColor: '#f3545d',
+        fillColor: 'rgba(243, 84, 93, 0.14)'
+    });
+    var barColorSimilarList = ["#11E80B","#f3545d"];
+    var similarTeam1BarData = [];
+    for (index = 0; index < betterDriverTeam1Data.length; index++) {
+        dataset = {
+            label: betterDriverTeam1Data[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: betterDriverTeam1Data[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam1BarData.push(dataset)
+    }
+    var similarBarChart1 = new Chart(betterDriverTeam1Bar, {
+        type: 'bar',
+        data: {
+            datasets: similarTeam1BarData,
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                }]
+            },
+            legend: {
+                position: 'none',
+                labels: {
+                    padding: 10,
+                    fontColor: '#1d7af3',
+                }
+            },
+        }
+    });
+
+    var similarTeam2BarData = [];
+    for (index = 0; index < betterDriverTeam2Data.length; index++) {
+        dataset = {
+            label: betterDriverTeam2Data[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: betterDriverTeam2Data[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam2BarData.push(dataset)
+    }
+    var similarBarChart2 = new Chart(betterDriverTeam2Bar, {
+        type: 'bar',
+        data: {
+            datasets: similarTeam2BarData,
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                }]
+            },
+            legend: {
+                position: 'none',
+                labels: {
+                    padding: 10,
+                    fontColor: '#1d7af3',
+                }
+            },
+        }
+    });
+    var similarTeam3BarData = [];
+    for (index = 0; index < worseDriverTeam1Data.length; index++) {
+        dataset = {
+            label: worseDriverTeam1Data[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: worseDriverTeam1Data[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam3BarData.push(dataset)
+    }
+    var similarBarChart3 = new Chart(worseDriverTeam1Bar, {
+        type: 'bar',
+        data: {
+            datasets: similarTeam3BarData,
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                }]
+            },
+            legend: {
+                position: 'none',
+                labels: {
+                    padding: 10,
+                    fontColor: '#1d7af3',
+                }
+            },
+        }
+    });
+    var similarTeam4BarData = [];
+    for (index = 0; index < worseDriverTeam2Data.length; index++) {
+        dataset = {
+            label: worseDriverTeam2Data[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: worseDriverTeam2Data[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam4BarData.push(dataset)
+    }
+    var similarBarChart4 = new Chart(worseDriverTeam2Bar, {
+        type: 'bar',
+        data: {
+            datasets: similarTeam4BarData,
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                }]
+            },
+            legend: {
+                position: 'none',
+                labels: {
+                    padding: 10,
+                    fontColor: '#1d7af3',
+                }
+            },
+        }
+    });
+
+    var dataProgrammingGraphList = [];
+    for (index = 0; index < programmingScatterPlotData.length; index++) {
+        var hiddenVal;
+        if (index == 0) {
+            hiddenVal = false;
+        } else {
+            hiddenVal = true;
+        }
+        dataset = {
+            label: programmingScatterPlotData[index][0],
+            backgroundColor: colorsList[index],
+            data: programmingScatterPlotData[index][1],
+            borderColor: colorsList[index],
+            pointBorderColor: "#FFF",
+            pointBackgroundColor: colorsList[index],
+            pointBorderWidth: 2,
+            pointHoverRadius: 4,
+            pointHoverBorderWidth: 1,
+            pointRadius: 4,
+            backgroundColor: 'transparent',
+            fill: true,
+            borderWidth: 2,
+            showLine: true,
+            hidden: hiddenVal,
+        }
+        dataProgrammingGraphList.push(dataset);
+    }
+
+    var dataProgrammingGraphListBar = [];
+    for (index = 0; index < programmingBarPlotData.length; index++) {
+        dataset = {
+            label: programmingBarPlotData[index][0],
+            backgroundColor: colorsList[index],
+            data: programmingBarPlotData[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        dataProgrammingGraphListBar.push(dataset)
+    }
+    var scatterPlotProgramming = new Chart(programmingScatterPlotElement, {
+        type: 'scatter',
+        data: {
+            datasets: dataProgrammingGraphList,
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    ticks: {
+                        stepSize: 1,
+                        callback: function (value, index, values) {
+                            return "Event " + (value + 1);
+                        }
+                    }
+                }]
+            },
             responsive: true,
             maintainAspectRatio: false,
             legend: {
                 position: 'bottom',
                 labels: {
                     padding: 10,
-                    fontColor: '#1d7af3',
                 }
             },
             tooltips: {
@@ -685,54 +1265,367 @@
                 caretPadding: 10
             },
             layout: {
-                padding: { left: 15, right: 15, top: 15, bottom: 15 }
+                padding: {
+                    left: 15,
+                    right: 15,
+                    top: 15,
+                    bottom: 15
+                }
             }
         }
     });
-    var combinedSkillsLineChart = new Chart(combinedSkillsChart, {
-        type: 'line',
+
+    var barPlotProgramming = new Chart(programmingBarPlotElement, {
+        type: 'bar',
         data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            datasets: [{
-                label: "Active Users",
-                borderColor: "#1d7af3",
-                pointBorderColor: "#FFF",
-                pointBackgroundColor: "#1d7af3",
-                pointBorderWidth: 2,
-                pointHoverRadius: 4,
-                pointHoverBorderWidth: 1,
-                pointRadius: 4,
-                backgroundColor: 'transparent',
-                fill: true,
-                borderWidth: 2,
-                data: [542, 480, 430, 550, 530, 453, 380, 434, 568, 610, 700, 900]
-            }]
+            datasets: dataProgrammingGraphListBar,
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 10,
+                }
+            },
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+        }
+    });
+    $('#lineChartSpark5').sparkline(betterProgrammingTeam1, {
+        type: 'line',
+        height: '70',
+        width: '100%',
+        lineWidth: '2',
+        lineColor: '#f3545d',
+        fillColor: 'rgba(243, 84, 93, 0.14)'
+    });
+    $('#lineChartSpark6').sparkline(betterProgrammingTeam2, {
+        type: 'line',
+        height: '70',
+        width: '100%',
+        lineWidth: '2',
+        lineColor: '#f3545d',
+        fillColor: 'rgba(243, 84, 93, 0.14)'
+    });
+    $('#lineChartSpark7').sparkline(worseProgrammingTeam1, {
+        type: 'line',
+        height: '70',
+        width: '100%',
+        lineWidth: '2',
+        lineColor: '#f3545d',
+        fillColor: 'rgba(243, 84, 93, 0.14)'
+    });
+    $('#lineChartSpark8').sparkline(worseProgrammingTeam2, {
+        type: 'line',
+        height: '70',
+        width: '100%',
+        lineWidth: '2',
+        lineColor: '#f3545d',
+        fillColor: 'rgba(243, 84, 93, 0.14)'
+    });
+
+    var similarTeam5BarData = [];
+    for (index = 0; index < betterProgrammingTeam1Data.length; index++) {
+        dataset = {
+            label: betterProgrammingTeam1Data[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: betterProgrammingTeam1Data[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam5BarData.push(dataset)
+    }
+    var similarBarChart1 = new Chart(betterProgrammingTeam1Bar, {
+        type: 'bar',
+        data: {
+            datasets: similarTeam5BarData,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                }]
+            },
             legend: {
-                position: 'bottom',
+                position: 'none',
                 labels: {
                     padding: 10,
                     fontColor: '#1d7af3',
                 }
             },
-            tooltips: {
-                bodySpacing: 4,
-                mode: "nearest",
-                intersect: 0,
-                position: "nearest",
-                xPadding: 10,
-                yPadding: 10,
-                caretPadding: 10
-            },
-            layout: {
-                padding: { left: 15, right: 15, top: 15, bottom: 15 }
-            }
         }
     });
-    $('#lineChartSpark1').sparkline([10,20,30,50,60], {
+
+    var similarTeam6BarData = [];
+    for (index = 0; index < betterProgrammingTeam2Data.length; index++) {
+        dataset = {
+            label: betterProgrammingTeam2Data[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: betterProgrammingTeam2Data[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam6BarData.push(dataset)
+    }
+    var similarBarChart2 = new Chart(betterProgrammingTeam2Bar, {
+        type: 'bar',
+        data: {
+            datasets: similarTeam6BarData,
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                }]
+            },
+            legend: {
+                position: 'none',
+                labels: {
+                    padding: 10,
+                    fontColor: '#1d7af3',
+                }
+            },
+        }
+    });
+    var similarTeam7BarData = [];
+    for (index = 0; index < worseProgrammingTeam1Data.length; index++) {
+        dataset = {
+            label: worseProgrammingTeam1Data[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: worseProgrammingTeam1Data[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam7BarData.push(dataset)
+    }
+    var similarBarChart3 = new Chart(worseProgrammingTeam1Bar, {
+        type: 'bar',
+        data: {
+            datasets: similarTeam7BarData,
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                }]
+            },
+            legend: {
+                position: 'none',
+                labels: {
+                    padding: 10,
+                    fontColor: '#1d7af3',
+                }
+            },
+        }
+    });
+    var similarTeam8BarData = [];
+    for (index = 0; index < worseProgrammingTeam2Data.length; index++) {
+        dataset = {
+            label: worseProgrammingTeam2Data[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: worseProgrammingTeam2Data[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam8BarData.push(dataset)
+    }
+    var similarBarChart4 = new Chart(worseProgrammingTeam2Bar, {
+        type: 'bar',
+        data: {
+            datasets: similarTeam8BarData,
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                }]
+            },
+            legend: {
+                position: 'none',
+                labels: {
+                    padding: 10,
+                    fontColor: '#1d7af3',
+                }
+            },
+        }
+    });
+
+    
+    var dataCombinedGraphList = [];
+    for (index = 0; index < combinedScatterPlotData.length; index++) {
+        var hiddenVal;
+        if (index == 0) {
+            hiddenVal = false;
+        } else {
+            hiddenVal = true;
+        }
+        dataset = {
+            label: combinedScatterPlotData[index][0],
+            backgroundColor: colorsList[index],
+            data: combinedScatterPlotData[index][1],
+            borderColor: colorsList[index],
+            pointBorderColor: "#FFF",
+            pointBackgroundColor: colorsList[index],
+            pointBorderWidth: 2,
+            pointHoverRadius: 4,
+            pointHoverBorderWidth: 1,
+            pointRadius: 4,
+            backgroundColor: 'transparent',
+            fill: true,
+            borderWidth: 2,
+            showLine: true,
+            hidden: hiddenVal,
+        }
+        dataCombinedGraphList.push(dataset);
+    }
+    var dataCombinedGraphListBar = [];
+    for (index = 0; index <
+        combinedBarPlotData.length; index++) {
+        dataset = {
+            label: combinedBarPlotData[index][0],
+            backgroundColor: colorsList[index],
+            data: combinedBarPlotData[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        dataCombinedGraphListBar.push(dataset)
+    }
+    var scatterPlotCombined = new
+        Chart(combinedScatterPlotElement, {
+            type: 'scatter',
+            data: {
+                datasets: dataCombinedGraphList,
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'linear',
+                        position: 'bottom',
+                        ticks: {
+                            stepSize: 1,
+                            callback: function (value, index,
+                                values) {
+                                return "Event " + (value + 1);
+                            }
+                        }
+                    }]
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 10,
+                    }
+                },
+                tooltips: {
+                    bodySpacing: 4,
+                    mode: "nearest",
+                    intersect: 0,
+                    position: "nearest",
+                    xPadding: 10,
+                    yPadding: 10,
+                    caretPadding: 10
+                },
+                layout: {
+                    padding: {
+                        left: 15,
+                        right: 15,
+                        top: 15,
+                        bottom: 15
+                    }
+                }
+            }
+        });
+    var barPlotCombined = new Chart(combinedBarPlotElement, {
+        type: 'bar',
+        data: {
+            datasets: dataCombinedGraphListBar,
+        },
+        options: {
+            responsive: true,
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 10,
+                }
+            },
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            },
+        }
+    });
+    $('#lineChartSpark9').sparkline(betterCombinedTeam1, {
         type: 'line',
         height: '70',
         width: '100%',
@@ -740,7 +1633,7 @@
         lineColor: '#f3545d',
         fillColor: 'rgba(243, 84, 93, 0.14)'
     });
-    $('#lineChartSpark2').sparkline([10, 20, 30, 50, 60], {
+    $('#lineChartSpark10').sparkline(betterCombinedTeam2, {
         type: 'line',
         height: '70',
         width: '100%',
@@ -748,7 +1641,7 @@
         lineColor: '#f3545d',
         fillColor: 'rgba(243, 84, 93, 0.14)'
     });
-    $('#lineChartSpark3').sparkline([10, 20, 30, 50, 60], {
+    $('#lineChartSpark11').sparkline(worseCombinedTeam1, {
         type: 'line',
         height: '70',
         width: '100%',
@@ -756,13 +1649,215 @@
         lineColor: '#f3545d',
         fillColor: 'rgba(243, 84, 93, 0.14)'
     });
-    $('#lineChartSpark4').sparkline([10, 20, 30, 50, 60], {
+    $('#lineChartSpark12').sparkline(worseCombinedTeam2, {
         type: 'line',
         height: '70',
         width: '100%',
         lineWidth: '2',
         lineColor: '#f3545d',
         fillColor: 'rgba(243, 84, 93, 0.14)'
+    });
+    var similarTeam9BarData = [];
+    for (index = 0; index < betterCombinedTeam1Data.length; index++) {
+        dataset = {
+            label: betterCombinedTeam1Data[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: betterCombinedTeam1Data[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam9BarData.push(dataset)
+    }
+    var similarBarChart1 = new Chart(betterCombinedTeam1Bar, {
+        type: 'bar',
+        data: {
+            datasets: similarTeam9BarData,
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                }]
+            },
+            legend: {
+                position: 'none',
+                labels: {
+                    padding: 10,
+                    fontColor: '#1d7af3',
+                }
+            },
+        }
+    });
+    var similarTeam10BarData = [];
+    for (index = 0; index < betterCombinedTeam2Data.length; index++) {
+        dataset = {
+            label: betterCombinedTeam2Data[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: betterCombinedTeam2Data[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam10BarData.push(dataset)
+    }
+    var similarBarChart2 = new Chart(betterCombinedTeam2Bar, {
+        type: 'bar',
+        data: {
+            datasets: similarTeam10BarData,
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                }]
+            },
+            legend: {
+                position: 'none',
+                labels: {
+                    padding: 10,
+                    fontColor: '#1d7af3',
+                }
+            },
+        }
+    });
+    var similarTeam11BarData = [];
+    for (index = 0; index < worseCombinedTeam1Data.length; index++) {
+        dataset = {
+            label: worseCombinedTeam1Data[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: worseCombinedTeam1Data[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam11BarData.push(dataset)
+    }
+    var similarBarChart3 = new Chart(worseCombinedTeam1Bar, {
+        type: 'bar',
+        data: {
+            datasets: similarTeam11BarData,
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                }]
+            },
+            legend: {
+                position: 'none',
+                labels: {
+                    padding: 10,
+                    fontColor: '#1d7af3',
+                }
+            },
+        }
+    });
+    var similarTeam12BarData = [];
+    for (index = 0; index < worseCombinedTeam2Data.length; index++) {
+        dataset = {
+            label: worseCombinedTeam2Data[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: worseCombinedTeam2Data[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam12BarData.push(dataset)
+    }
+    var similarBarChart4 = new Chart(worseCombinedTeam2Bar, {
+        type: 'bar',
+        data: {
+            datasets: similarTeam12BarData,
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false
+                    },
+                }]
+            },
+            legend: {
+                position: 'none',
+                labels: {
+                    padding: 10,
+                    fontColor: '#1d7af3',
+                }
+            },
+        }
+    });
+    $('#map-example').vectorMap(
+    {
+        map: 'world_en',
+        backgroundColor: 'transparent',
+        borderColor: '#f3545d',
+        borderWidth: 2,
+        color: '#e4e4e4',
+        enableZoom: true,
+        hoverColor: '#f3545d',
+        hoverOpacity: null,
+        normalizeFunction: 'linear',
+        scaleColors: ['#f3545d', '#f3545d'],
+        selectedColor: '#f3545d',
+        selectedRegions: justCountry,
+        showTooltip: true,
+        onRegionClick: function (element, code, region) {
+            return false;
+        },
+        onResize: function (element, width, height) {
+            console.log('Map Size: ' + width + 'x' + height);
+        },
     });
 </script>
 {% endblock javascripts %}

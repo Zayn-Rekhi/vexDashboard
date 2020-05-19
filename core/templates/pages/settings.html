@@ -10,117 +10,132 @@
 
     <!-- (Almost) A blank page -->
     <div class="page-inner">
+		
+		<div id="message" content="{{message}}"></div>
     	<h4 class="page-title">Settings: </h4>
         <div class="card-body">
             <div class="row">
                 <div class="col-5 col-md-2" style="margin-left:5%;">
                     <div class="nav flex-column nav-pills nav-secondary nav-pills-no-bd nav-pills-icons" id="v-pills-tab-with-icon" role="tablist" aria-orientation="vertical">
-                        <a class="nav-link active" id="v-pills-home-tab-icons" data-toggle="pill" href="#v-pills-home-icons" role="tab" aria-controls="v-pills-home-icons" aria-selected="true">
+						<a class="nav-link active" id="v-pills-myprofile-tab-icons" data-toggle="pill" href="#v-pills-myprofile-icons" role="tab"
+							aria-controls="v-pills-myprofile-icons" aria-selected="false">
+							<i class="flaticon-user-5"></i>
+							My Profile
+						</a>
+						<a class="nav-link" id="v-pills-home-tab-icons" data-toggle="pill" href="#v-pills-home-icons" role="tab" aria-controls="v-pills-home-icons" aria-selected="true">
                             <i class="flaticon-users"></i>
                             Teams
                         </a>
                         <a class="nav-link" id="v-pills-profile-tab-icons" data-toggle="pill" href="#v-pills-profile-icons" role="tab" aria-controls="v-pills-profile-icons" aria-selected="false">
                             <i class="flaticon-star"></i>
                             Goals
-                        </a>
+						</a>
+						
                     </div>
                 </div>
                 <div class="col-7 col-md-8 ml-auto">
-                    <div class="tab-content" id="v-pills-with-icon-tabContent">
-                        <div class="tab-pane fade show active" id="v-pills-home-icons" role="tabpanel" aria-labelledby="v-pills-home-tab-icons">
-	                    <form method="post" id="needs-validation">
-	                    	{% csrf_token %}
-                            <div class="row">
-					    		<div class="col-8">
-						            <div class="form-group form-floating-label">
-						                <input id="needs-validation" type="text" class="form-control input-solid" name="myTeam" required>
-						                <label for="inputFloatingLabel2" class="placeholder">My Team</label>
-						            </div>
-					           </div>
-					    	</div>
-					    	<div class="row">
-					    		<div class="col-8">
-						            <div class="form-group form-floating-label">
-						                <input id="needs-validation" type="text" class="form-control input-solid" name="mainCompetitor1" required>
-						                <label for="inputFloatingLabel2" class="placeholder">Main Competitor 1</label>
-						            </div>
-					           </div>
-					    	</div>
-					    	<div class="row">
-					    		<div class="col-8">
-						            <div class="form-group form-floating-label">
-						                <input id="needs-validation" type="text" class="form-control input-solid" name="mainCompetitor2" required>
-						                <label for="inputFloatingLabel2" class="placeholder">Main Competitor 2</label>
-						            </div>
-					           </div>
-					    	</div>
-					    	<div class="row">
-					    		<div class="col-8">
-						            <div class="form-group form-floating-label">
-						                <input id="needs-validation" type="text" class="form-control input-solid" name="mainCompetitor3" required>
-						                <label for="inputFloatingLabel2" class="placeholder">Main Competitor 3</label>
-						            </div>
-					           </div>
-					    	</div>
-					    	<p class="ml-2 text-warning">*Fill in Team Numbers, NOT names.</p>
-                            <button name="submit" class="btn btn-primary btn-border btn-round ml-2">Submit</button>
-                         </form>
-		                </div>
-                        <div class="tab-pane fade" id="v-pills-profile-icons" role="tabpanel" aria-labelledby="v-pills-profile-tab-icons">
-                        	<form method="post" id="needs-validation">
-                        		{% csrf_token %}
-	                        	<div class="row">
-						    		<div class="col-8">
-							            <div class="form-group form-floating-label">
-							                <input id="needs-validation" type="text" class="form-control input-solid" name="matchesAvgGoal" required>
-							                <label for="inputFloatingLabel2" class="placeholder">Matches Average Goal</label>
-							            </div>
-						           </div>
-						    	</div>
-						    	<div class="row">
-						    		<div class="col-8">
-							            <div class="form-group form-floating-label">
-							                <input id="needs-validation" type="text" class="form-control input-solid" name="matchesTopGoal" required>
-							                <label for="inputFloatingLabel2" class="placeholder">Matches Top Score Goal</label>
-							            </div>
-						           </div>
-						    	</div>
-						    	<div class="row">
-						    		<div class="col-8">
-							            <div class="form-group form-floating-label">
-							                <input id="needs-validation" type="text" class="form-control input-solid" name="matchesRankGoal" required>
-							                <label for="inputFloatingLabel2" class="placeholder">Matches Rank Goal</label>
-							            </div>
-						           </div>
-						    	</div>
-						    	<div class="row">
-						    		<div class="col-8">
-							            <div class="form-group form-floating-label">
-							                <input id="needs-validation" type="text" class="form-control input-solid" name="skillsProgrammingGoal" required>
-							                <label for="inputFloatingLabel2" class="placeholder">Skills Programming Goal</label>
-							            </div>
-						           </div>
-						    	</div>
-						    	<div class="row">
-						    		<div class="col-8">
-							            <div class="form-group form-floating-label">
-							                <input id="needs-validation" type="text" class="form-control input-solid" name="skillsDriverGoal" required>
-							                <label for="inputFloatingLabel2" class="placeholder">Skills Driver Goal</label>
-							            </div>
-						           </div>
-						    	</div>
-						    	<div class="row">
-						    		<div class="col-8">
-							            <div class="form-group form-floating-label">
-							                <input id="needs-validation" type="text" class="form-control input-solid" name="skillsRankGoal" required>
-							                <label for="inputFloatingLabel2" class="placeholder">Skills Rank Goal</label>
-							            </div>
-						           </div>
-						    	</div>
-	                            <button name="submit" class="btn btn-primary btn-border btn-round ml-2">Submit</button>
-							</form>	                       
-                        </div>
-                    </div>
+					<form method="post" id="needs-validation" enctype="multipart/form-data">
+					{% csrf_token %}
+
+						<div class="tab-content" id="v-pills-with-icon-tabContent">
+							<div class="tab-pane fade" id="v-pills-home-icons" role="tabpanel" aria-labelledby="v-pills-home-tab-icons">
+								<div class="row">
+									<div class="col-8">
+										<div class="form-group form-floating-label">
+											<input id="needs-validation" type="text" class="form-control input-solid" name="myTeam" value="{{teamNumb}}" required>
+											<label for="inputFloatingLabel2" class="placeholder">My Team</label>
+										</div>
+								</div>
+								</div>
+								<div class="row">
+									<div class="col-8">
+										<div class="form-group form-floating-label">
+											<input id="needs-validation" type="text" class="form-control input-solid" name="mainCompetitor1" value="{{competitor1}}" required>
+											<label for="inputFloatingLabel2" class="placeholder">Main Competitor 1</label>
+										</div>
+								</div>
+								</div>
+								<div class="row">
+									<div class="col-8">
+										<div class="form-group form-floating-label">
+											<input id="needs-validation" type="text" class="form-control input-solid" name="mainCompetitor2" value="{{competitor2}}" required>
+											<label for="inputFloatingLabel2" class="placeholder">Main Competitor 2</label>
+										</div>
+								</div>
+								</div>
+								<div class="row">
+									<div class="col-8">
+										<div class="form-group form-floating-label">
+											<input id="needs-validation" type="text" class="form-control input-solid" name="mainCompetitor3" value="{{competitor3}}" required>
+											<label for="inputFloatingLabel2" class="placeholder">Main Competitor 3</label>
+										</div>
+								</div>
+								</div>
+								<p class="ml-2 text-warning">*Fill in Team Numbers, NOT names.</p>
+								<button name="submit" class="btn btn-primary btn-border btn-round ml-2">Submit</button>
+							</div>
+							<div class="tab-pane fade" id="v-pills-profile-icons" role="tabpanel" aria-labelledby="v-pills-profile-tab-icons">
+								
+									<div class="row">
+										<div class="col-8">
+											<div class="form-group form-floating-label">
+												<input id="needs-validation" type="text" class="form-control input-solid" name="matchesAvgGoal" value="{{matchesAverageGoal}}" required>
+												<label for="inputFloatingLabel2" class="placeholder">Matches Average Goal</label>
+											</div>
+									</div>
+									</div>
+									<div class="row">
+										<div class="col-8">
+											<div class="form-group form-floating-label">
+												<input id="needs-validation" type="text" class="form-control input-solid" name="matchesTopGoal" value="{{matchesTopScoreGoal}}" required>
+												<label for="inputFloatingLabel2" class="placeholder">Matches Top Score Goal</label>
+											</div>
+									</div>
+									</div>
+									<div class="row">
+										<div class="col-8">
+											<div class="form-group form-floating-label">
+												<input id="needs-validation" type="text" class="form-control input-solid" name="matchesRankGoal" value="{{matchesRankGoal}}" required>
+												<label for="inputFloatingLabel2" class="placeholder">Matches Rank Goal</label>
+											</div>
+									</div>
+									</div>
+									<div class="row">
+										<div class="col-8">
+											<div class="form-group form-floating-label">
+												<input id="needs-validation" type="text" class="form-control input-solid" name="skillsProgrammingGoal" value="{{skillsProgGoal}}" required>
+												<label for="inputFloatingLabel2" class="placeholder">Skills Programming Goal</label>
+											</div>
+									</div>
+									</div>
+									<div class="row">
+										<div class="col-8">
+											<div class="form-group form-floating-label">
+												<input id="needs-validation" type="text" class="form-control input-solid" name="skillsDriverGoal" value="{{skillsDriverGoal}}" required>
+												<label for="inputFloatingLabel2" class="placeholder">Skills Driver Goal</label>
+											</div>
+									</div>
+									</div>
+									<div class="row">
+										<div class="col-8">
+											<div class="form-group form-floating-label">
+												<input id="needs-validation" type="text" class="form-control input-solid" name="skillsRankGoal" value="{{skillsRankGoal}}" required>
+												<label for="inputFloatingLabel2" class="placeholder">Skills Rank Goal</label>
+											</div>
+									</div>
+									</div>
+									<button name="submit" class="btn btn-primary btn-border btn-round ml-2">Submit</button>
+							</div>
+							<div class="tab-pane fade show active" id="v-pills-myprofile-icons" role="tabpanel" aria-labelledby="v-pills-myprofile-tab-icons">
+								<div class="form-group">
+									<input type="file" class="dropzone" name="profilePhoto" id="needs-validation" accept="image/jpeg, image/png">
+									<br />
+									<h6>Choose Profile Photo</h6>
+								</div>
+								<button name="submit" class="btn btn-primary btn-border btn-round ml-2">Submit</button>
+							</div>
+						</div>
+					</form>
                 </div>
             </div>
         </div>
@@ -131,7 +146,7 @@
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
     <script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
+	// Example starter JavaScript for disabling form submissions if there are invalid fields
 	    (function() {
 	    'use strict';
 	    window.addEventListener('load', function() {
@@ -144,7 +159,24 @@
 	        form.classList.add('was-validated');
 	        }, false);
 	    }, false);
-	    })();
+		})();
+		var message = document.getElementById('message').getAttribute('content');
+		if(message!=""){
+			$.notify({
+				icon: 'flaticon-alarm-1',
+				title: 'ERROR',
+				message: message,
+			}, {
+				type: 'danger',
+				placement: {
+					from: "bottom",
+					align: "right"
+				},
+				time: 1000,
+			});
+		}
+		
+
     </script> 	
 
 {% endblock javascripts %}

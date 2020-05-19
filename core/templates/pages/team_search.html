@@ -1,0 +1,210 @@
+{% extends "layouts/default.html" %}
+
+{% block title %} Forms {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="page-inner">
+    <br>
+    <br>
+    <br>
+    <br>
+    <h1 style="text-align:center;">Team Search</h1>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <nav class="navbar navbar-header navbar-expand-lg col-md-4 ml-5" data-background-color="dark">
+            {% if user.is_authenticated %}
+            <div class="container">
+                <div class="collapse" id="search-nav">
+                    <form class="navbar-left navbar-form nav-search mr-md-3" method="POST">
+                            {% csrf_token %}
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <button type="submit" class="btn btn-search pr-1">
+                                    <i class="fa fa-search search-icon"></i>
+                                </button>
+                            </div>
+                            <input type="text" name="search" placeholder="Search ..." class="form-control" style="color:grey;">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+        </nav>
+        <div class="col-md-4"></div>
+    </div>
+    
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Carousel indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0"></li>
+            <li data-target="#myCarousel" data-slide-to="1" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <!-- Wrapper for carousel items -->
+        <div class="carousel-inner">
+            <div class="carousel-item">
+                <div class="row">
+                    <div class="col-md-1 pr-md-0"></div>
+                    {% for team in worseList %}
+                    <div class="col-md-2 pr-md-0">
+                        <div class="card card-pricing">
+                            <div class="card-header">
+                                <h4 class="card-title">{{team.0}}</h4>
+                                <div class="card-price">
+                                    {% if team.1 == True %}
+                                    <span class="price text-success">{{team.2}}</span>
+                                    {% elif team.1 == False %}
+                                    <span class="price text-danger">{{team.2}}</span>
+                                    {% else %}
+                                    <span class="price text-warning">{{team.2}}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <ul class="specification-list">
+                                    <li>
+                                        <span class="name-specification">Driver Skills Score</span>
+                                        <span class="status-specification">{{team.3}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="name-specification">Prog Skills Score</span>
+                                        <span class="status-specification">{{team.4}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="name-specification">Country</span>
+                                        <span class="status-specification">{{team.5}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="name-specification">Grade</span>
+                                        <span class="status-specification">{{team.6}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="name-specification">Team Name</span>
+                                        <span class="status-specification">{{team.7}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="col-md-1 pr-md-0"></div>
+                </div>
+            </div>
+            <div class="carousel-item active">
+                <div class="row">
+                    <div class="col-md-1 pr-md-0"></div>
+                    {% for team in mixedList %}
+                    <div class="col-md-2 pr-md-0">
+                        <div class="card card-pricing">
+                            <div class="card-header">
+                                <h4 class="card-title">{{team.0}}</h4>
+                                <div class="card-price">
+                                    {% if team.1 == True %}
+                                    <span class="price text-success">{{team.2}}</span>
+                                    {% elif team.1 == False %}
+                                    <span class="price text-danger">{{team.2}}</span>
+                                    {% else %}
+                                    <span class="price text-warning">{{team.2}}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <ul class="specification-list">
+                                    <li>
+                                        <span class="name-specification">Driver Skills Score</span>
+                                        <span class="status-specification">{{team.3}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="name-specification">Prog Skills Score</span>
+                                        <span class="status-specification">{{team.4}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="name-specification">Country</span>
+                                        <span class="status-specification">{{team.5}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="name-specification">Grade</span>
+                                        <span class="status-specification">{{team.6}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="name-specification">Team Name</span>
+                                        <span class="status-specification">{{team.7}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <div class="col-md-1 pr-md-0"></div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="row">
+                    <div class="col-md-1 pr-md-0"></div>
+                    {% for team in betterList %}
+                        <div class="col-md-2 pr-md-0">
+                            <div class="card card-pricing">
+                                <div class="card-header">
+                                    <h4 class="card-title">{{team.0}}</h4>
+                                    <div class="card-price">
+                                        {% if team.1 == True %}
+                                            <span class="price text-success">{{team.2}}</span>
+                                        {% elif team.1 == False %}
+                                            <span class="price text-danger">{{team.2}}</span>
+                                        {% elif team.1 == 1 %}
+                                            <span class="price text-warning">{{team.2}}</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="specification-list">
+                                        <li>
+                                            <span class="name-specification">Driver Skills Score</span>
+                                            <span class="status-specification">{{team.3}}</span>
+                                        </li>
+                                        <li>
+                                            <span class="name-specification">Prog Skills Score</span>
+                                            <span class="status-specification">{{team.4}}</span>
+                                        </li>
+                                        <li>
+                                            <span class="name-specification">Country</span>
+                                            <span class="status-specification">{{team.5}}</span>
+                                        </li>
+                                        <li>
+                                            <span class="name-specification">Grade</span>
+                                            <span class="status-specification">{{team.6}}</span>
+                                        </li>
+                                        <li>
+                                            <span class="name-specification">Team Name</span>
+                                            <span class="status-specification">{{team.7}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}    
+                    <div class="col-md-1 pr-md-0"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Carousel controls -->
+        <br>
+        <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+            <span class="carousel-control-next-icon  ml-4"></span>
+        </a>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}{% endblock javascripts %}

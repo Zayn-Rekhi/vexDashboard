@@ -27,9 +27,18 @@
 	<!-- CSS Files -->
 	<link rel="stylesheet" href="/static/assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/static/assets/css/atlantis.min.css">
-
 	<!-- CSS Just for demo purpose, don't include it in your project -->
 	<link rel="stylesheet" href="/static/assets/css/demo.css">
+	<link rel="stylesheet" href="/static/assets/css/fullcalendar.css">
+
+	<link rel="stylesheet" href="/static/assets/fullcalendar/bootstrap/main.css"></link>
+	<link rel="stylesheet" href="/static/assets/fullcalendar/core/main.css"></link>
+	<link rel="stylesheet" href="/static/assets/fullcalendar/daygrid/main.css"></link>
+	<link rel="stylesheet" href="/static/assets/fullcalendar/list/main.css"></link>
+	<link rel="stylesheet" href="/static/assets/fullcalendar/timegrid/main.css"></link>
+	<link rel="stylesheet" href="/static/assets/fullcalendar/fullCalendarStyles.css"></link>
+
+<!-- fullCalendarStyles -->
 
     <!-- Specific CSS goes HERE -->
     {% block stylesheets %}{% endblock stylesheets %}
@@ -41,7 +50,7 @@
 
 		{% include 'includes/navigation.html' %}
 
-		{% include 'includes/sidenav.html' %}
+		{% include 'includes/sidenav.html' with profilePic=profilePic %}
 
 		<div class="main-panel">
 
@@ -62,7 +71,8 @@
 	{% include 'includes/scripts.html' %}
 
 	<!-- Specific JS goes HERE -->
-    {% block javascripts %}{% endblock javascripts %}
+	{% block javascripts %}
+	{% endblock javascripts %}
 	
 </body>
 </html>

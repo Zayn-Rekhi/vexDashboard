@@ -1,0 +1,487 @@
+
+<!-- (Almost) A blank page -->
+    <!-- Card -->
+    <div id="barGraphData" data="{{barGraphData}}" labels="{{barLabels}}"></div>
+    <div id="betterData" team1="{{betterTeamData1}}" team2="{{betterTeamData2}}"></div>
+    <div id="worseData" team1="{{worseTeamData1}}" team2="{{worseTeamData2}}"></div>
+    <div id="mapData" justCountry="{{justCountryRankings}}"></div>
+    <h4 class="page-title" id="rankingsPart" style="text-align:center;font-size:40px;color:#f3545d;font-weight:bold;">Rankings</h4>
+
+    <form method="post">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Events: </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">Choose:</label>
+                            {% csrf_token %}
+                            {% for event, sku in topBarList %}
+                            <div class="selectgroup selectgroup-danger w-100">
+                                <label class="selectgroup-item">
+                                    <input type="checkbox" name="listInput" value="{{sku}}" class="selectgroup-input">
+                                    <span class="selectgroup-button">{{event}}</span>
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Progression</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" style="height:500px;">
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-12">
+                <label class="form-label">Choose:</label>
+                {% csrf_token %}
+                <div class="selectgroup selectgroup-danger w-100">
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="tableInfo" value="myPosition" class="selectgroup-input"
+                            checked="checked">
+                        <span class="selectgroup-button">My Position</span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="tableInfo" value="top10" class="selectgroup-input">
+                        <span class="selectgroup-button">Top 10</span>
+                    </label>
+                    <label class="selectgroup-item">
+                        <input type="checkbox" name="tableInfo" value="bottom10" class="selectgroup-input">
+                        <span class="selectgroup-button">Bottom 10</span>
+                    </label>
+                    <button name="submit" class="btn btn-danger btn-border ml-2">Submit</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- tableData.append([team["number"],
+                    teamer["rank"],teamer["wins"],teamer["losses"],teamer["ties"],teamer["ap"],teamer["wp"],teamer["sp"],teamer["max_score"],teamer["opr"],teamer["dpr"],teamer["trsp"],teamer["ccwm"],teamer["rank"]]) -->
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Progression Data: </h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="basic-datatables" class="display table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Rank</th>
+                                    <th>Wins</th>
+                                    <th>Losses</th>
+                                    <th>Ties</th>
+                                    <th>AP</th>
+                                    <th>WP</th>
+                                    <th>SP</th>
+                                    <th>Max Score</th>
+                                    <th>OPR</th>
+                                    <th>DPR</th>
+                                    <th>TRSP</th>
+                                    <th>CCWM</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>Number</th>
+                                    <th>Rank</th>
+                                    <th>Wins</th>
+                                    <th>Losses</th>
+                                    <th>Ties</th>
+                                    <th>AP</th>
+                                    <th>WP</th>
+                                    <th>SP</th>
+                                    <th>Max Score</th>
+                                    <th>OPR</th>
+                                    <th>DPR</th>
+                                    <th>TRSP</th>
+                                    <th>CCWM</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for team in tableData %}
+                                <tr>
+                                    {% for elem in team %}
+                                    <td>{{elem}}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            {% for betterTeam in betterTeamData %}
+            <div class="card">
+                <div class="card-body">
+                    <div class="h2 fw-bold float-right text-danger">Rank: {{betterTeam.1.11}}</div>
+                    <h2 class="mb-2">{{betterTeam.0}}</h2>
+                    <div class="d-flex justify-content-center p-3" style="height:200px;">
+                        <canvas id="BetbarChartCombined{{forloop.counter}}"></canvas>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% for worseTeam in worseTeamData %}
+            <div class="card">
+                <div class="card-body">
+                    <div class="h2 fw-bold float-right text-danger">Rank: {{worseTeam.1.11}}</div>
+                    <h2 class="mb-2">{{worseTeam.0}}</h2>
+                    <div class="d-flex justify-content-center p-3" style="height:200px;">
+                        <canvas id="WorbarChartCombined{{forloop.counter}}"></canvas>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row row-card-no-pd">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-head-row card-tools-still-right">
+                        <h4 class="card-title">Event Map: </h4>
+                    </div>
+                </div>
+                <p class="card-category">
+                    Scout For Teams All Around The World!</p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mapcontainer">
+                            <div id="map-example2" class="vmap"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script>
+    var barChart = document.getElementById('barChart').getContext('2d');
+    var barData = eval(document.getElementById('barGraphData').getAttribute('data'));
+    var barLabels = eval(document.getElementById('barGraphData').getAttribute('labels'));
+
+
+    var justCountry = eval(document.getElementById('mapData').getAttribute('justCountry'))
+
+    var betterTeam1 = eval(document.getElementById('betterData').getAttribute('team1'));
+    var betterTeam2 = eval(document.getElementById('betterData').getAttribute('team2'));
+    var worseTeam1 = eval(document.getElementById('worseData').getAttribute('team1'));
+    var worseTeam2 = eval(document.getElementById('worseData').getAttribute('team2'));
+
+    var datasetList = [];
+    colorsList = ["#f3545d", "#EC3103", "#FF8F01", "#FFC101", "#F6E10D", "#11E80B", "#0BE880", "#0BD0E8", "#2AA1E9", "#385BDE", "#7A33B9", "#C541D5", "#FF00D1", "##FF00A2", "#00ff00", "#ffff66", "#ff6699", "#6699ff", "#00ccff", "#00cc66", "#1d7af3", "#f3545d", "#59d05d", "#1d7af3"]
+
+    for (index = 0; index < barData.length; index++) {
+        var hiddenVal;
+        if (index == 0) {
+            hiddenVal = false;
+        } else {
+            hiddenVal = true;
+        }
+        data = {
+            label: barData[index][0],
+            borderColor: colorsList[index],
+            backgroundColor: colorsList[index],
+            hidden: hiddenVal,
+            data: barData[index][1]
+        };
+        datasetList.push(data);
+    }
+    var BarChart = new Chart(barChart, {
+        type: 'bar',
+        data: {
+            labels: barLabels,
+            datasets: datasetList,
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                position: 'bottom',
+            },
+            tooltips: {
+                bodySpacing: 4,
+                mode: "nearest",
+                intersect: 0,
+                position: "nearest",
+                xPadding: 10,
+                yPadding: 10,
+                caretPadding: 10
+            },
+            layout: {
+                padding: { left: 15, right: 15, top: 15, bottom: 15 }
+            }
+        }
+    });
+    $('#map-example').vectorMap(
+        {
+            map: 'world_en',
+            backgroundColor: 'transparent',
+            borderColor: '#f3545d',
+            borderWidth: 2,
+            color: '#e4e4e4',
+            enableZoom: true,
+            hoverColor: '#f3545d',
+            hoverOpacity: null,
+            normalizeFunction: 'linear',
+            scaleColors: ['#f3545d', '#f3545d'],
+            selectedColor: '#f3545d',
+            selectedRegions: justCountry,
+            showTooltip: true,
+            onRegionClick: function (element, code, region) {
+                return false;
+            },
+            onResize: function (element, width, height) {
+                console.log('Map Size: ' + width + 'x' + height);
+            },
+        });
+    $('#autoSubmit').click(function () {
+        $('#mapForm').submit()
+    });
+    var similarTeam1BarData = [];
+    for (index = 0; index < betterTeam1.length; index++) {
+        dataset = {
+            label: betterTeam1[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: betterTeam1[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam1BarData.push(dataset)
+    }
+    var similarTeam2BarData = [];
+    for (index = 0; index < betterTeam2.length; index++) {
+        dataset = {
+            label: betterTeam2[index][0],
+            backgroundColor: barColorSimilarList[index],
+            data: betterTeam2[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam2BarData.push(dataset)
+    }
+    var similarTeam3BarData = [];
+    for (index = 0; index < worseTeam1.length; index++) {
+        console.log(worseTeam1[index][0]);
+        dataset = {
+            label: worseTeam1[index][0],
+            backgroundColor: colorsList[index],
+            data: worseTeam1[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam3BarData.push(dataset)
+    }
+    var similarTeam4BarData = [];
+    for (index = 0; index <
+        worseTeam2.length; index++) {
+        dataset = {
+            label: worseTeam2[index][0],
+            backgroundColor: colorsList[index],
+            data: worseTeam2[index][1],
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2
+        }
+        similarTeam4BarData.push(dataset)
+    }
+
+    try {
+        var betterTeam1Chart = document.getElementById('BetbarChartCombined1').getContext('2d');
+        var similarBarChart1 = new Chart(similarTeam1BarData, {
+            type: 'bar',
+            data: {
+                datasets: similarTeam1BarData,
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                        gridLines: {
+                            display: false
+                        },
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        },
+                    }]
+                },
+                legend: {
+                    position: 'none',
+                    labels: {
+                        padding: 10,
+                        fontColor: '#1d7af3',
+                    }
+                },
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+    try {
+        var betterTeam2Chart = document.getElementById('BetbarChartCombined2').getContext('2d');
+        var similarBarChart2 = new Chart(betterTeam2Chart, {
+            type: 'bar',
+            data: {
+                datasets: similarTeam2BarData,
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                        gridLines: {
+                            display: false
+                        },
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        },
+                    }]
+                },
+                legend: {
+                    position: 'none',
+                    labels: {
+                        padding: 10,
+                        fontColor: '#1d7af3',
+                    }
+                },
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+    try {
+        var worseTeam1Chart = document.getElementById('WorbarChartCombined1').getContext('2d');
+        var similarBarChart3 = new Chart(worseTeam1Chart, {
+            type: 'bar',
+            data: {
+                datasets: similarTeam3BarData,
+                labels: barLabels,
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                        gridLines: {
+                            display: false
+                        },
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            display: false
+                        },
+                    }]
+                },
+                legend: {
+                    position: 'none',
+                    labels: {
+                        padding: 10,
+                        fontColor: '#1d7af3',
+                    }
+                },
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
+    try {
+        var worseTeam2Chart = document.getElementById('WorbarChartCombined2').getContext('2d');
+        var similarBarChart4 = new Chart(worseTeam2Chart, {
+            type: 'bar',
+            data: {
+                datasets: similarTeam4BarData,
+                labels: barLabels,
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                        gridLines: {
+                            display: false
+                        },
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            display: false
+                        },
+                    }]
+                },
+                legend: {
+                    position: 'none',
+                    labels: {
+                        padding: 10,
+                        fontColor: '#1d7af3',
+                    }
+                },
+            }
+        });
+    }
+    catch (err) {
+        console.log(err);
+
+    }
+
+</script>
+{% endblock javascripts %}

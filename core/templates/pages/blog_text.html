@@ -1,0 +1,54 @@
+{% extends "layouts/default.html" %}
+
+{% block title %} Widgets {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+    <div class="page-inner">
+
+    <!-- Card -->
+        <div class="row">
+            
+            <div class="col-md-12">
+                
+                <div class="card card-post card-round">
+                    <div class="card-header" style="text-align:center;">
+                        <h4 class="card-title">{{post.title}}</h4>
+                    </div>
+                    <img class="card-img-top mr-auto ml-auto" src="../media/{{post.thumb}}" alt="Card image cap" style="width:50vw;padding:0px 20px;height:10%;float:center;margin-left:auto;margin-right:auto;display:block;text-shadow: 2px 2px;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 ml-5"></div>
+                            <div class="col-md-6 ml-auto mr-auto">
+                                <div class="d-flex">
+                                    <div class="info-post ml-2" style="text-align:center;">
+                                        <p class="username">{{post.author}}</p>
+                                        <p class="date text-muted">{{post.date_posted}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="separator-solid"></div>
+                        <h3 class="card-title"  style="text-align:center;">
+                                {{post.title}}
+                            
+                        </h3>
+                        <div class="row">
+                            <p class="card-text col-md-8 ml-auto mr-auto" style="text-align:center;">{{post.content}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
+
+{% block javascripts %}
+
+{% endblock javascripts %}

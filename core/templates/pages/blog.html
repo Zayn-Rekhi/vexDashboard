@@ -1,0 +1,45 @@
+{% extends "layouts/default.html" %}
+
+{% block title %} Widgets {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="page-inner">
+    <!-- Card -->
+    <h4 class="page-title">Blogs</h4>
+        <div class="row">
+            {% for post in posts %}
+                <div class="col-md-4">
+                    <div class="card card-post card-round">
+                        <img class="card-img-top" src="media/{{post.thumb}}" alt="Card image cap">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="info-post ml-2">
+                                    <p class="username">{{post.author}}</p>
+                                    <p class="date text-muted">{{post.date_posted}}</p>
+                                </div>
+                            </div>
+                            <div class="separator-solid"></div>
+                            <h3 class="card-title">
+                                <a href="post/{{post.id}}">
+                                    {{post.title}}
+                                </a>
+                            </h3>
+                            <p class="card-text">{{post.content}}</p>
+                            <a href="post/{{post.id}}" class="btn btn-primary btn-rounded btn-sm">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block javascripts %}
+
+{% endblock javascripts %}

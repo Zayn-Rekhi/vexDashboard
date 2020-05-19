@@ -15,6 +15,7 @@
         <div id="betterAverageData" team1="{{betterAverageTeam1}}" team2="{{betterAverageTeam2}}"></div>
 		<div id="worseAverageData" team1="{{worseAverageTeam1}}" team2="{{worseAverageTeam2}}"></div>
 		<div id="mapData" justCountry="{{justCountry}}"></div>
+		
         <h4 class="page-title">{{team_name}}:</h4>
         <div class="row">
 		    <div class="col-8">
@@ -64,7 +65,7 @@
                         <div class="card-title">Progression</div>
                     </div>
                     <div class="card-body">
-                        <div class="chart-container"  style="height:500px;">
+                        <div class="chart-container" style="height:500px;">
                             <canvas id="lineChart"></canvas>
                         </div>
                     </div>
@@ -102,11 +103,11 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Porgression Data: </h4>
+                        <h4 class="card-title">Progression Data: </h4>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="basic-datatables" class="display table table-striped table-hover" >
+                            <table id="Datatables" class="display table table-striped table-hover" >
                                 <thead>
                                     <tr>
                                         <th>Team</th>
@@ -179,7 +180,82 @@
                         </div>
                     </div>
                 </div>
-            </div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title">All Matches</h4>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table id="basic-datatables" class="display table table-striped table-hover">
+								<thead>
+									<tr>
+										<th>Event</th>
+										<th>Match</th>
+										<th>Time</th>
+										<th>Field</th>
+										<th>Red</th>
+										<th>Blue</th>
+										<th>Score</th>
+										<th>Result</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>Event</th>
+										<th>Match</th>
+										<th>Time</th>
+										<th>Field</th>
+										<th>Red</th>
+										<th>Blue</th>
+										<th>Score</th>
+										<th>Result</th>
+									</tr>
+								</tfoot>
+								<tbody>
+									{% for date,blueScore,redScore,field,red,blue,result,match,event in allDataTable %}
+										<tr>
+											<td>{{event}}</td>
+											<td>{{match}}</td>
+											<td>{{date}}</td>
+											<td>{{field}}</td>
+											<td>
+												<span class="badge badge-danger" style="font-size: 15px;">{{red.0}}</span>
+												<span class="badge badge-danger" style="font-size: 15px;">{{red.1}}</span>
+												<span class="badge badge-danger" style="font-size: 15px;">{{red.2}}</span>
+											</td>
+											<td>
+												<span class="badge badge-primary" style="font-size: 15px;">{{blue.0}}</span>
+												<span class="badge badge-primary" style="font-size: 15px;">{{blue.1}}</span>
+												<span class="badge badge-primary" style="font-size: 15px;">{{blue.2}}</span>
+											</td>
+											<td>
+												<span class="badge badge-danger" style="font-size: 15px;">{{redScore}}</span>
+												<span class="badge badge-primary" style="font-size: 15px;">{{blueScore}}</span>
+											</td>
+											<td>
+												{% if result == "win" %}
+													<i class="fas fa-window-close text-danger" style="font-size: 40px;"></i>
+												{% elif result == "tie" %}
+													<i class="flaticon-signs text-warning" style="font-size: 40px;"></i>
+												{% else %}
+													<i class="fas fa-check text-success" style="font-size: 40px;"></i>
+												{% endif %}
+											</td>
+
+											<!-- fas fa-window-close -->
+											<!-- fas fa-check -->
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="row row-card-no-pd">
 			<div class="col-md-12">
@@ -253,10 +329,6 @@
 		var worseTeam1 = eval(document.getElementById('worseAverageData').getAttribute('team1'));
 		var worseTeam2 = eval(document.getElementById('worseAverageData').getAttribute('team2'));
 		var justCountry = eval(document.getElementById('mapData').getAttribute('justCountry'))
-		console.log(betterTeam1);
-		console.log(betterTeam2);
-		console.log(worseTeam1);
-		console.log(worseTeam2);
 
 
 		var datasetList = [];
@@ -370,6 +442,34 @@
 		});
 		$('#autoSubmit').click(function () {
 			$('#mapForm').submit()
+		});
+		$(document).ready(function () {
+			$('#basic-datatables').DataTable({
+			});
+
+			$('#multi-filter-select').DataTable({
+				"pageLength": 5,
+				initComplete: function () {
+					this.api().columns().every(function () {
+						var column = this;
+						var select = $('<select class="form-control"><option value=""></option></select>')
+							.appendTo($(column.footer()).empty())
+							.on('change', function () {
+								var val = $.fn.dataTable.util.escapeRegex(
+									$(this).val()
+								);
+
+								column
+									.search(val ? '^' + val + '$' : '', true, false)
+									.draw();
+							});
+
+						column.data().unique().sort().each(function (d, j) {
+							select.append('<option value="' + d + '">' + d + '</option>')
+						});
+					});
+				}
+			});
 		});
 	</script>
 {% endblock javascripts %}

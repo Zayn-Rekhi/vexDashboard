@@ -1,0 +1,274 @@
+
+/*    Button    */
+.fc-button {
+  padding: .65rem 1.4rem;
+  font-size: 14px;
+  opacity: 1;
+  border-radius: 3px; }
+  .fc-button:hover, .fc-button:focus {
+    opacity: 0.9;
+    transition: all .3s; }
+  .fc-button .fc-button-label {
+    display: inline-block; }
+    .fc-button .fc-button-label i {
+      font-size: 16px;
+      vertical-align: middle;
+      margin-right: 2px;
+      margin-left: -2px;
+      line-height: 0;
+      margin-top: -2.5px; }
+    .fc-button .fc-button-label.just-icon i {
+      margin-left: 0 !important;
+      margin-right: 0px !important; }
+
+/*     Button Sizes     */
+.fc-button-lg {
+  font-size: 15px;
+  border-radius: 3px;
+  padding: 12.5px 27.5px;
+  font-weight: 400; }
+  .fc-button-lg .fc-button-label i {
+    font-size: 27px;
+    vertical-align: middle;
+    margin-right: 2px;
+    margin-left: -7px;
+    line-height: 0;
+    margin-top: -2.5px; }
+  .fc-button-lg .fc-button-label.just-icon i {
+    margin-left: 0 !important;
+    margin-right: 0px !important; }
+
+.fc-button-sm {
+  font-size: 11px;
+  padding: 7px 13px; }
+
+.fc-button-xs {
+  font-size: 10px;
+  padding: 5px 9px; }
+
+.fc-button.disabled:hover, .fc-button:hover:disabled {
+  opacity: 0.65; }
+
+/*      Button Icon        */
+.fc-button-icon {
+  font-size: .9375rem;
+  height: 2.5125rem;
+  line-height: normal;
+  min-width: 2.5125rem;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+  width: 2.5125rem; }
+  .fc-button-icon.fc-button-lg {
+    height: 2.75rem;
+    min-width: 2.75rem;
+    width: 2.75rem; }
+  .fc-button-icon.fc-button-sm {
+    height: 2rem;
+    min-width: 2rem;
+    width: 2rem; }
+  .fc-button-icon.fc-button-xs {
+    height: 1.6875rem;
+    min-width: 1.6875rem;
+    width: 1.6875rem; }
+
+/*      Button States      */
+.fc-button-white {
+  background: #ffffff !important;
+  color: #1a2035 !important; }
+  .fc-button-white:hover, .fc-button-white:focus, .fc-button-white:disabled {
+    background: #ffffff !important;
+    color: #1a2035 !important; }
+
+.fc-button-default {
+  background: #1a2035 !important;
+  color: #ffffff !important; }
+  .fc-button-default:hover, .fc-button-default:focus, .fc-button-default:disabled {
+    background: #1a2035 !important;
+    color: #ffffff !important; }
+
+.fc-button-primary {
+  background: #F25961 !important;
+  border-color: #F25961 !important; }
+  .fc-button-primary:hover, .fc-button-primary:focus, .fc-button-primary:disabled {
+    background: #F25961 !important;
+    border-color: #F25961 !important; }
+
+.fc-button-secondary {
+  background: #6861CE !important;
+  border-color: #6861CE !important; }
+  .fc-button-secondary:hover, .fc-button-secondary:focus, .fc-button-secondary:disabled {
+    background: #6861CE !important;
+    border-color: #6861CE !important; }
+
+.fc-button-info {
+  background: #48ABF7 !important;
+  border-color: #48ABF7 !important; }
+  .fc-button-info:hover, .fc-button-info:focus, .fc-button-info:disabled {
+    background: #48ABF7 !important;
+    border-color: #48ABF7 !important; }
+
+.fc-button-success {
+  background: #31CE36 !important;
+  border-color: #31CE36 !important; }
+  .fc-button-success:hover, .fc-button-success:focus, .fc-button-success:disabled {
+    background: #31CE36 !important;
+    border-color: #31CE36 !important; }
+
+.fc-button-warning {
+  background: #FFAD46 !important;
+  border-color: #FFAD46 !important;
+  color: #ffffff !important; }
+  .fc-button-warning:hover, .fc-button-warning:focus, .fc-button-warning:disabled {
+    background: #FFAD46 !important;
+    border-color: #FFAD46 !important;
+    color: #ffffff !important; }
+
+.fc-button-danger {
+  background: #F25961 !important;
+  border-color: #F25961 !important; }
+  .fc-button-danger:hover, .fc-button-danger:focus, .fc-button-danger:disabled {
+    background: #F25961 !important;
+    border-color: #F25961 !important; }
+
+.fc-button-light {
+  background: #ffffff !important;
+  border-color: transparent; }
+  .fc-button-light:hover, .fc-button-light:focus, .fc-button-light:disabled {
+    background: #ebecec !important;
+    border-color: transparent; }
+
+.fc-button-dropdown-card-header {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 15px; }
+  .fc-button-dropdown-card-header:after {
+    display: none; }
+
+/*      Button Border     */
+.fc-button-border {
+  background: transparent !important; }
+  .fc-button-border:hover, .fc-button-border:focus {
+    background: transparent !important; }
+  .fc-button-border.fc-button-white {
+    color: #ffffff !important;
+    border: 1px solid #ffffff !important; }
+  .fc-button-border.fc-button-default {
+    color: #1a2035 !important;
+    border: 1px solid #1a2035 !important; }
+  .fc-button-border.fc-button-primary {
+    color: #F25961 !important;
+    border: 1px solid #F25961 !important; }
+  .fc-button-border.fc-button-secondary {
+    color: #6861CE !important;
+    border: 1px solid #6861CE !important; }
+  .fc-button-border.fc-button-info {
+    color: #48ABF7 !important;
+    border: 1px solid #48ABF7 !important; }
+  .fc-button-border.fc-button-success {
+    color: #31CE36 !important;
+    border: 1px solid #31CE36 !important; }
+  .fc-button-border.fc-button-warning {
+    color: #FFAD46 !important;
+    border: 1px solid #FFAD46 !important; }
+  .fc-button-border.fc-button-danger {
+    color: #F25961 !important;
+    border: 1px solid #F25961 !important; }
+  .fc-button-border.fc-button-light {
+    border: 1px solid #efefef;
+    background: #fff !important; }
+
+/*      Button Rounded      */
+.fc-button-round {
+  border-radius: 100px !important; }
+
+/*      Button Link      */
+.fc-button-link {
+  border: 0 !important;
+  background: transparent !important; }
+  .fc-button-link:hover, .fc-button-link:focus {
+    text-decoration: underline !important;
+    background: transparent !important;
+    border: 0 !important; }
+  .fc-button-link.fc-button-default {
+    color: #1a2035 !important; }
+    .fc-button-link.fc-button-default:hover {
+      color: #1a2035 !important; }
+  .fc-button-link.fc-button-primary {
+    color: #F25961 !important; }
+    .fc-button-link.fc-button-primary:hover {
+      color: #F25961 !important; }
+  .fc-button-link.fc-button-secondary {
+    color: #6861CE !important; }
+    .fc-button-link.fc-button-secondary:hover {
+      color: #6861CE !important; }
+  .fc-button-link.fc-button-info {
+    color: #48ABF7 !important; }
+    .fc-button-link.fc-button-info:hover {
+      color: #48ABF7 !important; }
+  .fc-button-link.fc-button-success {
+    color: #31CE36 !important; }
+    .fc-button-link.fc-button-success:hover {
+      color: #31CE36 !important; }
+  .fc-button-link.fc-button-warning {
+    color: #FFAD46 !important; }
+    .fc-button-link.fc-button-warning:hover {
+      color: #FFAD46 !important; }
+  .fc-button-link.fc-button-danger {
+    color: #F25961 !important; }
+    .fc-button-link.fc-button-danger:hover {
+      color: #F25961 !important; }
+
+.toggle-on.fc-button {
+  color: #ffffff !important; }
+
+.toggle-handle {
+  background: #ffffff !important; }
+  .toggle-handle:hover {
+    background: #ffffff !important; }
+
+.fc-button-round .toggle-handle {
+  border-radius: 50px; }
+
+.fc-button-rounded {
+  border-radius: 60px !important; }
+
+.fc-button-full {
+  width: 100%; }
+
+.fc-button-no-radius {
+  border-radius: 0px; }
+ 
+.fc-content {
+  background-color:#F25961;
+}
+.fc td, .fc th {
+  border:0px;
+}
+table {
+  border-width:20px;
+}
+.fc-event-inner {
+    border: 5px solid red;
+}
+
+
+.fc-event {
+  border:#F25961;
+  background-color:#F25961;
+}
+
+.fc-title {
+  color:white;
+}
+.fc-axis {
+  color:none;
+}
+
+
+
+
+
+
+

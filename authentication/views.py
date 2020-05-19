@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from django.forms.utils import ErrorList
 from django.http import HttpResponse
 from .forms import LoginForm, SignUpForm
+import pymongo
 
 def login_view(request):
     form = LoginForm(request.POST or None)
@@ -27,7 +28,13 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect("/")
+                myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+                mydb = myclient[f"webDB_VEX"]
+                mycolAuthUser = mydb["userInfo"]
+                if mycolAuthUser.find_one({"username":username}):
+                    return redirect("/")
+                else:
+                    return redirect("/settings.html")
             else:    
                 msg = 'Invalid credentials'    
         else:
