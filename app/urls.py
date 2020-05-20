@@ -13,8 +13,13 @@ from django.conf import settings
 urlpatterns = [
     # Matches any html file 
     path('settings/', views.settings, name='home'),
+    path('matches/', views.matches, name='match'),
+    path('skills/', views.skills, name='skill'),
+    path('calendar/', views.calendarPage, name='calendar'),
+    path('rankings/', views.rankings, name='rankings'),
+    path('messaging/', views.messages, name='message'),
+    path('team_search/', views.team_search, name='teamSearch'),
     re_path(r'team/(?P<slug>[-\w]+)/', views.teams, name='teams'),
-    re_path(r'^.*\.html', views.pages, name='pages'),
     # The home page
     path('', views.index, name='home'),
 ]

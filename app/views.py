@@ -146,7 +146,7 @@ class getTeam():
             }
         }
         averageGreater = mycolTeams.find(
-            queryGreater).sort("programmingAverage", 1).limit(2)
+            queryGreater).sort("programmingAverage", -1).limit(2)
         averageLesser = mycolTeams.find(
             queryLesser).sort("programmingAverage", -1).limit(2)
         return averageGreater, averageLesser
@@ -911,9 +911,9 @@ class Skills():
                 points = round(yAxisLength/8)
                 for numb in range(1, 9):
                     if numb != 8:
-                        values.append(teamCombined[numb*points]["y"])
+                        values.append(teamDriver[numb*points]["y"])
                     else:
-                        values.append(teamCombined[-1]["y"])
+                        values.append(teamDriver[-1]["y"])
             else:
                 for roundNumber in teamDriver:
                     values.append(roundNumber["y"])
@@ -1089,40 +1089,11 @@ class Skills():
             teamProgramming = formatter(
             teams["ProgrammingData"]).skillsFormatter()
             yAxisLength = len(teamProgramming)
-            teamDiff = round(myteam["programmingAverage"] /
-                            teams["programmingAverage"]*100)
-            values = []
-            if yAxisLength > 8:
-                points = round(yAxisLength/8)
-                for numb in range(1, 9):
-                    if numb != 8:
-                        values.append(teamCombined[numb*points]["y"])
-                    else:
-                        values.append(teamCombined[-1]["y"])
-            else:
-                for roundNumber in teamProgramming:
-                    values.append(roundNumber["y"])
-                if yAxisLength == 1:
-                    values.append(0)
-            
-            context.update({
-                f"betterProgrammingTeamNumber{count}": teams["number"],
-                f"betterProgrammingTeamAverage{count}": round(teams["programmingAverage"], 1),
-                f"betterProgrammingTeamDiff{count}": 100-teamDiff,
-                f"betterProgrammingAverageTeam{count}": values,
-            })
-            similarAveragesGreaterFull1.append(
-                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
-            count += 1
-
-        count = 1
-        similarAveragesLesserFull1 = []
-        for teams in similarAveragesLesser:
-            teamProgramming = formatter(
-                teams["ProgrammingData"]).skillsFormatter()
-            yAxisLength = len(teamProgramming)
             teamDiff = round(teams["programmingAverage"] /
-                             myteam["programmingAverage"]*100)
+                            myteam["programmingAverage"]*100)
+            print(teams["programmingAverage"], "otherteam")
+            print(myteam["programmingAverage"], "myteam")
+            print(teamDiff)
             values = []
             if yAxisLength > 8:
                 points = round(yAxisLength/8)
@@ -1138,13 +1109,42 @@ class Skills():
                     values.append(0)
             
             context.update({
-                f"worseProgrammingTeamNumber{count}": teams["number"],
-                f"worseProgrammingTeamAverage{count}": round(teams["programmingAverage"], 1),
-                f"worseProgrammingTeamDiff{count}": 100-teamDiff,
+                f"betterProgrammingAverageTeam{count}": values,
+            })
+            similarAveragesGreaterFull1.append(
+                [teams["number"], teams["programmingAverage"], teamDiff-100, values])
+            count += 1
+
+        count = 1
+        similarAveragesLesserFull1 = []
+        for teams in similarAveragesLesser:
+            teamProgramming = formatter(
+                teams["ProgrammingData"]).skillsFormatter()
+            yAxisLength = len(teamProgramming)
+            teamDiff = round(teams["programmingAverage"] /
+                             myteam["programmingAverage"]*100)
+            print(teams["programmingAverage"],"prog")
+            print(myteam["programmingAverage"], "prog")
+            print(teamDiff)
+            values = []
+            if yAxisLength > 8:
+                points = round(yAxisLength/8)
+                for numb in range(1, 9):
+                    if numb != 8:
+                        values.append(teamProgramming[numb*points]["y"])
+                    else:
+                        values.append(teamProgramming[-1]["y"])
+            else:
+                for roundNumber in teamProgramming:
+                    values.append(roundNumber["y"])
+                if yAxisLength == 1:
+                    values.append(0)
+            
+            context.update({
                 f"worseProgrammingAverageTeam{count}": values,
             })
             similarAveragesLesserFull1.append(
-                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
+                [teams["number"], teams["programmingAverage"], teamDiff-100, values])
             count += 1
 
 
@@ -1155,8 +1155,8 @@ class Skills():
         similarAveragesGreaterFull2=[]
         for teams in similarAveragesGreater:
             teamtopScore = teams["programmingTopScore"]
-            teamDiff = round(teams["programmingTopScore"] /
-                        myteam["programmingTopScore"]*100)
+            teamDiff = round(myteam["programmingTopScore"] /
+                        teams["programmingTopScore"]*100)
 
             context.update({
                 f"betterProgrammingTeamNumbertopScore{count}": teams["number"],
@@ -1167,15 +1167,15 @@ class Skills():
                     [myteam["number"], [myteam["programmingTopScore"]]]
                 ],
             })
-            similarAveragesGreaterFull2.append([teams["number"], teamtopScore,teamDiff-100])
+            similarAveragesGreaterFull2.append([teams["number"], teamtopScore,100-teamDiff])
             count += 1
 
         count = 1
         similarAveragesLesserFull2=[]
         for teams in similarAveragesLesser:
             teamtopScore = teams["programmingTopScore"]
-            teamDiff = round(myteam["programmingTopScore"] /
-                            teams["programmingTopScore"]*100)
+            teamDiff = round(teams["programmingTopScore"] /
+                            myteam["programmingTopScore"]*100)
 
             context.update({
                 f"worseProgrammingTeamNumbertopScore{count}": teams["number"],
@@ -1186,7 +1186,7 @@ class Skills():
                     [myteam["number"], [myteam["programmingTopScore"]]]
                 ],
             })
-            similarAveragesLesserFull2.append([teams["number"], teamtopScore,teamDiff-100])
+            similarAveragesLesserFull2.append([teams["number"], teamtopScore,100-teamDiff])
             count += 1
        
         context.update({
@@ -1324,13 +1324,10 @@ class Skills():
                     values.append(0)
 
             context.update({
-                f"betterCombinedTeamNumber{count}": teams["number"],
-                f"betterCombinedTeamAverage{count}": round(teams["combinedAverage"], 1),
-                f"betterCombinedTeamDiff{count}": 100-teamDiff,
                 f"betterCombinedAverageTeam{count}": values,
             })
             similarAveragesGreaterFull1.append(
-                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
+                [teams["number"], teams["combinedAverage"], 100-teamDiff, values])
             count += 1
 
         count = 1
@@ -1362,7 +1359,7 @@ class Skills():
                 f"worseCombinedAverageTeam{count}": values,
             })
             similarAveragesLesserFull1.append(
-                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
+                [teams["number"], teams["combinedAverage"], 100-teamDiff, values])
             count += 1
 
 
@@ -1373,46 +1370,36 @@ class Skills():
         similarAveragesGreaterFull2=[]
         for teams in similarAveragesGreater:
             teamtopScore = teams["combinedTopScore"]
-            teamDiff = round(teams["combinedTopScore"] /
-                            myteam["combinedTopScore"]*100)
+            teamDiff = round(myteam["combinedTopScore"] /
+                             teams["combinedTopScore"]*100)
 
             context.update({
-                f"betterCombinedTeamNumbertopScore{count}": teams["number"],
-                f"betterCombinedTeamtopScore{count}": teamtopScore,
-                f"betterCombinedTeamDifftopScore{count}": teamDiff-100,
                 f"betterCombinedAverageTeamtopScore{count}": [
                     [teams["number"], [teams["combinedTopScore"]]],
                     [myteam["number"], [myteam["combinedTopScore"]]]
                 ],
             })
             similarAveragesGreaterFull2.append(
-                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
+                [teams["number"], teams["combinedTopScore"], 100-teamDiff, values])
             count += 1
 
         count = 1
         similarAveragesLesserFull2=[]
         for teams in similarAveragesLesser:
             teamtopScore = teams["combinedTopScore"]
-            teamDiff = round(myteam["combinedTopScore"] /
-                            teams["combinedTopScore"]*100)
+            teamDiff = round(teams["combinedTopScore"] /
+                            myteam["combinedTopScore"]*100)
 
             context.update({
-                f"worseCombinedTeamNumbertopScore{count}": teams["number"],
-                f"worseCombinedTeamtopScore{count}": teamtopScore,
-                f"worseCombinedTeamDifftopScore{count}": teamDiff-100,
                 f"worseCombinedAverageTeamtopScore{count}": [
                     [teams["number"], [teams["combinedTopScore"]]],
                     [myteam["number"], [myteam["combinedTopScore"]]]
                 ],
             })
             similarAveragesLesserFull2.append(
-                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
+                [teams["number"], teams["combinedTopScore"], 100-teamDiff, values])
             count += 1
 
-        print(similarAveragesGreaterFull1)
-        print(similarAveragesLesserFull1)
-        print(similarAveragesGreaterFull2)
-        print(similarAveragesLesserFull2)
         context.update({
             "myCombinedTopScore": myteam["combinedTopScore"],
             "myCombinedAverage": myteam["combinedAverage"],
@@ -2457,10 +2444,12 @@ def settings(request):
         print(checkList)
         return False if False in checkList else True
     def uploadFile(file):
-        file_name = default_storage.save(file.name, file)
-        #  Reading file from storage
-        file = default_storage.open(file_name)
-        file_url = default_storage.url(file_name)
+        try:
+            file_name = default_storage.save(file.name, file)
+            file = default_storage.open(file_name)
+            file_url = default_storage.url(file_name)
+        except:
+            pass
 
     myclient = pymongo.MongoClient('mongodb://localhost:27017/')
     mydb = myclient["webDB_VEX"]
@@ -2499,11 +2488,13 @@ def settings(request):
         findUser = getUserInfo(user, "webDB_VEX").getMyTeam()
         checker = checkData(data)
         if checker:
-            mycolUserInfo.update_one({"username":user}, {'$set':data})
-            mycolUserInfo.update_one(
-                    {"profilePic": actProfile}, {'$set': data})
-            print("hello")
-            uploadFile(actProfile)
+            for key, value in data.items():
+                mycolUserInfo.update_one({"username":user}, {'$set':{key:value}})
+            if actProfile:
+                mycolUserInfo.update_one(
+                    {"username": user}, {'$set': {"profilePic": actProfile.name}})
+                uploadFile(actProfile)
+                    
             return redirect('/')
         else:
             if None not in data.values():
@@ -2512,13 +2503,17 @@ def settings(request):
     except Exception as e:
         print(e)
         if None not in data.values():
-            print(data)
             checker = checkData(data)
-            print(checker)
             if checker:
                 mycolUserInfo = mydb["userInfo"]
                 mycolUserInfo.insert_one(data)
-                uploadFile(actProfile)
+                if actProfile:
+                    mycolUserInfo.update_one(
+                    {"username": user}, {'$set': {"profilePic": actProfile.name}})
+                    uploadFile(actProfile)
+                else:
+                    mycolUserInfo.update_one(
+                    {"username": user}, {'$set': {"profilePic": "default.png"}})
             else:
                 message+="One Of your teams is NOT supported by us. We apologize for the inconvenience."
 
@@ -2559,109 +2554,161 @@ def settings(request):
     return HttpResponse(template.render(context, request))
 
 
+@login_required(login_url="/login/")
+def matches(request):
+    if page_validator(request.user.username):
+        context = {}
+        
+        tableInfo = request.POST.getlist('tableInfo')
+        mapInfo = request.POST.get('map')
 
+        curUser = request.user.username
+        myTeam = getUserInfo(curUser, "webDB_VEX").getMyTeam()
+        instance = Matches(myTeam, curUser)
+        instance.lineGraphData()
+        instance.table(tableInfo)
+        instance.SimilarTeams()
+        instance.Allmatches()
+        instance.worldMap(mapInfo)
+        context = instance.get()
+        try:
+            template = loader.get_template('pages/matches.html')
+            return HttpResponse(template.render(context, request))
+        except:
+            template = loader.get_template( 'pages/error-404.html' )
+            return HttpResponse(template.render(context, request))
+    else:
+        return render(request, "backup.html")
+@login_required(login_url="/login/")
+def skills(request):
+    if page_validator(request.user.username):
+        graphInfoDriver=request.POST.getlist('driverLineGraph')
+        graphInfoProgramming=request.POST.getlist('programmingLineGraph')
+        graphInfoCombined=request.POST.getlist('combinedLineGraph')
+        mapInfoTeam=request.POST.getlist('map')
+        mapInfoType=request.POST.getlist('type')
+        curUser = request.user.username
+        myTeam = getUserInfo(curUser,"webDB_VEX").getMyTeam()
+        instance = Skills(myTeam,curUser)
+        instance.topBar()
+        instance.driverScatterPlot(graphInfoDriver)
+        instance.programmingScatterPlot(graphInfoProgramming)
+        instance.combinedScatterPlot(graphInfoCombined)
+        instance.worldMap(mapInfoTeam, mapInfoType)
+        context=instance.get()
+        try:
+            template = loader.get_template('pages/skills.html')
+            return HttpResponse(template.render(context, request))
+        except:
+            template = loader.get_template( 'pages/error-404.html' )
+            return HttpResponse(template.render(context, request))
+    else:
+        return render(request, "backup.html")
+@login_required(login_url="/login/")
+def calendarPage(request):
+    if page_validator(request.user.username):
+        curUser = request.user.username
+        instance = calendar(curUser, "webDB_VEX")
+        myTeam = getUserInfo(curUser, "webDB_VEX")   
+        try:
+            listOfEvents=eval(request.POST.get("eventData"))
+            if listOfEvents != "" and myTeam.getCalendar() != False:
+                instance.add(listOfEvents)
+            elif listOfEvents != "" and myTeam.getCalendar() == False:
+                instance.insert(listOfEvents)
+        except:
+            pass    
+        instance.load()
+        context=instance.get()
+
+        try:
+            template = loader.get_template('pages/calendar.html')
+            return HttpResponse(template.render(context, request))
+        except:
+            template = loader.get_template( 'pages/error-404.html' )
+            return HttpResponse(template.render(context, request))
+    else:
+        return render(request, "backup.html")
+
+@login_required(login_url="/login/")
+def rankings(request):
+    if page_validator(request.user.username):
+        curUser = request.user.username
+        tableInfo=request.POST.getlist('tableInfo')
+        instance = Rankings(curUser)
+        instance.navigator()
+        for key, value in request.POST.items():
+            if key == "listInput":
+                instance.showGraphs(value, tableInfo)
+                instance.worldMap(value)
+
+        context = instance.get()
+
+        try:
+            template = loader.get_template('pages/rankings.html')
+            return HttpResponse(template.render(context, request))
+        except:
+            template = loader.get_template('pages/error-404.html')
+            return HttpResponse(template.render(context, request))
+    else:
+        return render(request, "backup.html")
+
+@login_required(login_url="/login/")
+def messages(request):
+    if page_validator(request.user.username):
+        key = request.POST.get("keyInput")
+        create = request.POST.get("create")
+        message = request.POST.get("message")
+        person = request.POST.get("person")
+        invite = request.POST.get("invite")
+        curUser=request.user.username
+        instance=chat(curUser)
+        if key != "undefined":
+            instance.join(key)
+        if create == "on":
+            instance.create()
+        if invite:
+            person1 = request.POST.get("person1")
+            instance.invite(invite, person1)
+        if message != None:
+            instance.sendMessage(message, person)
+
+        instance.load()
+        context=instance.get()
+        
+        try:
+            template = loader.get_template('pages/text_message.html')
+            return HttpResponse(template.render(context, request))
+        except:
+            template = loader.get_template('pages/error-404.html')
+            return HttpResponse(template.render(context, request))
+    else:
+        return render(request, "backup.html")
 
 
 
 @login_required(login_url="/login/")
-def pages(request):
+def team_search(request):
     if page_validator(request.user.username):
-        context = {}
-        # All resource paths end in .html.
-        # Pick out the html file name from the url. And load that template.
-        load_template = request.path.split('/')[-1]
-        if load_template == "matches.html":
-            tableInfo=request.POST.getlist('tableInfo')
-            mapInfo=request.POST.get('map')
-
-            curUser = request.user.username
-            myTeam = getUserInfo(curUser,"webDB_VEX").getMyTeam()
-            instance = Matches(myTeam,curUser)
-            instance.lineGraphData()
-            instance.table(tableInfo)
-            instance.SimilarTeams()
-            instance.Allmatches()
-            instance.worldMap(mapInfo)
-            context=instance.get()
-        elif load_template == "skills.html":
-            graphInfoDriver=request.POST.getlist('driverLineGraph')
-            graphInfoProgramming=request.POST.getlist('programmingLineGraph')
-            graphInfoCombined=request.POST.getlist('combinedLineGraph')
-            mapInfoTeam=request.POST.getlist('map')
-            mapInfoType=request.POST.getlist('type')
-            curUser = request.user.username
-            myTeam = getUserInfo(curUser,"webDB_VEX").getMyTeam()
-            instance = Skills(myTeam,curUser)
-            instance.topBar()
-            instance.driverScatterPlot(graphInfoDriver)
-            instance.programmingScatterPlot(graphInfoProgramming)
-            instance.combinedScatterPlot(graphInfoCombined)
-            instance.worldMap(mapInfoTeam, mapInfoType)
-            context=instance.get()
-        elif load_template == "rankings.html":
-            curUser = request.user.username
-            tableInfo=request.POST.getlist('tableInfo')
-            instance = Rankings(curUser)
-            instance.navigator()
-            for key, value in request.POST.items():
-                if key == "listInput":
-                    instance.showGraphs(value, tableInfo)
-                    instance.worldMap(value)
-
-            context = instance.get()
-        elif load_template == "text_message.html":
-            key = request.POST.get("keyInput")
-            create = request.POST.get("create")
-            message = request.POST.get("message")
-            person = request.POST.get("person")
-            invite = request.POST.get("invite")
-            curUser=request.user.username
-            instance=chat(curUser)
-            if key != "undefined":
-                instance.join(key)
-            if create == "on":
-                instance.create()
-            if invite:
-                person1 = request.POST.get("person1")
-                instance.invite(invite, person1)
-            if message != None:
-                instance.sendMessage(message, person)
-
-            instance.load()
-            context=instance.get()
-            # keyInput
-        elif load_template == "team_search.html":
-            searchInfo = request.POST.get('search')
-            curUser = request.user.username
-            instance = teamSearchMain("BLRS", curUser)
-            instance.first()
-            if searchInfo != None:
-                return redirect(f"team/{searchInfo}")
-            context = instance.get()
-        elif load_template == "calendar.html":
-            curUser = request.user.username
-            instance = calendar(curUser, "webDB_VEX")
-            myTeam = getUserInfo(curUser, "webDB_VEX")   
-            try:
-                listOfEvents=eval(request.POST.get("eventData"))
-                if listOfEvents != "" and myTeam.getCalendar() != False:
-                    instance.add(listOfEvents)
-                elif listOfEvents != "" and myTeam.getCalendar() == False:
-                    instance.insert(listOfEvents)
-            except:
-                pass    
-            instance.load()
-            context=instance.get()
-            
-
+        searchInfo = request.POST.get('search')
+        curUser = request.user.username
+        instance = teamSearchMain("BLRS", curUser)
+        instance.first()
+        if searchInfo != None:
+            return redirect(f"team/{searchInfo}")
+        context = instance.get()
+        
         try:
-            template = loader.get_template('pages/' + load_template)
+            template = loader.get_template('pages/team_search.html')
             return HttpResponse(template.render(context, request))
-
         except:
-
-            template = loader.get_template( 'pages/error-404.html' )
+            template = loader.get_template('pages/error-404.html')
             return HttpResponse(template.render(context, request))
-
     else:
         return render(request, "backup.html")
+
+
+
+
+
+

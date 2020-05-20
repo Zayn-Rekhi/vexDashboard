@@ -33,7 +33,7 @@
     <div id="BetterBarTeamCombined" team1="{{betterCombinedAverageTeamtopScore1}}" team2="{{betterCombinedAverageTeamtopScore2}}"></div>
     <div id="WorseBarTeamCombined" team1="{{worseCombinedAverageTeamtopScore1}}" team2="{{worseCombinedAverageTeamtopScore2}}"></div>
 
-    <div id="mapData" justCountry="{{justCountry}}"></div>
+    <div id="mapData" justCountry="{{justCountrySkills}}"></div>
     <h4 class="page-title">{{team_name}}:</h4>
     <div class="row row-card-no-pd mt--2">
         <div class="col-12 col-sm-6 col-md-4">
@@ -164,9 +164,9 @@
                             <tbody>
                                 {% for team in tableList %}
                                 <tr>
-                                    {% for elem in team %}
-                                    <td>{{elem}}</td>
-                                    {% endfor %}
+                                    <td><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></td>
+                                    <td>{{team.1}}</td>
+                                    <td>{{team.2}}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -216,7 +216,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="h1 fw-bold float-right text-danger">+{{team.2}}%</div>
-                        <h2 class="mb-2">{{team.0}}</h2>
+                        <h2 class="mb-2"><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
                         <p class="text-muted">Current Top Score: {{team.1}}</p>
                         <div class="d-flex justify-content-center p-3" style="height:200px;">
                             <canvas id="barChartDriverBetter{{forloop.counter}}"></canvas>
@@ -231,7 +231,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="h1 fw-bold float-right text-danger">-{{team.2}}%</div>
-                    <h2 class="mb-2">{{team.0}}</h2>
+                    <h2 class="mb-2"><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
                     <p class="text-muted">Current Top Score: {{team.1}}</p>
                     <div class="d-flex justify-content-center p-3" style="height:200px;">
                         <canvas id="barChartDriverWorse{{forloop.counter}}"></canvas>
@@ -247,7 +247,7 @@
             <div class="card">
                 <div class="card-body pb-0">
                     <div class="h1 fw-bold float-right text-danger">+{{team.2}}%</div>
-                    <h2 class="mb-2">{{team.0}}</h2>
+                    <h2 class="mb-2"><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
                     <p class="text-muted">Current Average: {{team.1}}</p>
                     <div class="pull-in sparkline-fix">
                         <div id="lineChartSparkBetter{{forloop.counter}}"></div>
@@ -262,7 +262,7 @@
             <div class="card">
                 <div class="card-body pb-0">
                     <div class="h1 fw-bold float-right text-danger">-{{team.2}}%</div>
-                    <h2 class="mb-2">{{team.0}}</h2>
+                    <h2 class="mb-2"><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
                     <p class="text-muted">Current Average: {{team.1}}</p>
                     <div class="pull-in sparkline-fix">
                         <div id="lineChartSparkWorse{{forloop.counter}}"></div>
@@ -335,9 +335,9 @@
                             <tbody>
                                 {% for team in tableListProgramming %}
                                 <tr>
-                                    {% for elem in team %}
-                                    <td>{{elem}}</td>
-                                    {% endfor %}
+                                    <td><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></td>
+                                    <td>{{team.1}}</td>
+                                    <td>{{team.2}}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -388,7 +388,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="h1 fw-bold float-right text-danger">+{{team.2}}%</div>
-                    <h2 class="mb-2">{{team.0}}</h2>
+                    <h2 class="mb-2"><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
                     <p class="text-muted">Current Top Score: {{team.1}}</p>
                     <div class="d-flex justify-content-center p-3" style="height:200px;">
                         <canvas id="barChartProgrammingBetter{{forloop.counter}}"></canvas>
@@ -403,7 +403,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="h1 fw-bold float-right text-danger">-{{team.2}}%</div>
-                    <h2 class="mb-2">{{team.0}}</h2>
+                    <h2 class="mb-2"><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
                     <p class="text-muted">Current Top Score: {{team.1}}</p>
                     <div class="d-flex justify-content-center p-3" style="height:200px;">
                         <canvas id="barChartProgrammingWorse{{forloop.counter}}"></canvas>
@@ -419,7 +419,7 @@
             <div class="card">
                 <div class="card-body pb-0">
                     <div class="h1 fw-bold float-right text-danger">+{{team.2}}%</div>
-                    <h2 class="mb-2">{{team.0}}</h2>
+                    <h2 class="mb-2"><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
                     <p class="text-muted">Current Average: {{team.1}}</p>
                     <div class="pull-in sparkline-fix">
                         <div id="lineChartSparkBetterProgramming{{forloop.counter}}"></div>
@@ -433,8 +433,8 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">-{{team.2}}%</div>
-                    <h2 class="mb-2">{{team.0}}</h2>
+                    <div class="h1 fw-bold float-right text-danger">{{team.2}}%</div>
+                    <h2 class="mb-2"><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
                     <p class="text-muted">Current Average: {{team.1}}</p>
                     <div class="pull-in sparkline-fix">
                         <div id="lineChartSparkWorseProgramming{{forloop.counter}}"></div>
@@ -509,9 +509,9 @@
                             <tbody>
                                 {% for team in tableListCombined %}
                                 <tr>
-                                    {% for elem in team %}
-                                    <td>{{elem}}</td>
-                                    {% endfor %}
+                                    <td><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></td>
+                                    <td>{{team.1}}</td>
+                                    <td>{{team.2}}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -562,7 +562,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="h1 fw-bold float-right text-danger">+{{team.2}}%</div>
-                    <h2 class="mb-2">{{team.0}}</h2>
+                    <h2 class="mb-2"><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
                     <p class="text-muted">Current Top Score: {{team.1}}</p>
                     <div class="d-flex justify-content-center p-3" style="height:200px;">
                         <canvas id="barChartCombinedBetter{{forloop.counter}}"></canvas>
@@ -577,7 +577,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="h1 fw-bold float-right text-danger">-{{team.2}}%</div>
-                    <h2 class="mb-2">{{team.0}}</h2>
+                    <h2 class="mb-2"><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
                     <p class="text-muted">Current Top Score: {{team.1}}</p>
                     <div class="d-flex justify-content-center p-3" style="height:200px;">
                         <canvas id="barChartCombinedWorse{{forloop.counter}}"></canvas>
@@ -593,7 +593,7 @@
             <div class="card">
                 <div class="card-body pb-0">
                     <div class="h1 fw-bold float-right text-danger">+{{team.2}}%</div>
-                    <h2 class="mb-2">{{team.0}}</h2>
+                    <h2 class="mb-2"><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
                     <p class="text-muted">Current Average: {{team.1}}</p>
                     <div class="pull-in sparkline-fix">
                         <div id="lineChartSparkBetterCombined{{forloop.counter}}"></div>
@@ -608,7 +608,7 @@
             <div class="card">
                 <div class="card-body pb-0">
                     <div class="h1 fw-bold float-right text-danger">-{{team.2}}%</div>
-                    <h2 class="mb-2">{{team.0}}</h2>
+                    <h2 class="mb-2"><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
                     <p class="text-muted">Current Average: {{team.1}}</p>
                     <div class="pull-in sparkline-fix">
                         <div id="lineChartSparkWorseCombined{{forloop.counter}}"></div>
@@ -625,32 +625,36 @@
                     <form method="POST" id="mapForm">
                         <div class="card-head-row card-tools-still-right">
                             <h4 class="card-title">Global Map: </h4>
-                            <div class="form-group form-group-default col-md-2" style="margin-left:60%;margin-top:1%;">
-                                {% csrf_token %}
-                                <label>Options</label>
-                                <select class="form-control" name="map">
-                                    <option value="myPosition" selected>My Position</option>
-                                    <option value="myCompetitors">My Competitors</option>
-                                    <option value="top10">Top 10</option>
-                                    <option value="bottom10">Bottom 10</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4" style="margin-left:5%;">
-                                <label class="form-label d-block">Type:</label>
-                                <div class="selectgroup selectgroup-danger selectgroup-pills">
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="type" value="driver" class="selectgroup-input" onchange='if(this.value != "myPosition") { this.form.submit(); }'>
-                                        <span class="selectgroup-button selectgroup-button-icon"><i class="fas fa-car"></i></span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="type" value="programming" class="selectgroup-input" onchange='if(this.value != "myPosition") { this.form.submit(); }'>
-                                        <span class="selectgroup-button selectgroup-button-icon"><i class="fas fa-laptop-code"></i></span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="type" value="combined" class="selectgroup-input" onchange='if(this.value != "myPosition") { this.form.submit(); }'>
-                                        <span class="selectgroup-button selectgroup-button-icon"><i class="flaticon-chain-1"></i></span>
-                                    </label>
+                            <div class="card-tools">
+                                <div class="form-group form-group-default">
+                                    {% csrf_token %}
+                                    <label>Options</label>
+                                    <select class="form-control" name="map">
+                                        <option value="myPosition" selected>My Position</option>
+                                        <option value="myCompetitors">My Competitors</option>
+                                        <option value="top10">Top 10</option>
+                                        <option value="bottom10">Bottom 10</option>
+                                    </select>
+                                    <br />
+                                        <div class="selectgroup selectgroup-danger selectgroup-pills">
+                                            <label class="selectgroup-item">
+                                                <input type="radio" name="type" value="driver" class="selectgroup-input"
+                                                    onchange='if(this.value != "myPosition") { this.form.submit(); }'>
+                                                <span class="selectgroup-button selectgroup-button-icon"><i class="fas fa-car"></i></span>
+                                            </label>
+                                            <label class="selectgroup-item">
+                                                <input type="radio" name="type" value="programming" class="selectgroup-input"
+                                                    onchange='if(this.value != "myPosition") { this.form.submit(); }'>
+                                                <span class="selectgroup-button selectgroup-button-icon"><i class="fas fa-laptop-code"></i></span>
+                                            </label>
+                                            <label class="selectgroup-item">
+                                                <input type="radio" name="type" value="combined" class="selectgroup-input"
+                                                    onchange='if(this.value != "myPosition") { this.form.submit(); }'>
+                                                <span class="selectgroup-button selectgroup-button-icon"><i class="flaticon-chain-1"></i></span>
+                                            </label>
+                                        </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </form>
@@ -684,7 +688,7 @@
                                                 <img src="/static/assets/img/flags/{{team.3}}.png" alt="{{team.0}}">
                                             </div>
                                         </td>
-                                        <td>{{team.1}}</td>
+                                        <td><a href="team/{{team.1}}" class="text-light">{{team.1}}</a></td>
                                         <td>{{team.4}}</td>
                                         <td>{{team.2}}</td>
                                     </tr>
@@ -795,7 +799,7 @@
                     ticks: {
                         stepSize:1,
                         callback: function (value, index, values) {
-                            return "Event " + (value+1);
+                            return "Event " + (value);
                         }
                     }
                 }]
@@ -1145,7 +1149,7 @@
                     ticks: {
                         stepSize: 1,
                         callback: function (value, index, values) {
-                            return "Event " + (value + 1);
+                            return "Event " + (value );
                         }
                     }
                 }]
@@ -1502,7 +1506,7 @@
                             stepSize: 1,
                             callback: function (value, index,
                                 values) {
-                                return "Event " + (value + 1);
+                                return "Event " + (value );
                             }
                         }
                     }]
