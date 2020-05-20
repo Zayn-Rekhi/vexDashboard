@@ -351,11 +351,10 @@ class formatter():
             topScore = event["score"]
             attempts = event["attempts"]
             bigList.append({
-                "x": index,
+                "x": abs(index-len(copyInput)),
                 "y":topScore,
                 "r":attempts*2,
             })
-        
         return bigList
 
 
@@ -410,9 +409,9 @@ class Matches():
         completeList.append(competitor2Score)
         completeList.append(competitor3Score)
 
-        teamsList.append(competitor1Find["number"])
-        teamsList.append(competitor2Find["number"])
-        teamsList.append(competitor3Find["number"])
+        teamsList.append("{0}(My Comp)".format(competitor1Find["number"]))
+        teamsList.append("{0}(My Comp)".format(competitor2Find["number"]))
+        teamsList.append("{0}(My Comp)".format(competitor3Find["number"]))
 
 
         top10 = mycolTeams.find().sort("average", -1).limit(10)
@@ -420,7 +419,7 @@ class Matches():
  
         for team in top10:
             top10Date, top10Score = formatter(team["matches"]).matchesFormatter(team["number"])
-            teamsList.append(team["number"])
+            teamsList.append("{0}(Top 10)".format(team["number"]))
             completeList.append(top10Score)
 
         for team in bottom10:
@@ -432,7 +431,7 @@ class Matches():
                 bottom10Date = [0]
                 bottom10Score = [0]
 
-            teamsList.append(team["number"])
+            teamsList.append("{0}(Bot 10)".format(team["number"]))
             completeList.append(bottom10Score)
         
         context.update(myteam)
@@ -481,6 +480,7 @@ class Matches():
     def SimilarTeams(self):
         similarAveragesGreater, similarAveragesLesser = getTeam(None, "webDB_VEX").specialChars1(myteam["average"], 2)
         count = 1
+        finalListBetter=[]
         for teams in similarAveragesGreater:
             date, score = formatter(teams["matches"]).matchesFormatter(teams["number"])
             yAxisLength = len(score)
@@ -501,9 +501,11 @@ class Matches():
                 f"betterTeamDiff{count}": 100-teamDiff,
                 f"betterAverageTeam{count}":values,
             })
+            finalListBetter.append([teams["number"], teams["average"], 100-teamDiff, values])
             count+=1
 
         count = 1
+        finalListWorse=[]
         for teams in similarAveragesLesser:
             try:
                 date, score = formatter(
@@ -531,7 +533,12 @@ class Matches():
                 f"worseTeamDiff{count}":100-teamDiff,
                 f"worseAverageTeam{count}":values,
             })
+            finalListWorse.append([teams["number"], teams["average"], 100-teamDiff, values])
             count+=1
+        context.update({
+            "teamListBetter":finalListBetter,
+            "teamListWorse":finalListWorse,
+        })
           
     def Allmatches(self):
         copyInput = myteam["matches"]
@@ -761,10 +768,13 @@ class Skills():
         })
 
     def driverScatterPlot(self, driverGraphInput):
+        print(driverGraphInput)
         if driverGraphInput == []:
             driverGraphInput.append("myPosition")
         if "myPosition" in driverGraphInput:
             AllDriver = formatter(driver).skillsFormatter()
+            print(AllDriver)
+            print(AllDriver)
             team_name = myteam["number"]
             context.update({
                 "driverLinePlotData": [[team_name, AllDriver]],
@@ -858,6 +868,7 @@ class Skills():
 
         similarAveragesGreater, similarAveragesLesser = getTeam(None, "webDB_VEX").specialChars2(myteam["driverAverage"])
         count = 1
+        similarAveragesGreaterFull1 = []
         for teams in similarAveragesGreater:
             teamDriver = formatter(teams["DriverData"]).skillsFormatter()
             yAxisLength = len(teamDriver)
@@ -868,14 +879,15 @@ class Skills():
                 points = round(yAxisLength/8)
                 for numb in range(1, 9):
                     if numb != 8:
-                        values.append(score[numb*points])
+                        values.append(teamProgramming[numb*points]["y"])
                     else:
-                        values.append(score[-1])
+                        values.append(teamProgramming[-1]["y"])
+                    
             else:
                 for roundNumber in teamDriver:
                     values.append(roundNumber["y"])
                 if yAxisLength == 1:
-                    values.append(0)
+                    values.append(values[0])
                 
             context.update({
                 f"betterDriverTeamNumber{count}": teams["number"],
@@ -883,9 +895,12 @@ class Skills():
                 f"betterDriverTeamDiff{count}": 100-teamDiff,
                 f"betterDriverAverageTeam{count}": values,
             })
+            similarAveragesGreaterFull1.append(
+                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
             count += 1
 
         count = 1
+        similarAveragesLesserFull1 = []
         for teams in similarAveragesLesser:
             teamDriver = formatter(
                 teams["DriverData"]).skillsFormatter()
@@ -896,9 +911,9 @@ class Skills():
                 points = round(yAxisLength/8)
                 for numb in range(1, 9):
                     if numb != 8:
-                        values.append(score[numb*points])
+                        values.append(teamCombined[numb*points]["y"])
                     else:
-                        values.append(score[-1])
+                        values.append(teamCombined[-1]["y"])
             else:
                 for roundNumber in teamDriver:
                     values.append(roundNumber["y"])
@@ -911,6 +926,8 @@ class Skills():
                 f"worseDriverTeamDiff{count}": 100-teamDiff,
                 f"worseDriverAverageTeam{count}": values,
             })
+            similarAveragesLesserFull1.append(
+                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
             count += 1
 
 
@@ -918,6 +935,7 @@ class Skills():
     None, "webDB_VEX").specialChars3(myteam["driverTopScore"])
 
         count = 1
+        similarAveragesGreaterFull2 = []
         for teams in similarAveragesGreater:
             teamtopScore = teams["driverTopScore"]
             teamDiff = round(teams["driverTopScore"] /
@@ -932,9 +950,11 @@ class Skills():
                     [myteam["number"], [myteam["driverTopScore"]]]
                 ],
             })
+            similarAveragesGreaterFull2.append([teams["number"], teamtopScore,teamDiff-100])
             count += 1
 
         count = 1
+        similarAveragesLesserFull2 = []
         for teams in similarAveragesLesser:
             teamtopScore = teams["driverTopScore"]
             teamDiff = round(myteam["driverTopScore"] /
@@ -949,11 +969,17 @@ class Skills():
                     [myteam["number"], [myteam["driverTopScore"]]]
                 ],
             })
+            similarAveragesLesserFull2.append(
+                [teams["number"], teamtopScore, teamDiff-100])
             count += 1
             
         context.update({
             "myDriverTopScore": myteam["driverTopScore"],
-            "myDriverAverage": myteam["driverAverage"]
+            "myDriverAverage": myteam["driverAverage"], 
+            "similarAveragesGreaterFull1": similarAveragesGreaterFull1,
+            "similarAveragesGreaterFull2": similarAveragesGreaterFull2,
+            "similarAveragesLesserFull1": similarAveragesLesserFull1,
+            "similarAveragesLesserFull2": similarAveragesLesserFull2,
         })
     #     print(Competitor1Driver)
 
@@ -1058,6 +1084,7 @@ class Skills():
             None, "webDB_VEX").specialChars4(myteam["programmingAverage"])
 
         count = 1
+        similarAveragesGreaterFull1 = []
         for teams in similarAveragesGreater:
             teamProgramming = formatter(
             teams["ProgrammingData"]).skillsFormatter()
@@ -1069,9 +1096,9 @@ class Skills():
                 points = round(yAxisLength/8)
                 for numb in range(1, 9):
                     if numb != 8:
-                        values.append(score[numb*points])
+                        values.append(teamCombined[numb*points]["y"])
                     else:
-                        values.append(score[-1])
+                        values.append(teamCombined[-1]["y"])
             else:
                 for roundNumber in teamProgramming:
                     values.append(roundNumber["y"])
@@ -1084,9 +1111,12 @@ class Skills():
                 f"betterProgrammingTeamDiff{count}": 100-teamDiff,
                 f"betterProgrammingAverageTeam{count}": values,
             })
+            similarAveragesGreaterFull1.append(
+                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
             count += 1
 
         count = 1
+        similarAveragesLesserFull1 = []
         for teams in similarAveragesLesser:
             teamProgramming = formatter(
                 teams["ProgrammingData"]).skillsFormatter()
@@ -1113,6 +1143,8 @@ class Skills():
                 f"worseProgrammingTeamDiff{count}": 100-teamDiff,
                 f"worseProgrammingAverageTeam{count}": values,
             })
+            similarAveragesLesserFull1.append(
+                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
             count += 1
 
 
@@ -1120,6 +1152,7 @@ class Skills():
             None, "webDB_VEX").specialChars5(myteam["programmingTopScore"])
 
         count = 1
+        similarAveragesGreaterFull2=[]
         for teams in similarAveragesGreater:
             teamtopScore = teams["programmingTopScore"]
             teamDiff = round(teams["programmingTopScore"] /
@@ -1134,9 +1167,11 @@ class Skills():
                     [myteam["number"], [myteam["programmingTopScore"]]]
                 ],
             })
+            similarAveragesGreaterFull2.append([teams["number"], teamtopScore,teamDiff-100])
             count += 1
 
         count = 1
+        similarAveragesLesserFull2=[]
         for teams in similarAveragesLesser:
             teamtopScore = teams["programmingTopScore"]
             teamDiff = round(myteam["programmingTopScore"] /
@@ -1151,11 +1186,16 @@ class Skills():
                     [myteam["number"], [myteam["programmingTopScore"]]]
                 ],
             })
+            similarAveragesLesserFull2.append([teams["number"], teamtopScore,teamDiff-100])
             count += 1
-
+       
         context.update({
             "myProgrammingTopScore": myteam["programmingTopScore"],
-            "myProgrammingAverage": myteam["programmingAverage"]
+            "myProgrammingAverage": myteam["programmingAverage"],
+            "similarAveragesGreaterFullProgramming1":similarAveragesGreaterFull1,
+            "similarAveragesLesserFullProgramming1":similarAveragesLesserFull1,
+            "similarAveragesGreaterFullProgramming2":similarAveragesGreaterFull2,
+            "similarAveragesLesserFullProgramming2":similarAveragesLesserFull2,
         })
 
     def combinedScatterPlot(self, combinedGraphInput):
@@ -1262,6 +1302,7 @@ class Skills():
 
 
         count = 1
+        similarAveragesGreaterFull1 = []
         for teams in similarAveragesGreater:
             teamCombined = formatter(
                 teams["CombinedData"]).skillsFormatter()
@@ -1273,9 +1314,9 @@ class Skills():
                 points = round(yAxisLength/8)
                 for numb in range(1, 9):
                     if numb != 8:
-                        values.append(score[numb*points])
+                        values.append(teamCombined[numb*points]["y"])
                     else:
-                        values.append(score[-1])
+                        values.append(teamCombined[-1]["y"])
             else:
                 for roundNumber in teamCombined:
                     values.append(roundNumber["y"])
@@ -1288,9 +1329,12 @@ class Skills():
                 f"betterCombinedTeamDiff{count}": 100-teamDiff,
                 f"betterCombinedAverageTeam{count}": values,
             })
+            similarAveragesGreaterFull1.append(
+                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
             count += 1
 
         count = 1
+        similarAveragesLesserFull1 = []
         for teams in similarAveragesLesser:
             teamCombined = formatter(
                 teams["CombinedData"]).skillsFormatter()
@@ -1317,6 +1361,8 @@ class Skills():
                 f"worseCombinedTeamDiff{count}": 100-teamDiff,
                 f"worseCombinedAverageTeam{count}": values,
             })
+            similarAveragesLesserFull1.append(
+                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
             count += 1
 
 
@@ -1324,6 +1370,7 @@ class Skills():
             None, "webDB_VEX").specialChars7(myteam["combinedTopScore"])
 
         count = 1
+        similarAveragesGreaterFull2=[]
         for teams in similarAveragesGreater:
             teamtopScore = teams["combinedTopScore"]
             teamDiff = round(teams["combinedTopScore"] /
@@ -1338,9 +1385,12 @@ class Skills():
                     [myteam["number"], [myteam["combinedTopScore"]]]
                 ],
             })
+            similarAveragesGreaterFull2.append(
+                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
             count += 1
 
         count = 1
+        similarAveragesLesserFull2=[]
         for teams in similarAveragesLesser:
             teamtopScore = teams["combinedTopScore"]
             teamDiff = round(myteam["combinedTopScore"] /
@@ -1355,11 +1405,21 @@ class Skills():
                     [myteam["number"], [myteam["combinedTopScore"]]]
                 ],
             })
+            similarAveragesLesserFull2.append(
+                [teams["number"], teams["driverAverage"], 100-teamDiff, values])
             count += 1
 
+        print(similarAveragesGreaterFull1)
+        print(similarAveragesLesserFull1)
+        print(similarAveragesGreaterFull2)
+        print(similarAveragesLesserFull2)
         context.update({
             "myCombinedTopScore": myteam["combinedTopScore"],
-            "myCombinedAverage": myteam["combinedAverage"]
+            "myCombinedAverage": myteam["combinedAverage"],
+            "similarAveragesGreaterFullCombined1":similarAveragesGreaterFull1,
+            "similarAveragesLesserFullCombined1":similarAveragesLesserFull1,
+            "similarAveragesGreaterFullCombined2":similarAveragesGreaterFull2,
+            "similarAveragesLesserFullCombined2":similarAveragesLesserFull2,
         })
 
     def worldMap(self, mapInfo, mapInfoType):
@@ -2515,7 +2575,8 @@ def pages(request):
             mapInfo=request.POST.get('map')
 
             curUser = request.user.username
-            instance = Matches(curUser)
+            myTeam = getUserInfo(curUser,"webDB_VEX").getMyTeam()
+            instance = Matches(myTeam,curUser)
             instance.lineGraphData()
             instance.table(tableInfo)
             instance.SimilarTeams()
@@ -2529,8 +2590,8 @@ def pages(request):
             mapInfoTeam=request.POST.getlist('map')
             mapInfoType=request.POST.getlist('type')
             curUser = request.user.username
-
-            instance = Skills(curUser)
+            myTeam = getUserInfo(curUser,"webDB_VEX").getMyTeam()
+            instance = Skills(myTeam,curUser)
             instance.topBar()
             instance.driverScatterPlot(graphInfoDriver)
             instance.programmingScatterPlot(graphInfoProgramming)
