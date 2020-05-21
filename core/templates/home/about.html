@@ -1,0 +1,140 @@
+{% include 'home/base.html' %}
+{% block content %}
+	<div class="colorlib-loader"></div>
+	<div id="page">
+		<nav class="colorlib-nav" role="navigation">
+			<div class="top-menu">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-2">
+							<div id="colorlib-logo"><a href="/">Robotics Hub</a></div>
+						</div>
+						<div class="col-md-10 text-right menu-1">
+							<ul>
+								<li class="active"><a href="/">Home</a></li>
+								<li><a href="../about/">About Us</a></li>
+								{% if isAllowed %}
+									<li><a href="../login/">Log In</a></li>
+									<li><a href="register/">Sign UP</a></li>
+								{% else %}
+									<li><a href="dashboard/">Dashboard</a></li>
+								{% endif %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<section id="home" class="video-hero" style="height: 500px; background-image: url('/static/assets/other/images/cover_img_1.jpg');  background-size:cover; background-position: center center;background-attachment:fixed;" data-section="home">
+		<div class="overlay"></div>
+			<div class="display-t display-t2 text-center">
+				<div class="display-tc display-tc2">
+					<div class="container">
+						<div class="col-md-12 col-md-offset-0">
+							<div class="animate-box">
+								<h2>About Us</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="colorlib-about">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 text-center animate-box">
+						<div class="staff-entry">
+							<a href="#" class="staff-img" style="background-image: url('/static/assets/other/images/liam.jpg');"></a>
+							<div class="desc">
+								<h3 style="color:white;">Liam Pilarski</h3>
+								<span>Captain/Programmer</span>
+								<p>My name is Liam Pilarski, and I'm the captain of 7405K. My primary job is team management and organization. Underneath
+								this role, my primary specialty is code, though I CAD and build where I can.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 text-center animate-box">
+						<div class="staff-entry">
+							<a href="#" class="staff-img" style="background-image: url('/static/assets/other/images/victor.jpg')"></a>
+							<div class="desc">
+								<h3 style="color:white;">Victor Dong</h3>
+								<span>Builder</span>
+								<p>I am a builder. I built with lego mindstorms in elementary. I did the FTC build system in middle school. I started Vex
+								in my freshman year. I like mountain biking and skiing.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 text-center animate-box">
+						<div class="staff-entry">
+							<a href="#" class="staff-img" style="background-image: url('/static/assets/other/images/abhi.jpg');"></a>
+							<div class="desc">
+								<h3 style="color:white;">Abhi Singh</h3>
+								<span>Builder</span>
+								<p>Hi my name is Abhi Singh, I’m a rising junior. For the past 7 years of my life I have involved myself with VEX. I build
+								and cad for our team. I am very excited to make it far this year with my awesome team.</p>	
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 text-center animate-box">
+						<div class="staff-entry">
+							<a href="#" class="staff-img" style="background-image: url('/static/assets/other/images/gia.jpg');"></a>
+							<div class="desc">
+								<h3 style="color:white;">Gia Bhutani</h3>
+								<span>Builder/Programmer</span>
+								<p>My name is Gia Bhutani and I am a ninth grader at MHS. I am one of the coders on the team 7405K. I also help in doing
+								the notebook and help in CAD.</p>
+				
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 text-center animate-box">
+						<div class="staff-entry">
+							<a href="#" class="staff-img" style="background-image: url('/static/assets/other/images/aidan.jpg');"></a>
+							<div class="desc">
+								<h3 style="color:white;">Aidan Kumar</h3>
+								<span>Builder/Programmer</span>
+								<p>Hello, My name is Aidan Kumar. I am a 9th grader attending Millburn High School. I am a current memeber of the Millburn
+								VEX robotics team. I am part of team 7405K. My main job is to help design the robot along with building it. I also serve
+								as a member who helps out with the notebook ocasionally coding. Thanks!</p>
+				
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 text-center animate-box">
+						<div class="staff-entry">
+							<a href="#" class="staff-img" style="background-image: url('/static/assets/other/images/zayn.jpg');"></a>
+							<div class="desc">
+								<h3 style="color:white;">Zayn Rekhi</h3>
+								<span>Programmer</span>
+								<p>My name is Zayn Rekhi and I am a freshman and Millburn Highschool. I am one of the programmers on the team and is extremely 
+									excited for this season. We have a lot of talent on the team and I think we can do very well this year.  
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>					
+			</div>
+		</div>
+		<footer id="colorlib-footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<p>
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							Copyright &copy;
+							<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is
+							made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
+								target="_blank">Zayn Rekhi</a>
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							
+						</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
+
+{% endblock %}

@@ -237,54 +237,80 @@
                 </div>
               </div>
               {% endfor %}
+              {% for numb in worsefiller %}
+              <div class="col-md-3 pr-md-0">
+                <div class="card card-pricing">
+                  <div class="card-header">
+                    <h4 class="card-title">Bottom</h4>
+                    <div class="card-price">
+                      <span class="price text-danger">This is the BOTTOM</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
               <div class="col-md-1 pr-md-0"></div>
             </div>
           </div>
           <div class="carousel-item active">
             <div class="row">
               <div class="col-md-1 pr-md-0" style="margin-left:3%;"></div>
-              {% for team in mixedList %}
-              <div class="col-md-3 pr-md-0">
-                <div class="card card-pricing">
-                  <div class="card-header">
-                    <h4 class="card-title">{{team.0}}</h4>
-                    <div class="card-price">
-                      {% if team.1 == True %}
-                      <span class="price text-success">{{team.2}}</span>
-                      {% elif team.1 == False %}
-                      <span class="price text-danger">{{team.2}}</span>
-                      {% else %}
-                      <span class="price text-warning">{{team.2}}</span>
-                      {% endif %}
+              
+                  {% for team in mixedList %}
+                  <div class="col-md-3 pr-md-0">
+                    <div class="card card-pricing">
+                      <div class="card-header">
+                        <h4 class="card-title">{{team.0}}</h4>
+                        <div class="card-price">
+                          {% if team.1 == True %}
+                          <span class="price text-success">{{team.2}}</span>
+                          {% elif team.1 == False %}
+                          <span class="price text-danger">{{team.2}}</span>
+                          {% else %}
+                          <span class="price text-warning">{{team.2}}</span>
+                          {% endif %}
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <ul class="specification-list">
+                          <li>
+                            <span class="name-specification">Driver Skills Score</span>
+                            <span class="status-specification">{{team.3}}</span>
+                          </li>
+                          <li>
+                            <span class="name-specification">Prog Skills Score</span>
+                            <span class="status-specification">{{team.4}}</span>
+                          </li>
+                          <li>
+                            <span class="name-specification">Country</span>
+                            <span class="status-specification">{{team.5}}</span>
+                          </li>
+                          <li>
+                            <span class="name-specification">Grade</span>
+                            <span class="status-specification">{{team.6}}</span>
+                          </li>
+                          <li>
+                            <span class="name-specification">Team Name</span>
+                            <span class="status-specification">{{team.7}}</span>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                  <div class="card-body">
-                    <ul class="specification-list">
-                      <li>
-                        <span class="name-specification">Driver Skills Score</span>
-                        <span class="status-specification">{{team.3}}</span>
-                      </li>
-                      <li>
-                        <span class="name-specification">Prog Skills Score</span>
-                        <span class="status-specification">{{team.4}}</span>
-                      </li>
-                      <li>
-                        <span class="name-specification">Country</span>
-                        <span class="status-specification">{{team.5}}</span>
-                      </li>
-                      <li>
-                        <span class="name-specification">Grade</span>
-                        <span class="status-specification">{{team.6}}</span>
-                      </li>
-                      <li>
-                        <span class="name-specification">Team Name</span>
-                        <span class="status-specification">{{team.7}}</span>
-                      </li>
-                    </ul>
+                  {% endfor %}
+                  {% for numb in mixfiller %}
+                  <div class="col-md-3 pr-md-0">
+                    <div class="card card-pricing">
+                      <div class="card-header">
+                        <h4 class="card-title">TOP</h4>
+                        <div class="card-price">
+                          <span class="price text-success">This is the TOP</span>                        
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              {% endfor %}
+                  {% endfor %}
+              
               <div class="col-md-1 pr-md-0"></div>
             </div>
           </div>
@@ -329,6 +355,18 @@
                         <span class="status-specification">{{team.7}}</span>
                       </li>
                     </ul>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              {% for numb in betterfiller %}
+              <div class="col-md-3 pr-md-0">
+                <div class="card card-pricing">
+                  <div class="card-header">
+                    <h4 class="card-title">TOP</h4>
+                    <div class="card-price">
+                      <span class="price text-success">This is the TOP</span>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -54,11 +54,11 @@
                                     <div class="details">
                                         {% if profile.1 == True %}
                                             <div class="user-head online">
-                                                <img src="media/{{profile.0}}">
+                                                <img src="../media/{{profile.0}}">
                                             </div>
                                         {% else %}
                                             <div class="user-head away">
-                                                <img src="media/{{profile.0}}">
+                                                <img src="../media/{{profile.0}}">
                                             </div>
                                         {% endif %}
                                         {% if contactList|length != 1 %}
@@ -82,7 +82,7 @@
                     <div class="top-bar">
                         <div class="user-info">
                             <div class="user-head">
-                                <img src="media/{{myProfile}}">
+                                <img src="../media/{{myProfile}}">
                             </div>
                             <div class="name">{{user.get_username}}</div>
                             <div class="status online"></div>
@@ -127,14 +127,14 @@
                                 {% if message.user != user.get_username %}
                                     <div class="message">
                                         <div class="user-head">
-                                            <img src="media/{{profile.0}}">
+                                            <img src="../media/{{profile.0}}">
                                         </div>
                                         <div class="content">{{message.content.1}}</div>
                                     </div>
                                 {% else %}
                                     <div class="message fromme">
                                         <div class="user-head online">
-                                            <img src="media/{{myProfile}}">
+                                            <img src="../media/{{myProfile}}">
                                         </div>
                                         <div class="content">{{message.content.1}}</div>
                                        

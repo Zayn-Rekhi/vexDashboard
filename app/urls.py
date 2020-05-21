@@ -19,9 +19,11 @@ urlpatterns = [
     path('rankings/', views.rankings, name='rankings'),
     path('messaging/', views.messages, name='message'),
     path('team_search/', views.team_search, name='teamSearch'),
+    path('dashboard/', views.index, name='home'),
+    path('about/', views.aboutUs, name='about-us'),
+    path('', views.home, name='home'),
     re_path(r'team/(?P<slug>[-\w]+)/', views.teams, name='teams'),
     # The home page
-    path('', views.index, name='home'),
 ]
 
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,224 @@
+{% include 'home/base.html' %}
+{% block content %}
+	<div class="colorlib-loader"></div>
+	<div id="page">
+		<nav class="colorlib-nav" role="navigation">
+			<div class="top-menu">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-2">
+							<div id="colorlib-logo"><a href="/">Robotics Hub</a></div>
+						</div>
+						<div class="col-md-10 text-right menu-1">
+							<ul>
+								<li class="active"><a href="/">Home</a></li>
+								<li><a href="about/">About Us</a></li>
+								{% if isAllowed %}
+								<li><a href="../login/">Log In</a></li>
+								<li><a href="register/">Sign UP</a></li>
+								{% else %}
+								<li><a href="dashboard/">Dashboard</a></li>
+								{% endif %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<section id="home" class="video-hero" style="height: 700px; background-image: url('/static/assets/other/images/cover_img_1.jpg');  background-size:cover; background-position: center center;background-attachment:fixed;" data-section="home">
+		<div class="overlay"></div>
+			<a class="player" data-property="{videoURL:'https://www.youtube.com/watch?v=vqqt5p0q-eU',containment:'#home', showControls:false, autoPlay:true, loop:true, mute:true, startAt:0, opacity:1, quality:'default'}"></a> 
+			<div class="display-t text-center">
+				<div class="display-tc">
+					<div class="container">
+						<div class="col-md-12 col-md-offset-0">
+							<div class="animate-box">
+								<h2>Scout All Vex Teams Online </h2>
+								<p>with Robotics Hubs's high quality features</p>
+								<h5>Special Thanks to (<a style="color:white;" href="https://vexdb.io/">vexdb.io</a>)</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="colorlib-featured" style="background-color:#121727;">
+			<div class="row animate-box">
+				<div class="featured-wrap">
+					<div class="owl-carousel">
+						<div class="item">
+							<div class="col-md-8 col-md-offset-2">
+								<div class="featured-entry">
+									<img class="img-responsive" src="/static/assets/other/images/dashboard_1.png" alt="">
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="col-md-8 col-md-offset-2">
+								<div class="featured-entry">
+									<img class="img-responsive" src="/static/assets/other/images/dashboard_2.png" alt="">
+								</div>
+							</div>
+						</div>
+						<div class="item">
+							<div class="col-md-8 col-md-offset-2">
+								<div class="featured-entry">
+									<img class="img-responsive" src="/static/assets/other/images/dashboard_3.png" alt="">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="colorlib-services colorlib-bg-white">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4 text-center animate-box">
+						<div class="services">
+							<span class="icon">
+								<i class="icon-calendar"></i>
+							</span>
+							<div class="desc">
+								<h3 style="color:white;">FullCalendar Integration</h3>
+								<p>Through a library called <a href="https://fullcalendar.io/">FullCalendar</a>, this website allows you to make your own robotics schedule. Have Fun :)</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 text-center animate-box">
+						<div class="services">
+							<span class="icon">
+								<i class="icon-chat"></i>
+							</span>
+							<div class="desc">
+								<h3 style="color:white;">Chat Integration</h3>
+								<p>Through the use of <a href="https://www.mongodb.com/">MongoDB</a>, this website has created its very own chat service so that you can chat with others about anything robotics.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 text-center animate-box">
+						<div class="services">
+							<span class="icon">
+								<i class="icon-pie-chart"></i>
+							</span>
+							<div class="desc">
+								<h3 style="color:white;">Charts Integration</h3>
+								<p>Through the library called <a href="https://www.chartjs.org/">ChartJS</a>, this website is able to make beautiful charts about your team as well as other teams performance in <a href="https://www.vex.com/">VEX.</a></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+
+		<div class="colorlib-work-featured colorlib-bg-white">
+			<div class="container">
+				<div class="row mobile-wrap">
+					<div class="col-md-5 animate-box">
+						<div class="mobile-img" style="background-image: url('/static/assets/other/images/mobile-2.jpg');width:480px;"></div>
+					</div>
+					<div class="col-md-7 animate-box">
+						<div class="desc">
+							<h2 style="color:white;">Charts</h2>
+							<div class="features">
+								<span class="icon"><i class="icon-linegraph"></i></span>
+								<div class="f-desc">
+									<p>The Linegraph is to graph your performance over time. For example, we can graph your matches over your season. This will be very useful for scouting at events, because you now know how good the teams in your match are.</p>
+								</div>
+							</div>
+							<div class="features">
+								<span class="icon"><i class="icon-bar-graph"></i></span>
+								<div class="f-desc">
+									<p>The Bar Graph is used in the Skills Part of the website. We can graph your top scores in the skills division and let you compare it with other teams.</p>
+								</div>
+							</div>
+							<div class="features">
+								<span class="icon"><i class="icon-bar-graph-2"></i></span>
+								<div class="f-desc">
+									<p>The Bar Graph is also seen in the Rankings page, where you can see each event and the rankings of each team. This can be very useful in terms of scouting.</p>
+								</div>
+							</div>
+							{% if isAllowed %}
+							<p><a href="/login" class="btn btn-danger btn-outline with-arrow">Get Started <i class="icon-arrow-right3"></i></a></p>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+				<div class="row mobile-wrap">
+					<div class="col-md-5 col-md-push-7 animate-box">
+						<div class="mobile-img" style="background-image: url('/static/assets/other/images/mobile-1.png');width:500px;height:250px;"></div>
+					</div>
+					<div class="col-md-7 col-md-pull-5 animate-box">
+						<div class="desc">
+							<h2 style="color:white;">Similar Teams</h2>
+							<div class="features">
+								<span class="icon"><i class="icon-link"></i></span>
+								<div class="f-desc">
+									<p>With Matches, we calculate similar teams that have similar match averages with you. This way you can compete with them and better yourselves.</p>
+								</div>
+							</div>
+							<div class="features">
+								<span class="icon"><i class="icon-link"></i></span>
+								<div class="f-desc">
+									<p>With Skills, we caluclate similar teams based on top score as well as averages. We know that averages will very a lot, therefore we made sure to have similar top score because that would be a much better way of judging a team.</p>
+								</div>
+							</div>
+							<div class="features">
+								<span class="icon"><i class="icon-link"></i></span>
+								<div class="f-desc">
+									<p>With Rankings, we calculate similar teams based on teams in that event that had similar win rates.</p>
+								</div>
+							</div>
+							{% if isAllowed %}
+								<p><a href="/login" class="btn btn-danger btn-outline with-arrow">Get Started <i class="icon-arrow-right3"></i></a></p>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="colorlib-counter" class="colorlib-counters mobile-wrap" style="background-image: url('/static/assets/other/images/cover_img_1.jpg');" data-stellar-background-ratio="0.5">
+			<div class="overlay"></div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="col-md-4 col-sm-4 text-center animate-box">
+							<div class="counter-entry">
+								<span class="icon"><i class="flaticon-ribbon"></i></span>
+								<div class="desc">
+									<span class="colorlib-counter js-counter" data-from="0" data-to="1500" data-speed="5000" data-refresh-interval="50"></span>
+									<span class="colorlib-counter-label">Number of Users</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-4 text-center animate-box">
+							<div class="counter-entry">
+								<span class="icon"><i class="flaticon-church"></i></span>
+								<div class="desc">
+									<span class="colorlib-counter js-counter" data-from="0" data-to="500" data-speed="5000" data-refresh-interval="50"></span>
+									<span class="colorlib-counter-label">Number of Blog Posts</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-4 text-center animate-box">
+							<div class="counter-entry">
+								<span class="icon"><i class="flaticon-dove"></i></span>
+								<div class="desc">
+									<span class="colorlib-counter js-counter" data-from="0" data-to="1200" data-speed="5000" data-refresh-interval="50"></span>
+									<span class="colorlib-counter-label">Number of Teams</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+
+{% endblock %}

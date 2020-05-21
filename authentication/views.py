@@ -19,50 +19,56 @@ def login_view(request):
     form = LoginForm(request.POST or None)
 
     msg = None
+    if not request.user.is_authenticated:
 
-    if request.method == "POST":
+        if request.method == "POST":
 
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                myclient = pymongo.MongoClient('mongodb://localhost:27017/')
-                mydb = myclient[f"webDB_VEX"]
-                mycolAuthUser = mydb["userInfo"]
-                if mycolAuthUser.find_one({"username":username}):
-                    return redirect("/")
-                else:
-                    return redirect("/settings.html")
-            else:    
-                msg = 'Invalid credentials'    
-        else:
-            msg = 'Error validating the form'    
+            if form.is_valid():
+                username = form.cleaned_data.get("username")
+                password = form.cleaned_data.get("password")
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+                    mydb = myclient[f"webDB_VEX"]
+                    mycolAuthUser = mydb["userInfo"]
+                    if mycolAuthUser.find_one({"username":username}):
+                        return redirect("/dashboard")
+                    else:
+                        return redirect("/settings.html")
+                else:    
+                    msg = 'Invalid credentials'    
+            else:
+                msg = 'Error validating the form'    
 
-    return render(request, "accounts/login.html", {"form": form, "msg" : msg})
+        return render(request, "accounts/login.html", {"form": form, "msg" : msg})
+    else:
+        return render(request, 'pages/error-404.html')
 
 def register_user(request):
 
     msg     = None
     success = False
+    if not request.user.is_authenticated:
 
-    if request.method == "POST":
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get("username")
-            raw_password = form.cleaned_data.get("password1")
-            user = authenticate(username=username, password=raw_password)
+        if request.method == "POST":
+            form = SignUpForm(request.POST)
+            if form.is_valid():
+                form.save()
+                username = form.cleaned_data.get("username")
+                raw_password = form.cleaned_data.get("password1")
+                user = authenticate(username=username, password=raw_password)
 
-            msg     = 'User created.'
-            success = True
-            
-            #return redirect("/login/")
+                msg     = 'User created.'
+                success = True
+                
+                #return redirect("/login/")
 
+            else:
+                msg = 'Form is not valid'    
         else:
-            msg = 'Form is not valid'    
-    else:
-        form = SignUpForm()
+            form = SignUpForm()
 
-    return render(request, "accounts/register.html", {"form": form, "msg" : msg, "success" : success })
+        return render(request, "accounts/register.html", {"form": form, "msg" : msg, "success" : success })
+    else:
+        return render(request, 'pages/error-404.html')

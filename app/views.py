@@ -1980,9 +1980,10 @@ class homePage():
             trsp.append(event["trsp"])
             ccwm.append(event["ccwm"])
             rank.append(event["rank"])
-
-        averageList = [Average(wins),Average(losses),Average(ap),Average(wp),Average(sp),Average(maxScore),Average(opr),Average(dpr),Average(trsp),Average(ccwm),Average(rank)]
-
+        try:
+            averageList = [Average(wins),Average(losses),Average(ap),Average(wp),Average(sp),Average(maxScore),Average(opr),Average(dpr),Average(trsp),Average(ccwm),Average(rank)]
+        except:
+            averageList = [0,0,0,0,0,0,0,0,0,0,0]
         context.update({
             "matchesAverage":matchesAverage,
             "skillsDriver":skillsDriver,
@@ -2160,34 +2161,42 @@ class homePage():
                 date = parser.parse(date)
                 dateList.append(date)
             scoreList.append(score)
-
-        dt, sc = (list(t) for t in zip(*sorted(zip(dateList, scoreList))))
-        dateDict = {}
-        for date, score in zip(dt, sc):
-            month=label[date.month-1]
-            if month not in dateDict.keys():
-                dateDict.update({month:[score]})
-            else:
-                dateDict[month].append(score)
-        
-        copyInputevent = myteam["rankings"]
-
-        eventDict = {}
-        for event, values in copyInputevent.items():
-            start, end = getEvent(event, "webDB_VEX").get_timings()
-            date = parser.parse(start)
-            eventDict.update({date: values})
+        try:
+            dt, sc = (list(t) for t in zip(*sorted(zip(dateList, scoreList))))
+            dateDict = {}
+            for date, score in zip(dt, sc):
+                month=label[date.month-1]
+                if month not in dateDict.keys():
+                    dateDict.update({month:[score]})
+                else:
+                    dateDict[month].append(score)
             
-        lastCompVals = sorted(eventDict.items(), reverse=True)[0]
-        lastObjectValues = list(dateDict.keys())[-1]
-        lastMonthScores = dateDict[lastObjectValues]
+            copyInputevent = myteam["rankings"]
 
-        context.update({
-            "lastMonthValues":lastMonthScores,
-            "lastMonthDate":lastObjectValues,
-            "lastMonthLabels": list(range(0, len(lastMonthScores))),
-            "lastCompRankings":list(lastCompVals[1].values()),
-        })
+            eventDict = {}
+            for event, values in copyInputevent.items():
+                start, end = getEvent(event, "webDB_VEX").get_timings()
+                date = parser.parse(start)
+                eventDict.update({date: values})
+                
+            lastCompVals = sorted(eventDict.items(), reverse=True)[0]
+            lastObjectValues = list(dateDict.keys())[-1]
+            lastMonthScores = dateDict[lastObjectValues]
+
+            context.update({
+                "lastMonthValues":lastMonthScores,
+                "lastMonthDate":lastObjectValues,
+                "lastMonthLabels": list(range(0, len(lastMonthScores))),
+                "lastCompRankings":list(lastCompVals[1].values()),
+            })
+        except:
+            context.update({
+                "lastMonthValues":0,
+                "lastMonthDate":0,
+                "lastMonthLabels": [],
+                "lastCompRankings":[],
+            })
+        
 
         
     def worldMap(self):
@@ -2259,13 +2268,34 @@ class homePage():
         ])
 
         mixTeamList.sort(key=operator.itemgetter(2), reverse=True)
-        worseList = reversed(worseTeamList)
+        worseList = worseTeamList[::-1]
 
         context.update({
             "betterList": betterTeamList,
             "worseList": list(worseList),
             "mixedList": list(reversed(mixTeamList)),
         })
+        if len(list(mixTeamList)) < 3:
+            iterList=[]
+            for numb in range(3-len(list(mixTeamList))):
+                iterList.append( numb )
+            context.update({
+                "mixfiller":iterList,
+            })
+        if len(worseList) < 3:
+            iterList=[]
+            for numb in range(3-len(list(worseList))):
+                iterList.append( numb )
+            context.update({
+                "worsefiller":iterList,
+            })
+        if len(betterTeamList) < 3:
+            iterList=[]
+            for numb in range(3-len(list(betterTeamList))):
+                iterList.append( numb )
+            context.update({
+                "betterfiller":iterList,
+            })
 
     def calendar(self):
         calendarBool = getUserInfo(self.username,"webDB_VEX").getCalendar()
@@ -2495,7 +2525,7 @@ def settings(request):
                     {"username": user}, {'$set': {"profilePic": actProfile.name}})
                 uploadFile(actProfile)
                     
-            return redirect('/')
+            return redirect('/dashboard')
         else:
             if None not in data.values():
                 message+="One Of your teams is NOT supported by us. We apologize for the inconvenience."
@@ -2708,6 +2738,29 @@ def team_search(request):
         return render(request, "backup.html")
 
 
+def home(request):    
+    context={}
+    try:
+        authVar = True
+        if request.user.is_authenticated:
+            authVar = False
+        context.update({"isAllowed":authVar})
+        template = loader.get_template('home/index.html')
+        return HttpResponse(template.render(context, request))
+    except Exception as e:
+        print(e)
+        template = loader.get_template('pages/error-404.html')
+        return HttpResponse(template.render(context, request))
+
+
+def aboutUs(request):
+    context = {}
+    try:
+        template = loader.get_template('home/about.html')
+        return HttpResponse(template.render(context, request))
+    except Exception as e:
+        template = loader.get_template('pages/error-404.html')
+        return HttpResponse(template.render(context, request))
 
 
 
