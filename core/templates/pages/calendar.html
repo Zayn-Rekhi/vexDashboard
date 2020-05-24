@@ -9,6 +9,7 @@
 {% block content %}
 
  <div class="page-inner">
+    <div id="profile" content="{{profilePic}}"></div>
     <div id="data" data="{{events}}"></div>
     <div id='top' style="display:none;">
         <div class='left' style="display: none;">
@@ -115,7 +116,8 @@
         events: fullData,
     });
     calendar.render();
-
+    var profile = document.getElementById('profile').getAttribute('content');
+    document.getElementById("profilePic").src = `../media/${profile}`;
 
 
 

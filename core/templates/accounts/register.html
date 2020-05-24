@@ -53,7 +53,7 @@
                             </p>
                         {% else %}
                             <p style="margin-left: 25px">    
-                                Add your credentials or <a href={% url 'login' %} >authenticate</a> with an existing account.
+                                Add your credentials or <a href={% url 'login' %} class="text-danger" >authenticate</a> with an existing account.
                             </p>
                         {% endif %}
 
@@ -66,7 +66,7 @@
                         <div class="col-md-6 col-lg-4">
 
                             <p style="margin-left: 25px">
-                                Please <a href={% url 'login' %} class="text-black text-small">authenticate</a> using the new account.
+                                Please <a href={% url 'login' %} class="text-black text-small text-danger">authenticate</a> using the new account.
                             </p>
 
                         </div>
@@ -134,9 +134,9 @@
                                 </div>
                             </div>
                             <div class="card-action">
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button type="submit" class="btn btn-danger">Sign Up</button>
                                 &nbsp; &nbsp;
-                                <span>Already have and account?</span> <a href={% url 'login' %} >Login</a>
+                                <span>Already have and account?</span> <a href={% url 'login' %} class="text-danger">Login</a>
                             </div>
 
                         </form>

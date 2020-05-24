@@ -32,7 +32,8 @@
     <div id="worseAverageDataCombined" team1="{{worseCombinedAverageTeam1}}" team2="{{worseCombinedAverageTeam2}}"></div>
     <div id="BetterBarTeamCombined" team1="{{betterCombinedAverageTeamtopScore1}}" team2="{{betterCombinedAverageTeamtopScore2}}"></div>
     <div id="WorseBarTeamCombined" team1="{{worseCombinedAverageTeamtopScore1}}" team2="{{worseCombinedAverageTeamtopScore2}}"></div>
-
+    
+    <div id="profile" content="{{profilePic}}"></div>
     <div id="mapData" justCountry="{{justCountrySkills}}"></div>
     <h4 class="page-title">{{team_name}}:</h4>
     <div class="row row-card-no-pd mt--2">
@@ -507,7 +508,7 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                {% for team in tableListCombined %}
+                                {% for team in tableListcombined %}
                                 <tr>
                                     <td><a href="team/{{team.0}}" class="text-light">{{team.0}}</a></td>
                                     <td>{{team.1}}</td>
@@ -1809,7 +1810,7 @@
         borderColor: '#f3545d',
         borderWidth: 2,
         color: '#e4e4e4',
-        enableZoom: true,
+        enableZoom: false,
         hoverColor: '#f3545d',
         hoverOpacity: null,
         normalizeFunction: 'linear',
@@ -1824,5 +1825,7 @@
             console.log('Map Size: ' + width + 'x' + height);
         },
     });
+    var profile = document.getElementById('profile').getAttribute('content');
+    document.getElementById("profilePic").src = `../media/${profile}`;
 </script>
 {% endblock javascripts %}

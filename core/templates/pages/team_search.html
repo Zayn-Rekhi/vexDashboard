@@ -8,16 +8,16 @@
 {% block content %}
 
 <div class="page-inner">
+    <div id="profile" content="{{profilePic}}"></div>
     <br>
     <br>
     <br>
     <br>
     <h1 style="text-align:center;">Team Search</h1>
     <div class="row">
-        <div class="col-md-4"></div>
-        <nav class="navbar navbar-header navbar-expand-lg col-md-4 ml-5" data-background-color="dark">
+        <nav class="navbar navbar-header navbar-expand-lg col-md-6 ml-auto mr-auto" data-background-color="dark">
             {% if user.is_authenticated %}
-            <div class="container">
+            <div class="container ml-4">
                 <div class="collapse" id="search-nav">
                     <form class="navbar-left navbar-form nav-search mr-md-3" method="POST">
                             {% csrf_token %}
@@ -34,9 +34,8 @@
             </div>
             {% endif %}
         </nav>
-        <div class="col-md-4"></div>
     </div>
-    
+    <br>
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Carousel indicators -->
         <ol class="carousel-indicators">
@@ -48,9 +47,9 @@
         <div class="carousel-inner">
             <div class="carousel-item">
                 <div class="row">
-                    <div class="col-md-1 pr-md-0"></div>
+                    <div class="col-md-1 pr-md-0" style="margin-left:3%;"></div>
                     {% for team in worseList %}
-                    <div class="col-md-2 pr-md-0">
+                    <div class="col-md-3 pr-md-0">
                         <div class="card card-pricing">
                             <div class="card-header">
                                 <h4 class="card-title">{{team.0}}</h4>
@@ -87,6 +86,18 @@
                                         <span class="status-specification">{{team.7}}</span>
                                     </li>
                                 </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% for numb in worsefiller %}
+                    <div class="col-md-3 pr-md-0">
+                        <div class="card card-pricing">
+                            <div class="card-header">
+                                <h4 class="card-title">Bottom</h4>
+                                <div class="card-price">
+                                    <span class="price text-danger">This is the BOTTOM</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -96,9 +107,10 @@
             </div>
             <div class="carousel-item active">
                 <div class="row">
-                    <div class="col-md-1 pr-md-0"></div>
+                    <div class="col-md-1 pr-md-0" style="margin-left:3%;"></div>
+    
                     {% for team in mixedList %}
-                    <div class="col-md-2 pr-md-0">
+                    <div class="col-md-3 pr-md-0">
                         <div class="card card-pricing">
                             <div class="card-header">
                                 <h4 class="card-title">{{team.0}}</h4>
@@ -139,54 +151,79 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {% for numb in mixfiller %}
+                    <div class="col-md-3 pr-md-0">
+                        <div class="card card-pricing">
+                            <div class="card-header">
+                                <h4 class="card-title">TOP</h4>
+                                <div class="card-price">
+                                    <span class="price text-success">This is the TOP</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+    
                     <div class="col-md-1 pr-md-0"></div>
                 </div>
             </div>
             <div class="carousel-item">
                 <div class="row">
-                    <div class="col-md-1 pr-md-0"></div>
+                    <div class="col-md-1 pr-md-0" style="margin-left:3%;"></div>
                     {% for team in betterList %}
-                        <div class="col-md-2 pr-md-0">
-                            <div class="card card-pricing">
-                                <div class="card-header">
-                                    <h4 class="card-title">{{team.0}}</h4>
-                                    <div class="card-price">
-                                        {% if team.1 == True %}
-                                            <span class="price text-success">{{team.2}}</span>
-                                        {% elif team.1 == False %}
-                                            <span class="price text-danger">{{team.2}}</span>
-                                        {% elif team.1 == 1 %}
-                                            <span class="price text-warning">{{team.2}}</span>
-                                        {% endif %}
-                                    </div>
+                    <div class="col-md-3 pr-md-0">
+                        <div class="card card-pricing">
+                            <div class="card-header">
+                                <h4 class="card-title">{{team.0}}</h4>
+                                <div class="card-price">
+                                    {% if team.1 == True %}
+                                    <span class="price text-success">{{team.2}}</span>
+                                    {% elif team.1 == False %}
+                                    <span class="price text-danger">{{team.2}}</span>
+                                    {% elif team.1 == 1 %}
+                                    <span class="price text-warning">{{team.2}}</span>
+                                    {% endif %}
                                 </div>
-                                <div class="card-body">
-                                    <ul class="specification-list">
-                                        <li>
-                                            <span class="name-specification">Driver Skills Score</span>
-                                            <span class="status-specification">{{team.3}}</span>
-                                        </li>
-                                        <li>
-                                            <span class="name-specification">Prog Skills Score</span>
-                                            <span class="status-specification">{{team.4}}</span>
-                                        </li>
-                                        <li>
-                                            <span class="name-specification">Country</span>
-                                            <span class="status-specification">{{team.5}}</span>
-                                        </li>
-                                        <li>
-                                            <span class="name-specification">Grade</span>
-                                            <span class="status-specification">{{team.6}}</span>
-                                        </li>
-                                        <li>
-                                            <span class="name-specification">Team Name</span>
-                                            <span class="status-specification">{{team.7}}</span>
-                                        </li>
-                                    </ul>
+                            </div>
+                            <div class="card-body">
+                                <ul class="specification-list">
+                                    <li>
+                                        <span class="name-specification">Driver Skills Score</span>
+                                        <span class="status-specification">{{team.3}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="name-specification">Prog Skills Score</span>
+                                        <span class="status-specification">{{team.4}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="name-specification">Country</span>
+                                        <span class="status-specification">{{team.5}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="name-specification">Grade</span>
+                                        <span class="status-specification">{{team.6}}</span>
+                                    </li>
+                                    <li>
+                                        <span class="name-specification">Team Name</span>
+                                        <span class="status-specification">{{team.7}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% for numb in betterfiller %}
+                    <div class="col-md-3 pr-md-0">
+                        <div class="card card-pricing">
+                            <div class="card-header">
+                                <h4 class="card-title">TOP</h4>
+                                <div class="card-price">
+                                    <span class="price text-success">This is the TOP</span>
                                 </div>
                             </div>
                         </div>
-                    {% endfor %}    
+                    </div>
+                    {% endfor %}
                     <div class="col-md-1 pr-md-0"></div>
                 </div>
             </div>
@@ -197,7 +234,7 @@
             <span class="carousel-control-prev-icon"></span>
         </a>
         <a class="carousel-control-next" href="#myCarousel" data-slide="next">
-            <span class="carousel-control-next-icon  ml-4"></span>
+            <span class="carousel-control-next-icon"></span>
         </a>
     </div>
 </div>
@@ -207,4 +244,10 @@
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+<script>
+    var profile = document.getElementById('profile').getAttribute('content');
+    console.log(profile);
+    document.getElementById("profilePic").src = `../media/${profile}`;
+</script>
+{% endblock javascripts %}

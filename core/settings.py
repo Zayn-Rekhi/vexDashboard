@@ -70,14 +70,19 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+# database key: mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority
 
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'webDB_VEX',
+        'CLIENT': {
+            'host': 'mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority',
+            'username': 'ZaynRekhi',
+            'password': 'assimo11!',
+            'authMechanism': 'SCRAM-SHA-1'
+        }
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 

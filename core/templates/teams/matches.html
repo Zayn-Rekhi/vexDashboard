@@ -9,7 +9,7 @@
     <div id="betterAverageData" team1="{{betterAverageTeam1}}" team2="{{betterAverageTeam2}}"></div>
     <div id="worseAverageData" team1="{{worseAverageTeam1}}" team2="{{worseAverageTeam2}}"></div>
     <div id="mapData" justCountry="{{justCountryMatches}}"></div>
-
+    <div id="profile" content="{{profilePic}}"></div>
     <h4 class="page-title" id="matchesPart" style="text-align:center;font-size:40px;color:#f3545d;font-weight:bold;">Matches</h4>
     <div class="row">
         <div class="col-12">
@@ -26,34 +26,6 @@
         </div>
     </div>
     <div class="row">
-        <div class="form-group col-8">
-            <label class="form-label">Choose:</label>
-            <form method="post">
-                {% csrf_token %}
-                <div class="selectgroup selectgroup-danger w-100">
-                    <label class="selectgroup-item">
-                        <input type="checkbox" name="tableInfo" value="myPosition" class="selectgroup-input"
-                            checked="checked">
-                        <span class="selectgroup-button">My Position</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="checkbox" name="tableInfo" value="myCompetitors" class="selectgroup-input">
-                        <span class="selectgroup-button">My Competitors</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="checkbox" name="tableInfo" value="top10" class="selectgroup-input">
-                        <span class="selectgroup-button">Top 10</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="checkbox" name="tableInfo" value="bottom10" class="selectgroup-input">
-                        <span class="selectgroup-button">Bottom 10</span>
-                    </label>
-                    <button name="submit" class="btn btn-danger btn-border ml-2">Submit</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
@@ -66,24 +38,25 @@
                                 <tr>
                                     <th>Team</th>
                                     <th>Average</th>
-                                    <th>Office</th>
                                     <th>Country</th>
+                                    <th>Grade</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>Team</th>
                                     <th>Average</th>
-                                    <th>Office</th>
                                     <th>Country</th>
+                                    <th>Grade</th>
                                 </tr>
                             </tfoot>
                             <tbody>
                                 {% for team in tableList %}
                                 <tr>
-                                    {% for elem in team %}
-                                    <td>{{elem}}</td>
-                                    {% endfor %}
+                                    <td><a href="../../team/{{team.0}}" class="text-light">{{team.0}}</a></td>
+                                    <td>{{team.1}}</td>
+                                    <td>{{team.2}}</td>
+                                    <td>{{team.3}}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -94,46 +67,30 @@
         </div>
         <div class="col-4">
             <h2 class="page-title">Similar Teams: </h2>
+            {% for team in teamListBetter %}
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff1}}%</div>
-                    <h2 class="mb-2">{{betterTeamNumber1}}</h2>
-                    <p class="text-muted">Current Average: {{betterTeamAverage1}}</p>
+                    <div class="h1 fw-bold float-right text-danger"> +{{team.2}}%</div>
+                    <h2 class="mb-2"><a href="../../team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
+                    <p class="text-muted">Current Average: {{team.1}}</p>
                     <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark1"></div>
+                        <div id="lineChartSparkBetter{{forloop.counter}}"></div>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+            {% for team in teamListWorse %}
             <div class="card">
                 <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">+{{betterTeamDiff2}}%</div>
-                    <h2 class="mb-2">{{betterTeamNumber2}}</h2>
-                    <p class="text-muted">Current Average: {{betterTeamAverage2}}</p>
+                    <div class="h1 fw-bold float-right text-danger">-{{team.2}}%</div>
+                    <h2 class="mb-2"><a href="../../team/{{team.0}}" class="text-light">{{team.0}}</a></h2>
+                    <p class="text-muted">Current Average: {{team.1}}</p>
                     <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark2"></div>
+                        <div id="lineChartSparkWorse{{forloop.counter}}"></div>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff1}}%</div>
-                    <h2 class="mb-2">{{worseTeamNumber1}}</h2>
-                    <p class="text-muted">Current Average: {{worseTeamAverage1}}</p>
-                    <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark3"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body pb-0">
-                    <div class="h1 fw-bold float-right text-danger">-{{worseTeamDiff2}}%</div>
-                    <h2 class="mb-2">{{worseTeamNumber2}}</h2>
-                    <p class="text-muted">Current Average: {{worseTeamAverage2}}</p>
-                    <div class="pull-in sparkline-fix">
-                        <div id="lineChartSpark4"></div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
     <div class="row">
@@ -177,14 +134,32 @@
                                     <td>{{date}}</td>
                                     <td>{{field}}</td>
                                     <td>
-                                        <span class="badge badge-danger" style="font-size: 15px;">{{red.0}}</span>
-                                        <span class="badge badge-danger" style="font-size: 15px;">{{red.1}}</span>
-                                        <span class="badge badge-danger" style="font-size: 15px;">{{red.2}}</span>
+                                        {% if red.0 %}
+                                        <span class="badge badge-danger" style="font-size: 15px;"><a href="../../team/{{red.0}}"
+                                                class="text-light">{{red.0}}</a></span>
+                                        {% endif %}
+                                        {% if red.1 %}
+                                        <span class="badge badge-danger" style="font-size: 15px;"><a href="../../team/{{red.1}}"
+                                                class="text-light">{{red.1}}</a></span>
+                                        {% endif %}
+                                        {% if red.2 %}
+                                        <span class="badge badge-danger" style="font-size: 15px;"><a href="../../team/{{red.2}}"
+                                                class="text-light">{{red.2}}</a></span>
+                                        {% endif %}
                                     </td>
                                     <td>
-                                        <span class="badge badge-primary" style="font-size: 15px;">{{blue.0}}</span>
-                                        <span class="badge badge-primary" style="font-size: 15px;">{{blue.1}}</span>
-                                        <span class="badge badge-primary" style="font-size: 15px;">{{blue.2}}</span>
+                                        {% if blue.0 %}
+                                        <span class="badge badge-primary" style="font-size: 15px;"><a href="../../team/{{blue.0}}"
+                                                class="text-light">{{blue.0}}</a></span>
+                                        {% endif %}
+                                        {% if blue.1 %}
+                                        <span class="badge badge-primary" style="font-size: 15px;"><a href="../../team/{{blue.1}}"
+                                                class="text-light">{{blue.1}}</a></span>
+                                        {% endif %}
+                                        {% if blue.2 %}
+                                        <span class="badge badge-primary" style="font-size: 15px;"><a href="../../team/{{blue.2}}"
+                                                class="text-light">{{blue.2}}</a></span>
+                                        {% endif %}
                                     </td>
                                     <td>
                                         <span class="badge badge-danger" style="font-size: 15px;">{{redScore}}</span>
@@ -199,7 +174,6 @@
                                         <i class="fas fa-check text-success" style="font-size: 40px;"></i>
                                         {% endif %}
                                     </td>
-
                                     <!-- fas fa-window-close -->
                                     <!-- fas fa-check -->
                                 </tr>
@@ -217,19 +191,6 @@
                 <div class="card-header">
                     <div class="card-head-row card-tools-still-right">
                         <h4 class="card-title">Global Map: </h4>
-                        <div class="form-group form-group-default col-md-2" style="margin-left:70%;">
-                            <form method="POST" id="mapForm">
-                                {% csrf_token %}
-                                <label>Options</label>
-                                <select class="form-control" name="map"
-                                    onchange='if(this.value != "myPosition") { this.form.submit(); }'>
-                                    <option value="myPosition" selected>My Position</option>
-                                    <option value="myCompetitors">My Competitors</option>
-                                    <option value="top10">Top 10</option>
-                                    <option value="bottom10">Bottom 10</option>
-                                </select>
-                            </form>
-                        </div>
                     </div>
                 </div>
                 <p class="card-category">
@@ -248,7 +209,7 @@
                                                 <img src="/static/assets/img/flags/{{team.3}}.png" alt="{{team.0}}">
                                             </div>
                                         </td>
-                                        <td>{{team.1}}</td>
+                                        <td><a href="../../team/{{team.1}}" class="text-light">{{team.1}}</a></td>
                                         <td class="text-right">
                                             {{team.2}}
                                         </td>
@@ -260,7 +221,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mapcontainer">
-                            <div id="map-example1" class="vmap"></div>
+                            <div id="map-exampleMatches" class="vmap"></div>
                         </div>
                     </div>
                 </div>
@@ -272,160 +233,4 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-<script>
-    var lineChart = document.getElementById('lineChart').getContext('2d');
-    var xAxis = eval(document.getElementById('myPositionData').getAttribute('xAxis'));
-    var yAxis = eval(document.getElementById('myPositionData').getAttribute('yAxis'));
-    var teams = eval(document.getElementById('myPositionData').getAttribute('teams'));
-    var betterTeam1 = eval(document.getElementById('betterAverageData').getAttribute('team1'));
-    var betterTeam2 = eval(document.getElementById('betterAverageData').getAttribute('team2'));
-    var worseTeam1 = eval(document.getElementById('worseAverageData').getAttribute('team1'));
-    var worseTeam2 = eval(document.getElementById('worseAverageData').getAttribute('team2'));
-    var justCountry = eval(document.getElementById('mapData').getAttribute('justCountry'))
-    console.log(betterTeam1);
-    console.log(betterTeam2);
-    console.log(worseTeam1);
-    console.log(worseTeam2);
-
-
-    var datasetList = [];
-    colorsList = ["#f3545d", "#EC3103", "#FF8F01", "#FFC101", "#F6E10D", "#11E80B", "#0BE880", "#0BD0E8", "#2AA1E9", "#385BDE", "#7A33B9", "#C541D5", "#FF00D1", "##FF00A2", "#00ff00", "#ffff66", "#ff6699", "#6699ff", "#00ccff", "#00cc66", "#1d7af3", "#f3545d", "#59d05d", "#1d7af3"]
-
-    for (index = 0; index < yAxis.length; index++) {
-        var hiddenVal;
-        if (index == 0) {
-            hiddenVal = false;
-        } else {
-            hiddenVal = true;
-        }
-        data = {
-            label: teams[index],
-            borderColor: colorsList[index],
-            pointBorderColor: "#FFF",
-            pointBackgroundColor: colorsList[index],
-            pointBorderWidth: 2,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 1,
-            pointRadius: 4,
-            backgroundColor: 'transparent',
-            fill: true,
-            borderWidth: 2,
-            hidden: hiddenVal,
-            data: yAxis[index]
-        };
-        datasetList.push(data);
-    }
-    var myMultipleLineChart = new Chart(lineChart, {
-        type: 'line',
-        data: {
-            labels: xAxis,
-            datasets: datasetList,
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: {
-                position: 'bottom',
-            },
-            tooltips: {
-                bodySpacing: 4,
-                mode: "nearest",
-                intersect: 0,
-                position: "nearest",
-                xPadding: 10,
-                yPadding: 10,
-                caretPadding: 10
-            },
-            layout: {
-                padding: { left: 15, right: 15, top: 15, bottom: 15 }
-            }
-        }
-    });
-
-    $('#lineChartSpark1').sparkline(betterTeam1, {
-        type: 'line',
-        height: '70',
-        width: '100%',
-        lineWidth: '2',
-        lineColor: '#f3545d',
-        fillColor: 'rgba(243, 84, 93, 0.14)'
-    });
-    $('#lineChartSpark2').sparkline(betterTeam2, {
-        type: 'line',
-        height: '70',
-        width: '100%',
-        lineWidth: '2',
-        lineColor: '#f3545d',
-        fillColor: 'rgba(243, 84, 93, 0.14)'
-    });
-    $('#lineChartSpark3').sparkline(worseTeam1, {
-        type: 'line',
-        height: '70',
-        width: '100%',
-        lineWidth: '2',
-        lineColor: '#f3545d',
-        fillColor: 'rgba(243, 84, 93, 0.14)'
-    });
-    $('#lineChartSpark4').sparkline(worseTeam2, {
-        type: 'line',
-        height: '70',
-        width: '100%',
-        lineWidth: '2',
-        lineColor: '#f3545d',
-        fillColor: 'rgba(243, 84, 93, 0.14)'
-    });
-    $('#map-example').vectorMap(
-        {
-            map: 'world_en',
-            backgroundColor: 'transparent',
-            borderColor: '#f3545d',
-            borderWidth: 2,
-            color: '#e4e4e4',
-            enableZoom: true,
-            hoverColor: '#f3545d',
-            hoverOpacity: null,
-            normalizeFunction: 'linear',
-            scaleColors: ['#f3545d', '#f3545d'],
-            selectedColor: '#f3545d',
-            selectedRegions: justCountry,
-            showTooltip: true,
-            onRegionClick: function (element, code, region) {
-                return false;
-            },
-            onResize: function (element, width, height) {
-                console.log('Map Size: ' + width + 'x' + height);
-            },
-        });
-    $('#autoSubmit').click(function () {
-        $('#mapForm').submit()
-    });
-    $(document).ready(function () {
-        $('#basic-datatables').DataTable({
-        });
-
-        $('#multi-filter-select').DataTable({
-            "pageLength": 5,
-            initComplete: function () {
-                this.api().columns().every(function () {
-                    var column = this;
-                    var select = $('<select class="form-control"><option value=""></option></select>')
-                        .appendTo($(column.footer()).empty())
-                        .on('change', function () {
-                            var val = $.fn.dataTable.util.escapeRegex(
-                                $(this).val()
-                            );
-
-                            column
-                                .search(val ? '^' + val + '$' : '', true, false)
-                                .draw();
-                        });
-
-                    column.data().unique().sort().each(function (d, j) {
-                        select.append('<option value="' + d + '">' + d + '</option>')
-                    });
-                });
-            }
-        });
-    });
-</script>
 {% endblock javascripts %}

@@ -4,9 +4,11 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
+<div id="profile" content="{{profilePic}}"></div>
+
 <div class="page-inner">
     <div class="page-header">
-        <h4 class="page-title">First, Please Fill In Your <a href="/settings" class="text-primary">Settings</a> </h4>
+        <h4 class="page-title">Team Not Found</h4>
     </div>
 </div>
 
@@ -14,5 +16,8 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-
+<script>
+    var profile = document.getElementById('profile').getAttribute('content');
+    document.getElementById("profilePic").src = `../../../media/${profile}`;
+</script>
 {% endblock javascripts %}

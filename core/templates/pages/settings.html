@@ -10,7 +10,7 @@
 
     <!-- (Almost) A blank page -->
     <div class="page-inner">
-		
+		<div id="profile" content="{{profilePic}}"></div>
 		<div id="message" content="{{message}}"></div>
     	<h4 class="page-title">Settings: </h4>
         <div class="card-body">
@@ -146,7 +146,9 @@
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
     <script>
-	// Example starter JavaScript for disabling form submissions if there are invalid fields
+		var profile = document.getElementById('profile').getAttribute('content');
+		document.getElementById("profilePic").src = `../media/${profile}`;
+// Example starter JavaScript for disabling form submissions if there are invalid fields
 	    (function() {
 	    'use strict';
 	    window.addEventListener('load', function() {

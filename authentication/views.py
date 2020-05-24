@@ -29,13 +29,14 @@ def login_view(request):
                 user = authenticate(username=username, password=password)
                 if user is not None:
                     login(request, user)
-                    myclient = pymongo.MongoClient('mongodb://localhost:27017/')
-                    mydb = myclient[f"webDB_VEX"]
+                    myclient = pymongo.MongoClient(
+                        'mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority')
+                    mydb = myclient["webDB_VEX"]
                     mycolAuthUser = mydb["userInfo"]
                     if mycolAuthUser.find_one({"username":username}):
                         return redirect("/dashboard")
                     else:
-                        return redirect("/settings.html")
+                        return redirect("/settings")
                 else:    
                     msg = 'Invalid credentials'    
             else:

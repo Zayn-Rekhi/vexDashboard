@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <title>
-        Team: {{team_name}}{% block title %}{% endblock %}
+        {{tableList.0.0}}{% block title %}{% endblock %}
     </title>
 
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-    <link rel="icon" href="/static/assets/img/icon.ico" type="image/x-icon" />
+    <link rel="icon" href="/static/assets/img/logo.png" type="image/x-icon" />
 
     <!-- Fonts and icons -->
     <script src="/static/assets/js/plugin/webfont/webfont.min.js"></script>
@@ -33,68 +33,15 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="/static/assets/css/demo.css">
-    <style>
-        .btn-circle.btn-sm { 
-            width: 30px; 
-            height: 30px; 
-            padding: 6px 0px; 
-            border-radius: 15px; 
-            font-size: 8px; 
-            text-align: center; 
-        } 
-        .btn-circle.btn-md { 
-            width: 50px; 
-            height: 50px; 
-            padding: 7px 10px; 
-            border-radius: 25px; 
-            font-size: 10px; 
-            text-align: center; 
-        } 
-        .btn-circle.btn-xl { 
-            width: 140px; 
-            height: 140px; 
-            padding: 10px 16px; 
-            border-radius: 70px; 
-            font-size: 12px; 
-            text-align: center; 
-        }
-        ::-webkit-scrollbar {
-            width: 12px;
-        }
-
-        /* Track */
-        ::-webkit-scrollbar-track {
-            height:100px;
-
-        box-shadow: inset 0 0 2px grey; 
-        border-radius: 10px;
-        }
-        
-        /* Handle */
-        ::-webkit-scrollbar-thumb {
-            background: #f3545d; 
-            border-radius: 10px;
-        }
-
-        /* Handle on hover */
-        ::-webkit-scrollbar-thumb:hover {
-        background: white; 
-        }
-        html, body
-        {
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-         
-    </style>
+    
     <!-- Specific CSS goes HERE -->
     {% block stylesheets %}{% endblock stylesheets %}
 
 </head>
 
 <body data-background-color="dark">
-
-    <div class="wrapper {% block layout %}{% endblock layout %}">
+    <div id="profile" content="{{profilePic}}"></div>
+    <div class="wrapper {% block layout %}sidebar_minimize{% endblock layout %}">
 
         {% include 'includes/navigation.html' %}
 
@@ -103,7 +50,7 @@
         <div class="main-panel">
             <div class="content">
                 <div class="page-inner">
-                    <h1 class="page-title" id="rankingsPart" style="text-align:center;font-size:40px;font-weight:bold;">{{ team_name }}</h1>
+                    <h1 class="page-title" id="rankingsPart" style="text-align:center;font-size:40px;font-weight:bold;">{{ tableList.0.0 }}</h1>
                     <br />
                     <div class="row">
                         <div class="col-md-3"></div>
@@ -112,7 +59,7 @@
                                 <div class="card-body">
                                     <ul class="nav nav-pills nav-danger nav-justified" id="pills-tab" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active" id="pills-name-tab" data-toggle="pill" href="#pills-name" role="tab" aria-controls="pills-home" aria-selected="true">Robot Name</a>
+                                            <a class="nav-link active" id="pills-name-tab" data-toggle="pill" href="#pills-name" role="tab" aria-controls="pills-home" aria-selected="true">Name</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" id="pills-organisation-tab" data-toggle="pill" href="#pills-organisation" role="tab" aria-controls="pills-profile" aria-selected="false">Organisation</a>
@@ -160,13 +107,13 @@
                     </div>
                 </div>
                 <div class="page-inner">
-                    {% include 'teams/matches.html' with team_name=team_name number=number robot_name=robot_name organisation=organisation city=city region=region country=country grade=grade average=average total_matches=total_matches matches=matches rankings=rankings DriverData=DriverData driverAverage=driverAverage driverTopScore=driverTopScore ProgrammingData=ProgrammingData programmingAverage=programmingAverage programmingTopScore=programmingTopScore CombinedData=CombinedData combinedAverage=combinedAverage combinedTopScore=combinedTopScore percentage=percentage goal=goal xAxis=xAxis yAxis=yAxis teams=teams tableList=tableList allDataTable=allDataTable typeOf=typeOf%}
+                    {% include 'teams/matches.html' with team_name=team_name number=number robot_name=robot_name organisation=organisation city=city region=region country=country grade=grade average=average total_matches=total_matches matches=matches rankings=rankings DriverData=DriverData driverAverage=driverAverage driverTopScore=driverTopScore ProgrammingData=ProgrammingData programmingAverage=programmingAverage programmingTopScore=programmingTopScore CombinedData=CombinedData combinedAverage=combinedAverage combinedTopScore=combinedTopScore percentage=percentage goal=goal xAxis=xAxis yAxis=yAxis teams=teams tableList=tableList worseTeamNumber1=worseTeamNumber1 worseTeamAverage1=worseTeamAverage1 worseTeamDiff1=worseTeamDiff1 worseAverageTeam1=worseAverageTeam1 worseTeamNumber2=worseTeamNumber2 worseTeamAverage2=worseTeamAverage2 worseTeamDiff2=worseTeamDiff2 worseAverageTeam2=worseAverageTeam2 teamListBetter=teamListBetter teamListWorse=teamListWorse allDataTable=allDataTable justCountryMatches=justCountryMatches allTeamData=allTeamData %}
                 </div>
                 <div class="page-inner">
-                    {% include 'teams/skills.html' with tteam_name=team_name skillsDriverGoal=skillsDriverGoal skillsProgGoal=skillsProgGoal skillsCombinedGoal=skillsCombinedGoal DRIVERscore=DRIVERscore PROGscore=PROGscore COMBINEDscore=COMBINEDscore skillsDriverGoalTotal=skillsDriverGoalTotal skillsProgGoalTotal=skillsProgGoalTotal skillsCombinedGoalTotal=skillsCombinedGoalTotal driverLinePlotData=driverLinePlotData driverBarPlotData=driverBarPlotData tableList=tableList betterDriverTeamNumber1=betterDriverTeamNumber1 betterDriverTeamAverage1=betterDriverTeamAverage1 betterDriverTeamDiff1=betterDriverTeamDiff1 betterDriverAverageTeam1=betterDriverAverageTeam1 betterDriverTeamNumber2=betterDriverTeamNumber2 betterDriverTeamAverage2=betterDriverTeamAverage2 betterDriverTeamDiff2=betterDriverTeamDiff2 betterDriverAverageTeam2=betterDriverAverageTeam2 worseDriverTeamNumber1=worseDriverTeamNumber1 worseDriverTeamAverage1=worseDriverTeamAverage1 worseDriverTeamDiff1=worseDriverTeamDiff1 worseDriverAverageTeam1=worseDriverAverageTeam1 worseDriverTeamNumber2=worseDriverTeamNumber2 worseDriverTeamAverage2=worseDriverTeamAverage2 worseDriverTeamDiff2=worseDriverTeamDiff2 worseDriverAverageTeam2=worseDriverAverageTeam2 betterDriverTeamNumbertopScore1=betterDriverTeamNumbertopScore1 betterDriverTeamtopScore1=betterDriverTeamtopScore1 betterDriverTeamDifftopScore1=betterDriverTeamDifftopScore1 betterDriverAverageTeamtopScore1=betterDriverAverageTeamtopScore1 betterDriverTeamNumbertopScore2=betterDriverTeamNumbertopScore2 betterDriverTeamtopScore2=betterDriverTeamtopScore2 betterDriverTeamDifftopScore2=betterDriverTeamDifftopScore2 betterDriverAverageTeamtopScore2=betterDriverAverageTeamtopScore2 worseDriverTeamNumbertopScore1=worseDriverTeamNumbertopScore1 worseDriverTeamtopScore1=worseDriverTeamtopScore1 worseDriverTeamDifftopScore1=worseDriverTeamDifftopScore1 worseDriverAverageTeamtopScore1=worseDriverAverageTeamtopScore1 worseDriverTeamNumbertopScore2=worseDriverTeamNumbertopScore2 worseDriverTeamtopScore2=worseDriverTeamtopScore2 worseDriverTeamDifftopScore2=worseDriverTeamDifftopScore2 worseDriverAverageTeamtopScore2=worseDriverAverageTeamtopScore2 myDriverTopScore=myDriverTopScore myDriverAverage=myDriverAverage programmingLinePlotData=programmingLinePlotData programmingBarPlotData=programmingBarPlotData tableListProgramming=tableListProgramming betterProgrammingTeamNumber1=betterProgrammingTeamNumber1 betterProgrammingTeamAverage1=betterProgrammingTeamAverage1 betterProgrammingTeamDiff1=betterProgrammingTeamDiff1 betterProgrammingAverageTeam1=betterProgrammingAverageTeam1 betterProgrammingTeamNumber2=betterProgrammingTeamNumber2 betterProgrammingTeamAverage2=betterProgrammingTeamAverage2 betterProgrammingTeamDiff2=betterProgrammingTeamDiff2 betterProgrammingAverageTeam2=betterProgrammingAverageTeam2 worseProgrammingTeamNumber1=worseProgrammingTeamNumber1 worseProgrammingTeamAverage1=worseProgrammingTeamAverage1 worseProgrammingTeamDiff1=worseProgrammingTeamDiff1 worseProgrammingAverageTeam1=worseProgrammingAverageTeam1 worseProgrammingTeamNumber2=worseProgrammingTeamNumber2 worseProgrammingTeamAverage2=worseProgrammingTeamAverage2 worseProgrammingTeamDiff2=worseProgrammingTeamDiff2 worseProgrammingAverageTeam2=worseProgrammingAverageTeam2 betterProgrammingTeamNumbertopScore1=betterProgrammingTeamNumbertopScore1 betterProgrammingTeamtopScore1=betterProgrammingTeamtopScore1 betterProgrammingTeamDifftopScore1=betterProgrammingTeamDifftopScore1 betterProgrammingAverageTeamtopScore1=betterProgrammingAverageTeamtopScore1 betterProgrammingTeamNumbertopScore2=betterProgrammingTeamNumbertopScore2 betterProgrammingTeamtopScore2=betterProgrammingTeamtopScore2 betterProgrammingTeamDifftopScore2=betterProgrammingTeamDifftopScore2 betterProgrammingAverageTeamtopScore2=betterProgrammingAverageTeamtopScore2 worseProgrammingTeamNumbertopScore1=worseProgrammingTeamNumbertopScore1 worseProgrammingTeamtopScore1=worseProgrammingTeamtopScore1 worseProgrammingTeamDifftopScore1=worseProgrammingTeamDifftopScore1 worseProgrammingAverageTeamtopScore1=worseProgrammingAverageTeamtopScore1 worseProgrammingTeamNumbertopScore2=worseProgrammingTeamNumbertopScore2 worseProgrammingTeamtopScore2=worseProgrammingTeamtopScore2 worseProgrammingTeamDifftopScore2=worseProgrammingTeamDifftopScore2 worseProgrammingAverageTeamtopScore2=worseProgrammingAverageTeamtopScore2 myProgrammingTopScore=myProgrammingTopScore myProgrammingAverage=myProgrammingAverage combinedLinePlotData=combinedLinePlotData combinedBarPlotData=combinedBarPlotData tableListcombined=tableListcombined betterCombinedTeamNumber1=betterCombinedTeamNumber1 betterCombinedTeamAverage1=betterCombinedTeamAverage1 betterCombinedTeamDiff1=betterCombinedTeamDiff1 betterCombinedAverageTeam1=betterCombinedAverageTeam1 betterCombinedTeamNumber2=betterCombinedTeamNumber2 betterCombinedTeamAverage2=betterCombinedTeamAverage2 betterCombinedTeamDiff2=betterCombinedTeamDiff2 betterCombinedAverageTeam2=betterCombinedAverageTeam2 worseCombinedTeamNumber1=worseCombinedTeamNumber1 worseCombinedTeamAverage1=worseCombinedTeamAverage1 worseCombinedTeamDiff1=worseCombinedTeamDiff1 worseCombinedAverageTeam1=worseCombinedAverageTeam1 worseCombinedTeamNumber2=worseCombinedTeamNumber2 worseCombinedTeamAverage2=worseCombinedTeamAverage2 worseCombinedTeamDiff2=worseCombinedTeamDiff2 worseCombinedAverageTeam2=worseCombinedAverageTeam2 betterCombinedTeamNumbertopScore1=betterCombinedTeamNumbertopScore1 betterCombinedTeamtopScore1=betterCombinedTeamtopScore1 betterCombinedTeamDifftopScore1=betterCombinedTeamDifftopScore1 betterCombinedAverageTeamtopScore1=betterCombinedAverageTeamtopScore1 betterCombinedTeamNumbertopScore2=betterCombinedTeamNumbertopScore2 betterCombinedTeamtopScore2=betterCombinedTeamtopScore2 betterCombinedTeamDifftopScore2=betterCombinedTeamDifftopScore2 betterCombinedAverageTeamtopScore2=betterCombinedAverageTeamtopScore2 worseCombinedTeamNumbertopScore1=worseCombinedTeamNumbertopScore1 worseCombinedTeamtopScore1=worseCombinedTeamtopScore1 worseCombinedTeamDifftopScore1=worseCombinedTeamDifftopScore1 worseCombinedAverageTeamtopScore1=worseCombinedAverageTeamtopScore1 worseCombinedTeamNumbertopScore2=worseCombinedTeamNumbertopScore2 worseCombinedTeamtopScore2=worseCombinedTeamtopScore2 worseCombinedTeamDifftopScore2=worseCombinedTeamDifftopScore2 worseCombinedAverageTeamtopScore2=worseCombinedAverageTeamtopScore2 myCombinedTopScore=myCombinedTopScore myCombinedAverage=myCombinedAverage typeOf=typeOf  %}
+                    {% include 'teams/skills.html' with team_name=team_name skillsDriverGoal=skillsDriverGoal skillsProgGoal=skillsProgGoal skillsCombinedGoal=skillsCombinedGoal DRIVERscore=DRIVERscore PROGscore=PROGscore COMBINEDscore=COMBINEDscore skillsDriverGoalTotal=skillsDriverGoalTotal skillsProgGoalTotal=skillsProgGoalTotal skillsCombinedGoalTotal=skillsCombinedGoalTotal driverLinePlotData=driverLinePlotData driverBarPlotData=driverBarPlotData tableList=tableList betterDriverTeamNumber1=betterDriverTeamNumber1 betterDriverTeamAverage1=betterDriverTeamAverage1 betterDriverTeamDiff1=betterDriverTeamDiff1 betterDriverAverageTeam1=betterDriverAverageTeam1 betterDriverTeamNumber2=betterDriverTeamNumber2 betterDriverTeamAverage2=betterDriverTeamAverage2 betterDriverTeamDiff2=betterDriverTeamDiff2 betterDriverAverageTeam2=betterDriverAverageTeam2 worseDriverTeamNumber1=worseDriverTeamNumber1 worseDriverTeamAverage1=worseDriverTeamAverage1 worseDriverTeamDiff1=worseDriverTeamDiff1 worseDriverAverageTeam1=worseDriverAverageTeam1 worseDriverTeamNumber2=worseDriverTeamNumber2 worseDriverTeamAverage2=worseDriverTeamAverage2 worseDriverTeamDiff2=worseDriverTeamDiff2 worseDriverAverageTeam2=worseDriverAverageTeam2 betterDriverTeamNumbertopScore1=betterDriverTeamNumbertopScore1 betterDriverTeamtopScore1=betterDriverTeamtopScore1 betterDriverTeamDifftopScore1=betterDriverTeamDifftopScore1 betterDriverAverageTeamtopScore1=betterDriverAverageTeamtopScore1 betterDriverTeamNumbertopScore2=betterDriverTeamNumbertopScore2 betterDriverTeamtopScore2=betterDriverTeamtopScore2 betterDriverTeamDifftopScore2=betterDriverTeamDifftopScore2 betterDriverAverageTeamtopScore2=betterDriverAverageTeamtopScore2 worseDriverTeamNumbertopScore1=worseDriverTeamNumbertopScore1 worseDriverTeamtopScore1=worseDriverTeamtopScore1 worseDriverTeamDifftopScore1=worseDriverTeamDifftopScore1 worseDriverAverageTeamtopScore1=worseDriverAverageTeamtopScore1 worseDriverTeamNumbertopScore2=worseDriverTeamNumbertopScore2 worseDriverTeamtopScore2=worseDriverTeamtopScore2 worseDriverTeamDifftopScore2=worseDriverTeamDifftopScore2 worseDriverAverageTeamtopScore2=worseDriverAverageTeamtopScore2 myDriverTopScore=myDriverTopScore myDriverAverage=myDriverAverage similarAveragesGreaterFull1=similarAveragesGreaterFull1 similarAveragesGreaterFull2=similarAveragesGreaterFull2 similarAveragesLesserFull1=similarAveragesLesserFull1 similarAveragesLesserFull2=similarAveragesLesserFull2 programmingLinePlotData=programmingLinePlotData programmingBarPlotData=programmingBarPlotData tableListProgramming=tableListProgramming betterProgrammingAverageTeam1=betterProgrammingAverageTeam1 worseProgrammingAverageTeam1=worseProgrammingAverageTeam1 worseProgrammingAverageTeam2=worseProgrammingAverageTeam2 worseProgrammingTeamNumbertopScore1=worseProgrammingTeamNumbertopScore1 worseProgrammingTeamtopScore1=worseProgrammingTeamtopScore1 worseProgrammingTeamDifftopScore1=worseProgrammingTeamDifftopScore1 worseProgrammingAverageTeamtopScore1=worseProgrammingAverageTeamtopScore1 worseProgrammingTeamNumbertopScore2=worseProgrammingTeamNumbertopScore2 worseProgrammingTeamtopScore2=worseProgrammingTeamtopScore2 worseProgrammingTeamDifftopScore2=worseProgrammingTeamDifftopScore2 worseProgrammingAverageTeamtopScore2=worseProgrammingAverageTeamtopScore2 myProgrammingTopScore=myProgrammingTopScore myProgrammingAverage=myProgrammingAverage similarAveragesGreaterFullProgramming1=similarAveragesGreaterFullProgramming1 similarAveragesLesserFullProgramming1=similarAveragesLesserFullProgramming1 similarAveragesGreaterFullProgramming2=similarAveragesGreaterFullProgramming2 similarAveragesLesserFullProgramming2=similarAveragesLesserFullProgramming2 combinedLinePlotData=combinedLinePlotData combinedBarPlotData=combinedBarPlotData tableListcombined=tableListcombined betterCombinedAverageTeam1=betterCombinedAverageTeam1 betterCombinedAverageTeam2=betterCombinedAverageTeam2 worseCombinedTeamNumber1=worseCombinedTeamNumber1 worseCombinedTeamAverage1=worseCombinedTeamAverage1 worseCombinedTeamDiff1=worseCombinedTeamDiff1 worseCombinedAverageTeam1=worseCombinedAverageTeam1 worseCombinedTeamNumber2=worseCombinedTeamNumber2 worseCombinedTeamAverage2=worseCombinedTeamAverage2 worseCombinedTeamDiff2=worseCombinedTeamDiff2 worseCombinedAverageTeam2=worseCombinedAverageTeam2 worseCombinedAverageTeamtopScore1=worseCombinedAverageTeamtopScore1 worseCombinedAverageTeamtopScore2=worseCombinedAverageTeamtopScore2 myCombinedTopScore=myCombinedTopScore myCombinedAverage=myCombinedAverage similarAveragesGreaterFullCombined1=similarAveragesGreaterFullCombined1 similarAveragesLesserFullCombined1=similarAveragesLesserFullCombined1 similarAveragesGreaterFullCombined2=similarAveragesGreaterFullCombined2 similarAveragesLesserFullCombined2=similarAveragesLesserFullCombined2 %}
                 </div>
                 <div class="page-inner">
-                    {% include 'teams/rankings.html' with team_name=team_name topBarList=topBarList typeOf=typeOf %}
+                    {% include 'teams/rankings.html' with team_name=team_name topBarList=topBarList barGraphData=barGraphData tableData=tableData barLabels=barLabels betterTeamData1=betterTeamData1 betterTeamData2=betterTeamData2 worseTeamData1=worseTeamData1 worseTeamData2=worseTeamData2 betterTeamData=betterTeamData worseTeamData=worseTeamData justCountryRankings=justCountryRankings %}
                 </div>
             </div>
         </div>
@@ -180,160 +127,157 @@
     <!-- Specific JS goes HERE -->
     {% block javascripts %}
     <script>
-        var lineChart = document.getElementById('lineChart').getContext('2d');
-            var xAxis = eval(document.getElementById('myPositionData').getAttribute('xAxis'));
-            var yAxis = eval(document.getElementById('myPositionData').getAttribute('yAxis'));
-            var teams = eval(document.getElementById('myPositionData').getAttribute('teams'));
-            var betterTeam1 = eval(document.getElementById('betterAverageData').getAttribute('team1'));
-            var betterTeam2 = eval(document.getElementById('betterAverageData').getAttribute('team2'));
-            var worseTeam1 = eval(document.getElementById('worseAverageData').getAttribute('team1'));
-            var worseTeam2 = eval(document.getElementById('worseAverageData').getAttribute('team2'));
-            var justCountry = eval(document.getElementById('mapData').getAttribute('justCountry'))
-            console.log(betterTeam1);
-            console.log(betterTeam2);
-            console.log(worseTeam1);
-            console.log(worseTeam2);
+      var lineChart = document.getElementById('lineChart').getContext('2d');
+        var xAxis = eval(document.getElementById('myPositionData').getAttribute('xAxis'));
+        var yAxis = eval(document.getElementById('myPositionData').getAttribute('yAxis'));
+        var teams = eval(document.getElementById('myPositionData').getAttribute('teams'));
+        var betterTeam1 = eval(document.getElementById('betterAverageData').getAttribute('team1'));
+        var betterTeam2 = eval(document.getElementById('betterAverageData').getAttribute('team2'));
+        var worseTeam1 = eval(document.getElementById('worseAverageData').getAttribute('team1'));
+        var worseTeam2 = eval(document.getElementById('worseAverageData').getAttribute('team2'));
+        var justCountry = eval(document.getElementById('mapData').getAttribute('justCountry'))
 
 
-            var datasetList = [];
-            colorsList = ["#f3545d", "#EC3103", "#FF8F01", "#FFC101", "#F6E10D", "#11E80B", "#0BE880", "#0BD0E8", "#2AA1E9", "#385BDE", "#7A33B9", "#C541D5", "#FF00D1", "##FF00A2", "#00ff00", "#ffff66", "#ff6699", "#6699ff", "#00ccff", "#00cc66", "#1d7af3", "#f3545d", "#59d05d", "#1d7af3"]
+        var datasetList = [];
+        colorsList = ["#f3545d", "#EC3103", "#FF8F01", "#FFC101", "#F6E10D", "#11E80B", "#0BE880", "#0BD0E8", "#2AA1E9", "#385BDE", "#7A33B9", "#C541D5", "#FF00D1", "##FF00A2", "#00ff00", "#ffff66", "#ff6699", "#6699ff", "#00ccff", "#00cc66", "#1d7af3", "#f3545d", "#59d05d", "#1d7af3"]
 
-            for (index = 0; index < yAxis.length; index++) {
-                var hiddenVal;
-                if (index == 0) {
-                    hiddenVal = false;
-                } else {
-                    hiddenVal = true;
-                }
-                data = {
-                    label: teams[index],
-                    borderColor: colorsList[index],
-                    pointBorderColor: "#FFF",
-                    pointBackgroundColor: colorsList[index],
-                    pointBorderWidth: 2,
-                    pointHoverRadius: 4,
-                    pointHoverBorderWidth: 1,
-                    pointRadius: 4,
-                    backgroundColor: 'transparent',
-                    fill: true,
-                    borderWidth: 2,
-                    hidden: hiddenVal,
-                    data: yAxis[index]
-                };
-                datasetList.push(data);
+        for (index = 0; index < yAxis.length; index++) {
+            var hiddenVal;
+            if (index == 0) {
+                hiddenVal = false;
+            } else {
+                hiddenVal = true;
             }
-            var myMultipleLineChart = new Chart(lineChart, {
-                type: 'line',
-                data: {
-                    labels: xAxis,
-                    datasets: datasetList,
+            data = {
+                label: teams[index],
+                borderColor: colorsList[index],
+                pointBorderColor: "#FFF",
+                pointBackgroundColor: colorsList[index],
+                pointBorderWidth: 2,
+                pointHoverRadius: 4,
+                pointHoverBorderWidth: 1,
+                pointRadius: 4,
+                backgroundColor: 'transparent',
+                fill: true,
+                borderWidth: 2,
+                hidden: hiddenVal,
+                data: yAxis[index]
+            };
+            datasetList.push(data);
+        }
+        var myMultipleLineChart = new Chart(lineChart, {
+            type: 'line',
+            data: {
+                labels: xAxis,
+                datasets: datasetList,
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position: 'bottom',
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    legend: {
-                        position: 'bottom',
-                    },
-                    tooltips: {
-                        bodySpacing: 4,
-                        mode: "nearest",
-                        intersect: 0,
-                        position: "nearest",
-                        xPadding: 10,
-                        yPadding: 10,
-                        caretPadding: 10
-                    },
-                    layout: {
-                        padding: { left: 15, right: 15, top: 15, bottom: 15 }
-                    }
+                tooltips: {
+                    bodySpacing: 4,
+                    mode: "nearest",
+                    intersect: 0,
+                    position: "nearest",
+                    xPadding: 10,
+                    yPadding: 10,
+                    caretPadding: 10
+                },
+                layout: {
+                    padding: { left: 15, right: 15, top: 15, bottom: 15 }
+                },
+            }
+        });
+
+        $('#lineChartSparkBetter1').sparkline(betterTeam1, {
+            type: 'line',
+            height: '70',
+            width: '100%',
+            lineWidth: '2',
+            lineColor: '#f3545d',
+            fillColor: 'rgba(243, 84, 93, 0.14)'
+        });
+        $('#lineChartSparkBetter2').sparkline(betterTeam2, {
+            type: 'line',
+            height: '70',
+            width: '100%',
+            lineWidth: '2',
+            lineColor: '#f3545d',
+            fillColor: 'rgba(243, 84, 93, 0.14)'
+        });
+        $('#lineChartSparkWorse1').sparkline(worseTeam1, {
+            type: 'line',
+            height: '70',
+            width: '100%',
+            lineWidth: '2',
+            lineColor: '#f3545d',
+            fillColor: 'rgba(243, 84, 93, 0.14)'
+        });
+        $('#lineChartSparkWorse2').sparkline(worseTeam2, {
+            type: 'line',
+            height: '70',
+            width: '100%',
+            lineWidth: '2',
+            lineColor: '#f3545d',
+            fillColor: 'rgba(243, 84, 93, 0.14)'
+        });
+        $('#map-exampleMatches').vectorMap(
+            {
+                map: 'world_en',
+                backgroundColor: 'transparent',
+                borderColor: '#f3545d',
+                borderWidth: 2,
+                color: '#e4e4e4',
+                enableZoom: false,
+                hoverColor: '#f3545d',
+                hoverOpacity: null,
+                normalizeFunction: 'linear',
+                scaleColors: ['#f3545d', '#f3545d'],
+                selectedColor: '#f3545d',
+                selectedRegions: justCountry,
+                showTooltip: true,
+                onRegionClick: function (element, code, region) {
+                    return false;
+                },
+                onResize: function (element, width, height) {
+                    console.log('Map Size: ' + width + 'x' + height);
+                },
+            });
+        $('#autoSubmit').click(function () {
+            $('#mapForm').submit()
+        });
+        $(document).ready(function () {
+            $('#basic-datatables').DataTable({
+            });
+
+            $('#multi-filter-select').DataTable({
+                "pageLength": 5,
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        var select = $('<select class="form-control"><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>')
+                        });
+                    });
                 }
             });
-
-            $('#lineChartSpark1').sparkline(betterTeam1, {
-                type: 'line',
-                height: '70',
-                width: '100%',
-                lineWidth: '2',
-                lineColor: '#f3545d',
-                fillColor: 'rgba(243, 84, 93, 0.14)'
-            });
-            $('#lineChartSpark2').sparkline(betterTeam2, {
-                type: 'line',
-                height: '70',
-                width: '100%',
-                lineWidth: '2',
-                lineColor: '#f3545d',
-                fillColor: 'rgba(243, 84, 93, 0.14)'
-            });
-            $('#lineChartSpark3').sparkline(worseTeam1, {
-                type: 'line',
-                height: '70',
-                width: '100%',
-                lineWidth: '2',
-                lineColor: '#f3545d',
-                fillColor: 'rgba(243, 84, 93, 0.14)'
-            });
-            $('#lineChartSpark4').sparkline(worseTeam2, {
-                type: 'line',
-                height: '70',
-                width: '100%',
-                lineWidth: '2',
-                lineColor: '#f3545d',
-                fillColor: 'rgba(243, 84, 93, 0.14)'
-            });
-            $('#map-example1').vectorMap(
-                {
-                    map: 'world_en',
-                    backgroundColor: 'transparent',
-                    borderColor: '#f3545d',
-                    borderWidth: 2,
-                    color: '#e4e4e4',
-                    enableZoom: true,
-                    hoverColor: '#f3545d',
-                    hoverOpacity: null,
-                    normalizeFunction: 'linear',
-                    scaleColors: ['#f3545d', '#f3545d'],
-                    selectedColor: '#f3545d',
-                    selectedRegions: justCountry,
-                    showTooltip: true,
-                    onRegionClick: function (element, code, region) {
-                        return false;
-                    },
-                    onResize: function (element, width, height) {
-                        console.log('Map Size: ' + width + 'x' + height);
-                    },
-                });
-            $('#autoSubmit').click(function () {
-                $('#mapForm').submit()
-            });
-            $(document).ready(function () {
-                $('#basic-datatables').DataTable({
-                });
-
-                $('#multi-filter-select').DataTable({
-                    "pageLength": 5,
-                    initComplete: function () {
-                        this.api().columns().every(function () {
-                            var column = this;
-                            var select = $('<select class="form-control"><option value=""></option></select>')
-                                .appendTo($(column.footer()).empty())
-                                .on('change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
-
-                                    column
-                                        .search(val ? '^' + val + '$' : '', true, false)
-                                        .draw();
-                                });
-
-                            column.data().unique().sort().each(function (d, j) {
-                                select.append('<option value="' + d + '">' + d + '</option>')
-                            });
-                        });
-                    }
-                });
-            });
+        });
+        // AllDriverJS
         var driverBarPlotElement = document.getElementById('driverSkillsChartBar').getContext('2d');
         var driverBarPlotData = eval(document.getElementById('barGraphDataDriver').getAttribute('data'));
         var driverScatterPlotElement = document.getElementById('driverSkillsChartScatter').getContext('2d');
@@ -342,14 +286,7 @@
         var betterDriverTeam2 = eval(document.getElementById('betterAverageDataDriver').getAttribute('team2'));
         var worseDriverTeam1 = eval(document.getElementById('worseAverageDataDriver').getAttribute('team1'));
         var worseDriverTeam2 = eval(document.getElementById('worseAverageDataDriver').getAttribute('team2'));
-        var betterDriverTeam1Bar = document.getElementById('barChartDriver1').getContext('2d');
-        var betterDriverTeam1Data = eval(document.getElementById('BetterBarTeamDriver').getAttribute('team1'));
-        var betterDriverTeam2Bar = document.getElementById('barChartDriver2').getContext('2d');
-        var betterDriverTeam2Data = eval(document.getElementById('BetterBarTeamDriver').getAttribute('team2'));
-        var worseDriverTeam1Bar = document.getElementById('barChartDriver3').getContext('2d');
-        var worseDriverTeam1Data = eval(document.getElementById('WorseBarTeamDriver').getAttribute('team1'));
-        var worseDriverTeam2Bar = document.getElementById('barChartDriver4').getContext('2d');
-        var worseDriverTeam2Data = eval(document.getElementById('WorseBarTeamDriver').getAttribute('team2'));
+
         // AllProgrammingJS
         var programmingBarPlotElement = document.getElementById('programmingSkillsChartBar').getContext('2d');
         var programmingBarPlotData = eval(document.getElementById('barGraphDataProgramming').getAttribute('data'));
@@ -359,14 +296,7 @@
         var betterProgrammingTeam2 = eval(document.getElementById('betterAverageDataProgramming').getAttribute('team2'));
         var worseProgrammingTeam1 = eval(document.getElementById('worseAverageDataProgramming').getAttribute('team1'));
         var worseProgrammingTeam2 = eval(document.getElementById('worseAverageDataProgramming').getAttribute('team2'));
-        var betterProgrammingTeam1Bar = document.getElementById('barChartProgramming1').getContext('2d');
-        var betterProgrammingTeam1Data = eval(document.getElementById('BetterBarTeamProgramming').getAttribute('team1'));
-        var betterProgrammingTeam2Bar = document.getElementById('barChartProgramming2').getContext('2d');
-        var betterProgrammingTeam2Data = eval(document.getElementById('BetterBarTeamProgramming').getAttribute('team2'));
-        var worseProgrammingTeam1Bar = document.getElementById('barChartProgramming3').getContext('2d');
-        var worseProgrammingTeam1Data = eval(document.getElementById('WorseBarTeamProgramming').getAttribute('team1'));
-        var worseProgrammingTeam2Bar = document.getElementById('barChartProgramming4').getContext('2d');
-        var worseProgrammingTeam2Data = eval(document.getElementById('WorseBarTeamProgramming').getAttribute('team2'));
+
 
         var combinedBarPlotElement = document.getElementById('combinedSkillsChartBar').getContext('2d');
         var combinedBarPlotData = eval(document.getElementById('barGraphDataCombined').getAttribute('data'));
@@ -376,14 +306,7 @@
         var betterCombinedTeam2 = eval(document.getElementById('betterAverageDataCombined').getAttribute('team2'));
         var worseCombinedTeam1 = eval(document.getElementById('worseAverageDataCombined').getAttribute('team1'));
         var worseCombinedTeam2 = eval(document.getElementById('worseAverageDataCombined').getAttribute('team2'));
-        var betterCombinedTeam1Bar = document.getElementById('barChartCombined1').getContext('2d');
-        var betterCombinedTeam1Data = eval(document.getElementById('BetterBarTeamCombined').getAttribute('team1'));
-        var betterCombinedTeam2Bar = document.getElementById('barChartCombined2').getContext('2d');
-        var betterCombinedTeam2Data = eval(document.getElementById('BetterBarTeamCombined').getAttribute('team2'));
-        var worseCombinedTeam1Bar = document.getElementById('barChartCombined3').getContext('2d');
-        var worseCombinedTeam1Data = eval(document.getElementById('WorseBarTeamCombined').getAttribute('team1'));
-        var worseCombinedTeam2Bar = document.getElementById('barChartCombined4').getContext('2d');
-        var worseCombinedTeam2Data = eval(document.getElementById('WorseBarTeamCombined').getAttribute('team2'));
+
 
         var justCountry = eval(document.getElementById('mapData').getAttribute('justCountry'))
 
@@ -443,7 +366,7 @@
                         ticks: {
                             stepSize: 1,
                             callback: function (value, index, values) {
-                                return "Event " + (value + 1);
+                                return "Event " + (value);
                             }
                         }
                     }]
@@ -494,7 +417,7 @@
                 },
             }
         });
-        $('#lineChartSpark1').sparkline(betterDriverTeam1, {
+        $('#lineChartSparkBetter1').sparkline(betterDriverTeam1, {
             type: 'line',
             height: '70',
             width: '100%',
@@ -502,7 +425,7 @@
             lineColor: '#f3545d',
             fillColor: 'rgba(243, 84, 93, 0.14)'
         });
-        $('#lineChartSpark2').sparkline(betterDriverTeam2, {
+        $('#lineChartSparkBetter2').sparkline(betterDriverTeam2, {
             type: 'line',
             height: '70',
             width: '100%',
@@ -510,7 +433,7 @@
             lineColor: '#f3545d',
             fillColor: 'rgba(243, 84, 93, 0.14)'
         });
-        $('#lineChartSpark3').sparkline(worseDriverTeam1, {
+        $('#lineChartSparkWorse1').sparkline(worseDriverTeam1, {
             type: 'line',
             height: '70',
             width: '100%',
@@ -518,7 +441,7 @@
             lineColor: '#f3545d',
             fillColor: 'rgba(243, 84, 93, 0.14)'
         });
-        $('#lineChartSpark4').sparkline(worseDriverTeam2, {
+        $('#lineChartSparkWorse2').sparkline(worseDriverTeam2, {
             type: 'line',
             height: '70',
             width: '100%',
@@ -527,187 +450,217 @@
             fillColor: 'rgba(243, 84, 93, 0.14)'
         });
         var barColorSimilarList = ["#11E80B", "#f3545d"];
-        var similarTeam1BarData = [];
-        for (index = 0; index < betterDriverTeam1Data.length; index++) {
-            dataset = {
-                label: betterDriverTeam1Data[index][0],
-                backgroundColor: barColorSimilarList[index],
-                data: betterDriverTeam1Data[index][1],
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
-                minBarLength: 2
+        try {
+            var similarTeam1BarData = [];
+            var betterDriverTeam1Bar = document.getElementById('barChartDriverBetter1').getContext('2d');
+            var betterDriverTeam1Data = eval(document.getElementById('BetterBarTeamDriver').getAttribute('team1'));
+            for (index = 0; index < betterDriverTeam1Data.length; index++) {
+                dataset = {
+                    label: betterDriverTeam1Data[index][0],
+                    backgroundColor: barColorSimilarList[index],
+                    data: betterDriverTeam1Data[index][1],
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2
+                }
+                similarTeam1BarData.push(dataset)
             }
-            similarTeam1BarData.push(dataset)
+            var similarBarChart1 = new Chart(betterDriverTeam1Bar, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam1BarData,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                        }]
+                    },
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
+                    },
+                }
+            });
         }
-        var similarBarChart1 = new Chart(betterDriverTeam1Bar, {
-            type: 'bar',
-            data: {
-                datasets: similarTeam1BarData,
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                        gridLines: {
-                            display: false
-                        },
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        },
-                    }]
-                },
-                legend: {
-                    position: 'none',
-                    labels: {
-                        padding: 10,
-                        fontColor: '#1d7af3',
-                    }
-                },
-            }
-        });
+        catch (err) {
+            console.log(err);
+        }
 
-        var similarTeam2BarData = [];
-        for (index = 0; index < betterDriverTeam2Data.length; index++) {
-            dataset = {
-                label: betterDriverTeam2Data[index][0],
-                backgroundColor: barColorSimilarList[index],
-                data: betterDriverTeam2Data[index][1],
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
-                minBarLength: 2
+        try {
+            var similarTeam2BarData = [];
+            var betterDriverTeam2Bar = document.getElementById('barChartDriverBetter2').getContext('2d');
+            var betterDriverTeam2Data = eval(document.getElementById('BetterBarTeamDriver').getAttribute('team2'));
+
+            for (index = 0; index < betterDriverTeam2Data.length; index++) {
+                dataset = {
+                    label: betterDriverTeam2Data[index][0],
+                    backgroundColor: barColorSimilarList[index],
+                    data: betterDriverTeam2Data[index][1],
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2
+                }
+                similarTeam2BarData.push(dataset)
             }
-            similarTeam2BarData.push(dataset)
+            var similarBarChart2 = new Chart(betterDriverTeam2Bar, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam2BarData,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                        }]
+                    },
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
+                    },
+                }
+            });
         }
-        var similarBarChart2 = new Chart(betterDriverTeam2Bar, {
-            type: 'bar',
-            data: {
-                datasets: similarTeam2BarData,
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                        gridLines: {
-                            display: false
-                        },
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        },
-                    }]
-                },
-                legend: {
-                    position: 'none',
-                    labels: {
-                        padding: 10,
-                        fontColor: '#1d7af3',
-                    }
-                },
-            }
-        });
-        var similarTeam3BarData = [];
-        for (index = 0; index < worseDriverTeam1Data.length; index++) {
-            dataset = {
-                label: worseDriverTeam1Data[index][0],
-                backgroundColor: barColorSimilarList[index],
-                data: worseDriverTeam1Data[index][1],
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
-                minBarLength: 2
-            }
-            similarTeam3BarData.push(dataset)
+        catch (err) {
+            console.log(err);
         }
-        var similarBarChart3 = new Chart(worseDriverTeam1Bar, {
-            type: 'bar',
-            data: {
-                datasets: similarTeam3BarData,
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                        gridLines: {
-                            display: false
-                        },
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        },
-                    }]
-                },
-                legend: {
-                    position: 'none',
-                    labels: {
-                        padding: 10,
-                        fontColor: '#1d7af3',
-                    }
-                },
+        try {
+            var similarTeam3BarData = [];
+            var worseDriverTeam1Bar = document.getElementById('barChartDriverWorse1').getContext('2d');
+            var worseDriverTeam1Data = eval(document.getElementById('WorseBarTeamDriver').getAttribute('team1'));
+            for (index = 0; index < worseDriverTeam1Data.length; index++) {
+                dataset = {
+                    label: worseDriverTeam1Data[index][0],
+                    backgroundColor: barColorSimilarList[index],
+                    data: worseDriverTeam1Data[index][1],
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2
+                }
+                similarTeam3BarData.push(dataset)
             }
-        });
-        var similarTeam4BarData = [];
-        for (index = 0; index < worseDriverTeam2Data.length; index++) {
-            dataset = {
-                label: worseDriverTeam2Data[index][0],
-                backgroundColor: barColorSimilarList[index],
-                data: worseDriverTeam2Data[index][1],
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
-                minBarLength: 2
-            }
-            similarTeam4BarData.push(dataset)
+            var similarBarChart3 = new Chart(worseDriverTeam1Bar, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam3BarData,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                        }]
+                    },
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
+                    },
+                }
+            });
         }
-        var similarBarChart4 = new Chart(worseDriverTeam2Bar, {
-            type: 'bar',
-            data: {
-                datasets: similarTeam4BarData,
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                        gridLines: {
-                            display: false
-                        },
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        },
-                    }]
-                },
-                legend: {
-                    position: 'none',
-                    labels: {
-                        padding: 10,
-                        fontColor: '#1d7af3',
-                    }
-                },
+        catch (err) {
+            console.log(err);
+        }
+        try {
+            var similarTeam4BarData = [];
+            var worseDriverTeam2Bar = document.getElementById('barChartDriverWorse2').getContext('2d');
+            var worseDriverTeam2Data = eval(document.getElementById('WorseBarTeamDriver').getAttribute('team2'));
+            for (index = 0; index < worseDriverTeam2Data.length; index++) {
+                dataset = {
+                    label: worseDriverTeam2Data[index][0],
+                    backgroundColor: barColorSimilarList[index],
+                    data: worseDriverTeam2Data[index][1],
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2
+                }
+                similarTeam4BarData.push(dataset)
             }
-        });
+            var similarBarChart4 = new Chart(worseDriverTeam2Bar, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam4BarData,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                        }]
+                    },
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
+                    },
+                }
+            });
+
+        }
+        catch (err) {
+            console.log(err);
+        }
 
         var dataProgrammingGraphList = [];
         for (index = 0; index < programmingScatterPlotData.length; index++) {
@@ -763,7 +716,7 @@
                         ticks: {
                             stepSize: 1,
                             callback: function (value, index, values) {
-                                return "Event " + (value + 1);
+                                return "Event " + (value);
                             }
                         }
                     }]
@@ -819,7 +772,7 @@
                 },
             }
         });
-        $('#lineChartSpark5').sparkline(betterProgrammingTeam1, {
+        $('#lineChartSparkBetterProgramming1').sparkline(betterProgrammingTeam1, {
             type: 'line',
             height: '70',
             width: '100%',
@@ -827,7 +780,7 @@
             lineColor: '#f3545d',
             fillColor: 'rgba(243, 84, 93, 0.14)'
         });
-        $('#lineChartSpark6').sparkline(betterProgrammingTeam2, {
+        $('#lineChartSparkBetterProgramming2').sparkline(betterProgrammingTeam2, {
             type: 'line',
             height: '70',
             width: '100%',
@@ -835,7 +788,7 @@
             lineColor: '#f3545d',
             fillColor: 'rgba(243, 84, 93, 0.14)'
         });
-        $('#lineChartSpark7').sparkline(worseProgrammingTeam1, {
+        $('#lineChartSparkWorseProgramming1').sparkline(worseProgrammingTeam1, {
             type: 'line',
             height: '70',
             width: '100%',
@@ -843,7 +796,7 @@
             lineColor: '#f3545d',
             fillColor: 'rgba(243, 84, 93, 0.14)'
         });
-        $('#lineChartSpark8').sparkline(worseProgrammingTeam2, {
+        $('#lineChartSparkWorseProgramming2').sparkline(worseProgrammingTeam2, {
             type: 'line',
             height: '70',
             width: '100%',
@@ -851,188 +804,217 @@
             lineColor: '#f3545d',
             fillColor: 'rgba(243, 84, 93, 0.14)'
         });
+        try {
+            var similarTeam5BarData = [];
+            var betterProgrammingTeam1Bar = document.getElementById('barChartProgrammingBetter1').getContext('2d');
+            var betterProgrammingTeam1Data = eval(document.getElementById('BetterBarTeamProgramming').getAttribute('team1'));
 
-        var similarTeam5BarData = [];
-        for (index = 0; index < betterProgrammingTeam1Data.length; index++) {
-            dataset = {
-                label: betterProgrammingTeam1Data[index][0],
-                backgroundColor: barColorSimilarList[index],
-                data: betterProgrammingTeam1Data[index][1],
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
-                minBarLength: 2
+            for (index = 0; index < betterProgrammingTeam1Data.length; index++) {
+                dataset = {
+                    label: betterProgrammingTeam1Data[index][0],
+                    backgroundColor: barColorSimilarList[index],
+                    data: betterProgrammingTeam1Data[index][1],
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2
+                }
+                similarTeam5BarData.push(dataset)
             }
-            similarTeam5BarData.push(dataset)
+            var similarBarChart1 = new Chart(betterProgrammingTeam1Bar, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam5BarData,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                        }]
+                    },
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
+                    },
+                }
+            });
         }
-        var similarBarChart1 = new Chart(betterProgrammingTeam1Bar, {
-            type: 'bar',
-            data: {
-                datasets: similarTeam5BarData,
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                        gridLines: {
-                            display: false
-                        },
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        },
-                    }]
-                },
-                legend: {
-                    position: 'none',
-                    labels: {
-                        padding: 10,
-                        fontColor: '#1d7af3',
-                    }
-                },
-            }
-        });
+        catch (err) {
+            console.log(err);
+        }
+        try {
+            var similarTeam6BarData = [];
+            var betterProgrammingTeam2Bar = document.getElementById('barChartProgrammingBetter2').getContext('2d');
+            var betterProgrammingTeam2Data = eval(document.getElementById('BetterBarTeamProgramming').getAttribute('team2'));
 
-        var similarTeam6BarData = [];
-        for (index = 0; index < betterProgrammingTeam2Data.length; index++) {
-            dataset = {
-                label: betterProgrammingTeam2Data[index][0],
-                backgroundColor: barColorSimilarList[index],
-                data: betterProgrammingTeam2Data[index][1],
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
-                minBarLength: 2
+            for (index = 0; index < betterProgrammingTeam2Data.length; index++) {
+                dataset = {
+                    label: betterProgrammingTeam2Data[index][0],
+                    backgroundColor: barColorSimilarList[index],
+                    data: betterProgrammingTeam2Data[index][1],
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2
+                }
+                similarTeam6BarData.push(dataset)
             }
-            similarTeam6BarData.push(dataset)
+            var similarBarChart2 = new Chart(betterProgrammingTeam2Bar, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam6BarData,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                        }]
+                    },
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
+                    },
+                }
+            });
         }
-        var similarBarChart2 = new Chart(betterProgrammingTeam2Bar, {
-            type: 'bar',
-            data: {
-                datasets: similarTeam6BarData,
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                        gridLines: {
-                            display: false
-                        },
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        },
-                    }]
-                },
-                legend: {
-                    position: 'none',
-                    labels: {
-                        padding: 10,
-                        fontColor: '#1d7af3',
-                    }
-                },
-            }
-        });
-        var similarTeam7BarData = [];
-        for (index = 0; index < worseProgrammingTeam1Data.length; index++) {
-            dataset = {
-                label: worseProgrammingTeam1Data[index][0],
-                backgroundColor: barColorSimilarList[index],
-                data: worseProgrammingTeam1Data[index][1],
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
-                minBarLength: 2
-            }
-            similarTeam7BarData.push(dataset)
+        catch (err) {
+            console.log(err);
         }
-        var similarBarChart3 = new Chart(worseProgrammingTeam1Bar, {
-            type: 'bar',
-            data: {
-                datasets: similarTeam7BarData,
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                        gridLines: {
-                            display: false
-                        },
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        },
-                    }]
-                },
-                legend: {
-                    position: 'none',
-                    labels: {
-                        padding: 10,
-                        fontColor: '#1d7af3',
-                    }
-                },
+        try {
+            var similarTeam7BarData = [];
+            var worseProgrammingTeam1Bar = document.getElementById('barChartProgrammingWorse1').getContext('2d');
+            var worseProgrammingTeam1Data = eval(document.getElementById('WorseBarTeamProgramming').getAttribute('team1'));
+
+            for (index = 0; index < worseProgrammingTeam1Data.length; index++) {
+                dataset = {
+                    label: worseProgrammingTeam1Data[index][0],
+                    backgroundColor: barColorSimilarList[index],
+                    data: worseProgrammingTeam1Data[index][1],
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2
+                }
+                similarTeam7BarData.push(dataset)
             }
-        });
-        var similarTeam8BarData = [];
-        for (index = 0; index < worseProgrammingTeam2Data.length; index++) {
-            dataset = {
-                label: worseProgrammingTeam2Data[index][0],
-                backgroundColor: barColorSimilarList[index],
-                data: worseProgrammingTeam2Data[index][1],
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
-                minBarLength: 2
-            }
-            similarTeam8BarData.push(dataset)
+            var similarBarChart3 = new Chart(worseProgrammingTeam1Bar, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam7BarData,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                        }]
+                    },
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
+                    },
+                }
+            });
+        } catch (error) {
+            console.log(error);
         }
-        var similarBarChart4 = new Chart(worseProgrammingTeam2Bar, {
-            type: 'bar',
-            data: {
-                datasets: similarTeam8BarData,
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                        gridLines: {
-                            display: false
-                        },
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        },
-                    }]
-                },
-                legend: {
-                    position: 'none',
-                    labels: {
-                        padding: 10,
-                        fontColor: '#1d7af3',
-                    }
-                },
+        try {
+            var similarTeam8BarData = [];
+            var worseProgrammingTeam2Bar = document.getElementById('barChartProgrammingWorse2').getContext('2d');
+            var worseProgrammingTeam2Data = eval(document.getElementById('WorseBarTeamProgramming').getAttribute('team2'));
+            for (index = 0; index < worseProgrammingTeam2Data.length; index++) {
+                dataset = {
+                    label: worseProgrammingTeam2Data[index][0],
+                    backgroundColor: barColorSimilarList[index],
+                    data: worseProgrammingTeam2Data[index][1],
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2
+                }
+                similarTeam8BarData.push(dataset)
             }
-        });
+            var similarBarChart4 = new Chart(worseProgrammingTeam2Bar, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam8BarData,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                        }]
+                    },
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
+                    },
+                }
+            });
+
+        }
+        catch (err) {
+            console.log(err);
+        }
 
 
         var dataCombinedGraphList = [];
@@ -1091,7 +1073,7 @@
                                 stepSize: 1,
                                 callback: function (value, index,
                                     values) {
-                                    return "Event " + (value + 1);
+                                    return "Event " + (value);
                                 }
                             }
                         }]
@@ -1146,7 +1128,7 @@
                 },
             }
         });
-        $('#lineChartSpark9').sparkline(betterCombinedTeam1, {
+        $('#lineChartSparkBetterCombined1').sparkline(betterCombinedTeam1, {
             type: 'line',
             height: '70',
             width: '100%',
@@ -1154,7 +1136,7 @@
             lineColor: '#f3545d',
             fillColor: 'rgba(243, 84, 93, 0.14)'
         });
-        $('#lineChartSpark10').sparkline(betterCombinedTeam2, {
+        $('#lineChartSparkBetterCombined2').sparkline(betterCombinedTeam2, {
             type: 'line',
             height: '70',
             width: '100%',
@@ -1162,7 +1144,7 @@
             lineColor: '#f3545d',
             fillColor: 'rgba(243, 84, 93, 0.14)'
         });
-        $('#lineChartSpark11').sparkline(worseCombinedTeam1, {
+        $('#lineChartSparkWorseCombined1').sparkline(worseCombinedTeam1, {
             type: 'line',
             height: '70',
             width: '100%',
@@ -1170,7 +1152,7 @@
             lineColor: '#f3545d',
             fillColor: 'rgba(243, 84, 93, 0.14)'
         });
-        $('#lineChartSpark12').sparkline(worseCombinedTeam2, {
+        $('#lineChartSparkWorseCombined2').sparkline(worseCombinedTeam2, {
             type: 'line',
             height: '70',
             width: '100%',
@@ -1178,194 +1160,223 @@
             lineColor: '#f3545d',
             fillColor: 'rgba(243, 84, 93, 0.14)'
         });
-        var similarTeam9BarData = [];
-        for (index = 0; index < betterCombinedTeam1Data.length; index++) {
-            dataset = {
-                label: betterCombinedTeam1Data[index][0],
-                backgroundColor: barColorSimilarList[index],
-                data: betterCombinedTeam1Data[index][1],
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
-                minBarLength: 2
+        try {
+            var similarTeam9BarData = [];
+            var betterCombinedTeam1Bar = document.getElementById('barChartCombinedBetter1').getContext('2d');
+            var betterCombinedTeam1Data = eval(document.getElementById('BetterBarTeamCombined').getAttribute('team1'));
+
+            for (index = 0; index < betterCombinedTeam1Data.length; index++) {
+                dataset = {
+                    label: betterCombinedTeam1Data[index][0],
+                    backgroundColor: barColorSimilarList[index],
+                    data: betterCombinedTeam1Data[index][1],
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2
+                }
+                similarTeam9BarData.push(dataset)
             }
-            similarTeam9BarData.push(dataset)
+            var similarBarChart1 = new Chart(betterCombinedTeam1Bar, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam9BarData,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                        }]
+                    },
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
+                    },
+                }
+            });
+        } catch (error) {
+            console.log(error);
         }
-        var similarBarChart1 = new Chart(betterCombinedTeam1Bar, {
-            type: 'bar',
-            data: {
-                datasets: similarTeam9BarData,
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                        gridLines: {
-                            display: false
-                        },
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        },
-                    }]
-                },
-                legend: {
-                    position: 'none',
-                    labels: {
-                        padding: 10,
-                        fontColor: '#1d7af3',
-                    }
-                },
+
+        try {
+            var similarTeam10BarData = [];
+            var betterCombinedTeam2Bar = document.getElementById('barChartCombinedBetter2').getContext('2d');
+            var betterCombinedTeam2Data = eval(document.getElementById('BetterBarTeamCombined').getAttribute('team2'));
+
+            for (index = 0; index < betterCombinedTeam2Data.length; index++) {
+                dataset = {
+                    label: betterCombinedTeam2Data[index][0],
+                    backgroundColor: barColorSimilarList[index],
+                    data: betterCombinedTeam2Data[index][1],
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2
+                }
+                similarTeam10BarData.push(dataset)
             }
-        });
-        var similarTeam10BarData = [];
-        for (index = 0; index < betterCombinedTeam2Data.length; index++) {
-            dataset = {
-                label: betterCombinedTeam2Data[index][0],
-                backgroundColor: barColorSimilarList[index],
-                data: betterCombinedTeam2Data[index][1],
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
-                minBarLength: 2
-            }
-            similarTeam10BarData.push(dataset)
+            var similarBarChart2 = new Chart(betterCombinedTeam2Bar, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam10BarData,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                        }]
+                    },
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
+                    },
+                }
+            });
+        } catch (error) {
+            console.log(error);
         }
-        var similarBarChart2 = new Chart(betterCombinedTeam2Bar, {
-            type: 'bar',
-            data: {
-                datasets: similarTeam10BarData,
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                        gridLines: {
-                            display: false
-                        },
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        },
-                    }]
-                },
-                legend: {
-                    position: 'none',
-                    labels: {
-                        padding: 10,
-                        fontColor: '#1d7af3',
-                    }
-                },
+        try {
+            var similarTeam11BarData = [];
+            var worseCombinedTeam1Bar = document.getElementById('barChartCombinedWorse1').getContext('2d');
+            var worseCombinedTeam1Data = eval(document.getElementById('WorseBarTeamCombined').getAttribute('team1'));
+
+            for (index = 0; index < worseCombinedTeam1Data.length; index++) {
+                dataset = {
+                    label: worseCombinedTeam1Data[index][0],
+                    backgroundColor: barColorSimilarList[index],
+                    data: worseCombinedTeam1Data[index][1],
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2
+                }
+                similarTeam11BarData.push(dataset)
             }
-        });
-        var similarTeam11BarData = [];
-        for (index = 0; index < worseCombinedTeam1Data.length; index++) {
-            dataset = {
-                label: worseCombinedTeam1Data[index][0],
-                backgroundColor: barColorSimilarList[index],
-                data: worseCombinedTeam1Data[index][1],
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
-                minBarLength: 2
-            }
-            similarTeam11BarData.push(dataset)
+            var similarBarChart3 = new Chart(worseCombinedTeam1Bar, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam11BarData,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                        }]
+                    },
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
+                    },
+                }
+            });
+        } catch (error) {
+            console.log(error);
         }
-        var similarBarChart3 = new Chart(worseCombinedTeam1Bar, {
-            type: 'bar',
-            data: {
-                datasets: similarTeam11BarData,
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                        gridLines: {
-                            display: false
-                        },
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        },
-                    }]
-                },
-                legend: {
-                    position: 'none',
-                    labels: {
-                        padding: 10,
-                        fontColor: '#1d7af3',
-                    }
-                },
+        try {
+            var similarTeam12BarData = [];
+            var worseCombinedTeam2Bar = document.getElementById('barChartCombinedWorse2').getContext('2d');
+            var worseCombinedTeam2Data = eval(document.getElementById('WorseBarTeamCombined').getAttribute('team2'));
+            for (index = 0; index < worseCombinedTeam2Data.length; index++) {
+                dataset = {
+                    label: worseCombinedTeam2Data[index][0],
+                    backgroundColor: barColorSimilarList[index],
+                    data: worseCombinedTeam2Data[index][1],
+                    barPercentage: 0.5,
+                    barThickness: 6,
+                    maxBarThickness: 8,
+                    minBarLength: 2
+                }
+                similarTeam12BarData.push(dataset)
             }
-        });
-        var similarTeam12BarData = [];
-        for (index = 0; index < worseCombinedTeam2Data.length; index++) {
-            dataset = {
-                label: worseCombinedTeam2Data[index][0],
-                backgroundColor: barColorSimilarList[index],
-                data: worseCombinedTeam2Data[index][1],
-                barPercentage: 0.5,
-                barThickness: 6,
-                maxBarThickness: 8,
-                minBarLength: 2
-            }
-            similarTeam12BarData.push(dataset)
+            var similarBarChart4 = new Chart(worseCombinedTeam2Bar, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam12BarData,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                        }]
+                    },
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
+                    },
+                }
+            });
+        } catch (error) {
+            console.log(error);
         }
-        var similarBarChart4 = new Chart(worseCombinedTeam2Bar, {
-            type: 'bar',
-            data: {
-                datasets: similarTeam12BarData,
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                        },
-                        gridLines: {
-                            display: false
-                        },
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            display: false
-                        },
-                    }]
-                },
-                legend: {
-                    position: 'none',
-                    labels: {
-                        padding: 10,
-                        fontColor: '#1d7af3',
-                    }
-                },
-            }
-        });
-        $('#map-example2').vectorMap(
+
+        $('#map-exampleSkills').vectorMap(
             {
                 map: 'world_en',
                 backgroundColor: 'transparent',
                 borderColor: '#f3545d',
                 borderWidth: 2,
                 color: '#e4e4e4',
-                enableZoom: true,
+                enableZoom: false,
                 hoverColor: '#f3545d',
                 hoverOpacity: null,
                 normalizeFunction: 'linear',
@@ -1381,308 +1392,351 @@
                 },
             });
         var barChart = document.getElementById('barChart').getContext('2d');
-            var barData = eval(document.getElementById('barGraphData').getAttribute('data'));
-            var barLabels = eval(document.getElementById('barGraphData').getAttribute('labels'));
+        var barData = eval(document.getElementById('barGraphData').getAttribute('data'));
+        var barLabels = eval(document.getElementById('barGraphData').getAttribute('labels'));
 
 
-            var justCountry = eval(document.getElementById('mapData').getAttribute('justCountry'))
+        var justCountry = eval(document.getElementById('mapData').getAttribute('justCountry'))
 
-            var betterTeam1 = eval(document.getElementById('betterData').getAttribute('team1'));
-            var betterTeam2 = eval(document.getElementById('betterData').getAttribute('team2'));
-            var worseTeam1 = eval(document.getElementById('worseData').getAttribute('team1'));
-            var worseTeam2 = eval(document.getElementById('worseData').getAttribute('team2'));
+        var betterTeam1 = eval(document.getElementById('betterData').getAttribute('team1'));
+        var betterTeam2 = eval(document.getElementById('betterData').getAttribute('team2'));
+        var worseTeam1 = eval(document.getElementById('worseData').getAttribute('team1'));
+        var worseTeam2 = eval(document.getElementById('worseData').getAttribute('team2'));
 
-            var datasetList = [];
-            colorsList = ["#f3545d", "#EC3103", "#FF8F01", "#FFC101", "#F6E10D", "#11E80B", "#0BE880", "#0BD0E8", "#2AA1E9", "#385BDE", "#7A33B9", "#C541D5", "#FF00D1", "##FF00A2", "#00ff00", "#ffff66", "#ff6699", "#6699ff", "#00ccff", "#00cc66", "#1d7af3", "#f3545d", "#59d05d", "#1d7af3"]
+        var datasetList = [];
+        colorsList = ["#f3545d", "#EC3103", "#FF8F01", "#FFC101", "#F6E10D", "#11E80B", "#0BE880", "#0BD0E8", "#2AA1E9", "#385BDE", "#7A33B9", "#C541D5", "#FF00D1", "##FF00A2", "#00ff00", "#ffff66", "#ff6699", "#6699ff", "#00ccff", "#00cc66", "#1d7af3", "#f3545d", "#59d05d", "#1d7af3"]
 
-            for (index = 0; index < barData.length; index++) {
-                var hiddenVal;
-                if (index == 0) {
-                    hiddenVal = false;
-                } else {
-                    hiddenVal = true;
-                }
-                data = {
-                    label: barData[index][0],
-                    borderColor: colorsList[index],
-                    backgroundColor: colorsList[index],
-                    hidden: hiddenVal,
-                    data: barData[index][1]
-                };
-                datasetList.push(data);
+        for (index = 0; index < barData.length; index++) {
+            var hiddenVal;
+            if (index == 0) {
+                hiddenVal = false;
+            } else {
+                hiddenVal = true;
             }
-            var BarChart = new Chart(barChart, {
+            data = {
+                label: barData[index][0],
+                borderColor: colorsList[index],
+                backgroundColor: colorsList[index],
+                hidden: hiddenVal,
+                data: barData[index][1]
+            };
+            datasetList.push(data);
+        }
+        var BarChart = new Chart(barChart, {
+            type: 'bar',
+            data: {
+                labels: barLabels,
+                datasets: datasetList,
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    position: 'bottom',
+                },
+                tooltips: {
+                    bodySpacing: 4,
+                    mode: "nearest",
+                    intersect: 0,
+                    position: "nearest",
+                    xPadding: 10,
+                    yPadding: 10,
+                    caretPadding: 10
+                },
+                layout: {
+                    padding: { left: 15, right: 15, top: 15, bottom: 15 }
+                }
+            }
+        });
+        $('#lineChartSkillsBetter1').sparkline(betterCombinedTeam1, {
+            type: 'line',
+            height: '70',
+            width: '100%',
+            lineWidth: '2',
+            lineColor: '#f3545d',
+            fillColor: 'rgba(243, 84, 93, 0.14)'
+        });
+        $('#lineChartSkillsBetter2').sparkline(betterCombinedTeam2, {
+            type: 'line',
+            height: '70',
+            width: '100%',
+            lineWidth: '2',
+            lineColor: '#f3545d',
+            fillColor: 'rgba(243, 84, 93, 0.14)'
+        });
+        $('#lineChartSkillsWorse1').sparkline(worseCombinedTeam1, {
+            type: 'line',
+            height: '70',
+            width: '100%',
+            lineWidth: '2',
+            lineColor: '#f3545d',
+            fillColor: 'rgba(243, 84, 93, 0.14)'
+        });
+        $('#lineChartSkillsWorse2').sparkline(worseCombinedTeam2, {
+            type: 'line',
+            height: '70',
+            width: '100%',
+            lineWidth: '2',
+            lineColor: '#f3545d',
+            fillColor: 'rgba(243, 84, 93, 0.14)'
+        });
+        $('#map-exampleRankings').vectorMap(
+            {
+                map: 'world_en',
+                backgroundColor: 'transparent',
+                borderColor: '#f3545d',
+                borderWidth: 2,
+                color: '#e4e4e4',
+                enableZoom: false,
+                hoverColor: '#f3545d',
+                hoverOpacity: null,
+                normalizeFunction: 'linear',
+                scaleColors: ['#f3545d', '#f3545d'],
+                selectedColor: '#f3545d',
+                selectedRegions: justCountry,
+                showTooltip: true,
+                onRegionClick: function (element, code, region) {
+                    return false;
+                },
+                onResize: function (element, width, height) {
+                    console.log('Map Size: ' + width + 'x' + height);
+                },
+            });
+        $('#autoSubmit').click(function () {
+            $('#mapForm').submit()
+        });
+        var similarTeam1BarData = [];
+        for (index = 0; index < betterTeam1.length; index++) {
+            dataset = {
+                label: betterTeam1[index][0],
+                backgroundColor: barColorSimilarList[index],
+                data: betterTeam1[index][1],
+                barPercentage: 0.5,
+                barThickness: 6,
+                maxBarThickness: 8,
+                minBarLength: 2
+            }
+            similarTeam1BarData.push(dataset)
+        }
+        var similarTeam2BarData = [];
+        for (index = 0; index < betterTeam2.length; index++) {
+            dataset = {
+                label: betterTeam2[index][0],
+                backgroundColor: barColorSimilarList[index],
+                data: betterTeam2[index][1],
+                barPercentage: 0.5,
+                barThickness: 6,
+                maxBarThickness: 8,
+                minBarLength: 2
+            }
+            similarTeam2BarData.push(dataset)
+        }
+        var similarTeam3BarData = [];
+        for (index = 0; index < worseTeam1.length; index++) {
+            dataset = {
+                label: worseTeam1[index][0],
+                backgroundColor: colorsList[index],
+                data: worseTeam1[index][1],
+                barPercentage: 0.5,
+                barThickness: 6,
+                maxBarThickness: 8,
+                minBarLength: 2
+            }
+            similarTeam3BarData.push(dataset)
+        }
+        var similarTeam4BarData = [];
+        for (index = 0; index <
+            worseTeam2.length; index++) {
+            dataset = {
+                label: worseTeam2[index][0],
+                backgroundColor: colorsList[index],
+                data: worseTeam2[index][1],
+                barPercentage: 0.5,
+                barThickness: 6,
+                maxBarThickness: 8,
+                minBarLength: 2
+            }
+            similarTeam4BarData.push(dataset)
+        }
+
+        try {
+            var betterTeam1Chart = document.getElementById('BetbarChartCombined1').getContext('2d');
+            var similarBarChart = new Chart(betterTeam1Chart, {
                 type: 'bar',
                 data: {
+                    datasets: similarTeam1BarData,
                     labels: barLabels,
-                    datasets: datasetList,
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                display: false
+                            },
+                        }]
+                    },
                     legend: {
-                        position: 'bottom',
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
                     },
-                    tooltips: {
-                        bodySpacing: 4,
-                        mode: "nearest",
-                        intersect: 0,
-                        position: "nearest",
-                        xPadding: 10,
-                        yPadding: 10,
-                        caretPadding: 10
-                    },
-                    layout: {
-                        padding: { left: 15, right: 15, top: 15, bottom: 15 }
-                    }
                 }
             });
-            $('#map-example3').vectorMap(
-                {
-                    map: 'world_en',
-                    backgroundColor: 'transparent',
-                    borderColor: '#f3545d',
-                    borderWidth: 2,
-                    color: '#e4e4e4',
-                    enableZoom: true,
-                    hoverColor: '#f3545d',
-                    hoverOpacity: null,
-                    normalizeFunction: 'linear',
-                    scaleColors: ['#f3545d', '#f3545d'],
-                    selectedColor: '#f3545d',
-                    selectedRegions: justCountry,
-                    showTooltip: true,
-                    onRegionClick: function (element, code, region) {
-                        return false;
+        }
+        catch (err) {
+            console.log(err);
+        }
+        try {
+            var betterTeam2Chart = document.getElementById('BetbarChartCombined2').getContext('2d');
+            var similarBarChart2 = new Chart(betterTeam2Chart, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam2BarData,
+                    labels: barLabels,
+
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                display: false
+                            },
+                        }]
                     },
-                    onResize: function (element, width, height) {
-                        console.log('Map Size: ' + width + 'x' + height);
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
                     },
-                });
-            $('#autoSubmit').click(function () {
-                $('#mapForm').submit()
+                }
             });
-            var similarTeam1BarData = [];
-            for (index = 0; index < betterTeam1.length; index++) {
-                dataset = {
-                    label: betterTeam1[index][0],
-                    backgroundColor: barColorSimilarList[index],
-                    data: betterTeam1[index][1],
-                    barPercentage: 0.5,
-                    barThickness: 6,
-                    maxBarThickness: 8,
-                    minBarLength: 2
-                }
-                similarTeam1BarData.push(dataset)
-            }
-            var similarTeam2BarData = [];
-            for (index = 0; index < betterTeam2.length; index++) {
-                dataset = {
-                    label: betterTeam2[index][0],
-                    backgroundColor: barColorSimilarList[index],
-                    data: betterTeam2[index][1],
-                    barPercentage: 0.5,
-                    barThickness: 6,
-                    maxBarThickness: 8,
-                    minBarLength: 2
-                }
-                similarTeam2BarData.push(dataset)
-            }
-            var similarTeam3BarData = [];
-            for (index = 0; index < worseTeam1.length; index++) {
-                console.log(worseTeam1[index][0]);
-                dataset = {
-                    label: worseTeam1[index][0],
-                    backgroundColor: colorsList[index],
-                    data: worseTeam1[index][1],
-                    barPercentage: 0.5,
-                    barThickness: 6,
-                    maxBarThickness: 8,
-                    minBarLength: 2
-                }
-                similarTeam3BarData.push(dataset)
-            }
-            var similarTeam4BarData = [];
-            for (index = 0; index <
-                worseTeam2.length; index++) {
-                dataset = {
-                    label: worseTeam2[index][0],
-                    backgroundColor: colorsList[index],
-                    data: worseTeam2[index][1],
-                    barPercentage: 0.5,
-                    barThickness: 6,
-                    maxBarThickness: 8,
-                    minBarLength: 2
-                }
-                similarTeam4BarData.push(dataset)
-            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+        try {
+            var worseTeam1Chart = document.getElementById('WorbarChartCombined1').getContext('2d');
+            var similarBarChart3 = new Chart(worseTeam1Chart, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam3BarData,
+                    labels: barLabels,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
 
-            try {
-                var betterTeam1Chart = document.getElementById('BetbarChartCombined1').getContext('2d');
-                var similarBarChart1 = new Chart(similarTeam1BarData, {
-                    type: 'bar',
-                    data: {
-                        datasets: similarTeam1BarData,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                display: false
+                            },
+                        }]
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true,
-                                },
-                                gridLines: {
-                                    display: false
-                                },
-                            }],
-                            xAxes: [{
-                                gridLines: {
-                                    display: false
-                                },
-                            }]
-                        },
-                        legend: {
-                            position: 'none',
-                            labels: {
-                                padding: 10,
-                                fontColor: '#1d7af3',
-                            }
-                        },
-                    }
-                });
-            }
-            catch (err) {
-                console.log(err);
-            }
-            try {
-                var betterTeam2Chart = document.getElementById('BetbarChartCombined2').getContext('2d');
-                var similarBarChart2 = new Chart(betterTeam2Chart, {
-                    type: 'bar',
-                    data: {
-                        datasets: similarTeam2BarData,
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true,
-                                },
-                                gridLines: {
-                                    display: false
-                                },
-                            }],
-                            xAxes: [{
-                                gridLines: {
-                                    display: false
-                                },
-                            }]
-                        },
-                        legend: {
-                            position: 'none',
-                            labels: {
-                                padding: 10,
-                                fontColor: '#1d7af3',
-                            }
-                        },
-                    }
-                });
-            }
-            catch (err) {
-                console.log(err);
-            }
-            try {
-                var worseTeam1Chart = document.getElementById('WorbarChartCombined1').getContext('2d');
-                var similarBarChart3 = new Chart(worseTeam1Chart, {
-                    type: 'bar',
-                    data: {
-                        datasets: similarTeam3BarData,
-                        labels: barLabels,
+                }
+            });
+        }
+        catch (err) {
+            console.log(err);
+        }
+        try {
+            var worseTeam2Chart = document.getElementById('WorbarChartCombined2').getContext('2d');
+            var similarBarChart4 = new Chart(worseTeam2Chart, {
+                type: 'bar',
+                data: {
+                    datasets: similarTeam4BarData,
+                    labels: barLabels,
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                display: false
+                            },
+                        }]
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true,
-                                },
-                                gridLines: {
-                                    display: false
-                                },
-                            }],
-                            xAxes: [{
-                                gridLines: {
-                                    display: false
-                                },
-                                ticks: {
-                                    beginAtZero: true,
-                                    display: false
-                                },
-                            }]
-                        },
-                        legend: {
-                            position: 'none',
-                            labels: {
-                                padding: 10,
-                                fontColor: '#1d7af3',
-                            }
-                        },
-                    }
-                });
-            }
-            catch (err) {
-                console.log(err);
-            }
-            try {
-                var worseTeam2Chart = document.getElementById('WorbarChartCombined2').getContext('2d');
-                var similarBarChart4 = new Chart(worseTeam2Chart, {
-                    type: 'bar',
-                    data: {
-                        datasets: similarTeam4BarData,
-                        labels: barLabels,
+                    legend: {
+                        position: 'none',
+                        labels: {
+                            padding: 10,
+                            fontColor: '#1d7af3',
+                        }
                     },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
+                }
+            });
+        }
+        catch (err) {
+            console.log(err);
 
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true,
-                                },
-                                gridLines: {
-                                    display: false
-                                },
-                            }],
-                            xAxes: [{
-                                gridLines: {
-                                    display: false
-                                },
-                                ticks: {
-                                    beginAtZero: true,
-                                    display: false
-                                },
-                            }]
-                        },
-                        legend: {
-                            position: 'none',
-                            labels: {
-                                padding: 10,
-                                fontColor: '#1d7af3',
-                            }
-                        },
-                    }
-                });
-            }
-            catch (err) {
-                console.log(err);
-
-            }
-
+        }
+        var profile = document.getElementById('profile').getAttribute('content');
+        document.getElementById("profilePic").src = `../../../media/${profile}`;
     </script>
     {% endblock javascripts %}
 

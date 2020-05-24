@@ -427,7 +427,7 @@
                     <div class="avatar avatar-offline">
                   {% endif %}
                   {% if text.4 != "You Are The Only One" %}
-                    <img src="media/{{text.2}}" alt="..." class="avatar-img rounded-circle">
+                    <img src="../media/{{text.2}}" alt="..." class="avatar-img rounded-circle">
                   {% endif %}
                   </div>
                   <div class="flex-1 ml-3 pt-1">
@@ -563,7 +563,7 @@
           borderColor: '#f3545d',
           borderWidth: 2,
           color: '#e4e4e4',
-          enableZoom: true,
+          enableZoom: false,
           hoverColor: '#f3545d',
           hoverOpacity: null,
           normalizeFunction: 'linear',
@@ -765,7 +765,7 @@
         }
       });
       var profile = document.getElementById('profile').getAttribute('content');
-      document.getElementById("profilePic").src = `media/${profile}`;
+      document.getElementById("profilePic").src = `../media/${profile}`;
 
           
 	</script>

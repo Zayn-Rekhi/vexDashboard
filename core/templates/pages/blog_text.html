@@ -1,4 +1,4 @@
-{% extends "layouts/default.html" %}
+{% extends "layouts/default1.html" %}
 
 {% block title %} Widgets {% endblock title %}
 {% block layout %} sidebar_minimize {% endblock layout %}
@@ -24,7 +24,7 @@
                             <div class="col-md-4 ml-5"></div>
                             <div class="col-md-6 ml-auto mr-auto">
                                 <div class="d-flex">
-                                    <div class="info-post ml-2" style="text-align:center;">
+                                    <div class="info-post" style="text-align:center;">
                                         <p class="username">{{post.author}}</p>
                                         <p class="date text-muted">{{post.date_posted}}</p>
                                     </div>
@@ -51,5 +51,8 @@
 {% endblock content %}
 
 {% block javascripts %}
-
+<script>
+    var profile = document.getElementById('profile').getAttribute('content');
+    document.getElementById("profilePic").src = `../media/${profile}`;
+</script>
 {% endblock javascripts %}

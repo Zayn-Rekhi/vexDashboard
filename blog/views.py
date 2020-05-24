@@ -10,6 +10,46 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 # Create your views here.
 
 
+class getUserInfo():
+    def __init__(self, curUser, db):
+        self.db = db
+        self.curUser = curUser
+        myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+        mydb = myclient[f"{self.db}"]
+        global mycolUserInfo
+        mycolUserInfo = mydb["userInfo"]
+        query = {"username": self.curUser}
+        global find
+        find = mycolUserInfo.find_one(query)
+
+    def get(self):
+        return find
+
+    def getProfilePic(self):
+        return find["profilePic"]
+
+    def getMyTeam(self):
+        return find["teamNumb"]
+
+    def getCompetitors(self):
+        return find["competitor1"], find["competitor2"], find["competitor3"]
+
+    def getMatchesGoals(self):
+        return find["matchesAverageGoal"], find["matchesRankGoal"], find["matchesTopScoreGoal"]
+
+    def getSkillsGoals(self):
+        return find["skillsDriverGoal"], find["skillsProgGoal"], find["skillsRankGoal"]
+
+    def getCalendar(self):
+        try:
+            return find["calendar"]
+        except:
+            return False
+
+
+
+
+
 class PostListView(ListView):
 
     model = Post

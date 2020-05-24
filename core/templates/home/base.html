@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>unapp Template</title>
+    <title>Robotics Hub</title>
+    <link rel="icon" href="/static/assets/img/logo.png" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="" />
     <meta name="keywords" content="" />
@@ -54,10 +55,14 @@
                         <div class="col-md-10 text-right menu-1">
                             <ul>
                                 <li class="active"><a href="/">Home</a></li>
-        
-                                <li><a href="about/">About Us</a></li>
-                                <li><a href="login/">Log In</a></li>
-                                <li><a href="register/">Sign UP</a></li>
+                                <li><a href="../about/">About Us</a></li>
+                                <li><a href="../contact/">Contact</a></li>
+                                {% if isAllowed %}
+                                <li><a href="../login/">Log In</a></li>
+                                <li><a href="../register/">Sign UP</a></li>
+                                {% else %}
+                                <li><a href="../dashboard/">Dashboard</a></li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>

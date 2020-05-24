@@ -7,6 +7,8 @@ Copyright (c) 2019 - present AppSeed.us
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.files.storage import default_storage, FileSystemStorage
+import multiprocessing
+from multiprocessing import Pool
 from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.utils.crypto import get_random_string
@@ -25,7 +27,7 @@ import random
 import os
 
 def page_validator(curuser):
-    myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+    myclient = pymongo.MongoClient('mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority')
     mydb = myclient["webDB_VEX"]
     mycolUserInfo = mydb["userInfo"]
     return mycolUserInfo.find_one({"username":curuser})
@@ -35,7 +37,7 @@ class getUserInfo():
     def __init__(self, curUser, db):
         self.db = db
         self.curUser = curUser
-        myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+        myclient = pymongo.MongoClient('mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority')
         mydb = myclient[f"{self.db}"]
         global mycolUserInfo
         mycolUserInfo = mydb["userInfo"]
@@ -73,7 +75,7 @@ class getTeam():
     def __init__(self, team, db):
         self.team = team
         self.db = db
-        myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+        myclient = pymongo.MongoClient('mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority')
         mydb = myclient[f"{self.db}"]
         global mycolTeams
         mycolTeams = mydb["Teams"]
@@ -252,7 +254,7 @@ class getEvent():
     def __init__(self, sku, db):
         self.sku = sku
         self.db = db
-        myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+        myclient = pymongo.MongoClient('mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority')
         mydb = myclient[f"{self.db}"]
         global mycolEvents
         mycolEvents = mydb["Events"]
@@ -260,7 +262,6 @@ class getEvent():
         event = mycolEvents.find_one({"sku":self.sku})
     
     def get_name(self):
-        print(event)
         return event["name"]
     
     def get_timings(self):
@@ -320,16 +321,16 @@ class formatter():
                 elif date in checkDict:
                     checkDict[date][roundMatch] = index
                 index+=1
-            print(checkDict)
             sortedElimScores = []
             sortedElimDates = []
             for key, value in checkDict.items():
                 for key, val in value.items():
                     sortedElimScores.append(elimScore[val])
                     sortedElimDates.append(elimDate[val])
-
-            dt, sc = (list(t) for t in zip(*sorted(zip(dateList, scoreList))))
-
+            if dateList != [] and scoreList != []:
+                dt, sc = (list(t) for t in zip(*sorted(zip(dateList, scoreList))))
+            else:
+                dt, sc = [], []
             xAxis = []
             yAxis = []
 
@@ -342,6 +343,7 @@ class formatter():
                 xAxis[index] = index
 
             return xAxis, yAxis
+            
         else:
             return [0], [0]
     def skillsFormatter(self):
@@ -372,28 +374,29 @@ class Matches():
         myteam = getTeam(self.myTeamName, "webDB_VEX").get()
         global competitor1, competitor2, competitor3
         competitor1, competitor2, competitor3 = myTeam.getCompetitors()
-        competitor1Query = {"number":competitor1}
-        competitor2Query = {"number":competitor2}
-        competitor3Query = {"number":competitor3}
         global competitor1Find
-        competitor1Find = mycolTeams.find_one(competitor1Query)
+        competitor1Find = mycolTeams.find_one({"number":competitor1})
         global competitor2Find
-        competitor2Find = mycolTeams.find_one(competitor2Query)
+        competitor2Find = mycolTeams.find_one({"number":competitor2})
         global competitor3Find
-        competitor3Find = mycolTeams.find_one(competitor3Query)
-        
+        competitor3Find = mycolTeams.find_one({"number":competitor3})
+        global top10
+        top10 = mycolTeams.find().sort("average", -1).limit(10)
+        global bottom10
+        bottom10 = mycolTeams.find().sort("average", 1).limit(10)
+        myclient = pymongo.MongoClient('mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority')
+        mydb = myclient["webDB_VEX"]
+        global mycolEvents
+        mycolEvents = mydb["Events"]
 
     def lineGraphData(self):
-        completeList = []
-        teamsList = []
+        completeList, teamsList = [], []
         try:
             myTeamMatches = myteam["matches"]
-        except Exception as error:
-            print(error)
-            errors.append(error)
+        except:
+            myTeamMatches = []
             
-        myTeamDate, myTeamScore = formatter(
-            myTeamMatches).matchesFormatter(myteam["number"])
+        myTeamDate, myTeamScore = formatter(myTeamMatches).matchesFormatter(myteam["number"])
         completeList.append(myTeamScore)
         teamsList.append("My Team")
 
@@ -413,9 +416,6 @@ class Matches():
         teamsList.append("{0}(My Comp)".format(competitor2Find["number"]))
         teamsList.append("{0}(My Comp)".format(competitor3Find["number"]))
 
-
-        top10 = mycolTeams.find().sort("average", -1).limit(10)
-        bottom10 = mycolTeams.find().sort("average", 1).limit(10)
  
         for team in top10:
             top10Date, top10Score = formatter(team["matches"]).matchesFormatter(team["number"])
@@ -426,15 +426,13 @@ class Matches():
             try:
                 bottom10Date, bottom10Score = formatter(
                     team["matches"]).matchesFormatter(team["number"])
-
-            except Exception as e:
+            except:
                 bottom10Date = [0]
                 bottom10Score = [0]
 
             teamsList.append("{0}(Bot 10)".format(team["number"]))
             completeList.append(bottom10Score)
         
-        context.update(myteam)
         context.update({
             "percentage":percentage,
             "goal":goal,
@@ -442,35 +440,27 @@ class Matches():
             "yAxis":completeList,
             "teams":teamsList,
         })
+        context.update(myteam)
 
     def table(self, tableInput):
         if tableInput == None:
             value = "myPosition"
         else:
             value = tableInput
-        fullList = []
-        top10 = mycolTeams.find().sort("average", -1).limit(10)
-        bottom10 = mycolTeams.find().sort("average", 1).limit(10)
-  
-        if "myPosition" in value:
-            myPositionList=[myteam["number"], myteam["average"], myteam["country"], myteam["grade"]]
-            fullList.append(myPositionList)
-        if "myCompetitors" in value:
-            competitor1FindList = [competitor1Find["number"], competitor1Find["average"], competitor1Find["country"], competitor1Find["grade"]]
-            competitor2FindList = [competitor2Find["number"], competitor2Find["average"], competitor2Find["country"], competitor2Find["grade"]]
-            competitor3FindList = [competitor3Find["number"], competitor3Find["average"], competitor3Find["country"], competitor3Find["grade"]]
-            fullList.append(competitor1FindList)
-            fullList.append(competitor2FindList)
-            fullList.append(competitor3FindList)
-        if "top10" in value:
-            for team in top10:
-                teamList=[team["number"], team["average"], team["country"], team["grade"]]
-                fullList.append(teamList)
 
-        if "bottom10" in value:
+        fullList = []
+        if "myPosition" in value:
+            fullList.append([myteam["number"], myteam["average"], myteam["country"], myteam["grade"]])
+        elif "myCompetitors" in value:
+            fullList.append([competitor1Find["number"], competitor1Find["average"], competitor1Find["country"], competitor1Find["grade"]])
+            fullList.append([competitor2Find["number"], competitor2Find["average"], competitor2Find["country"], competitor2Find["grade"]])
+            fullList.append([competitor3Find["number"], competitor3Find["average"], competitor3Find["country"], competitor3Find["grade"]])
+        elif "top10" in value:
+            for team in top10:
+                fullList.append([team["number"], team["average"], team["country"], team["grade"]])
+        else:
             for team in bottom10:
-                teamList=[team["number"], team["average"], team["country"], team["grade"]]
-                fullList.append(teamList)
+                fullList.append([team["number"], team["average"], team["country"], team["grade"]])
 
         sorted(fullList, key = lambda x: x[1])       
         context.update({
@@ -490,15 +480,15 @@ class Matches():
                 points = round(yAxisLength/8)
                 for numb in range(1, 9):
                     if numb != 8:
-                        values.append(score[numb*points])
+                        try:
+                            values.append(score[numb*points])
+                        except:
+                            pass
                     else:
                         values.append(score[-1])
             else:
                 values = score
             context.update({
-                f"betterTeamNumber{count}": teams["number"],
-                f"betterTeamAverage{count}": teams["average"],
-                f"betterTeamDiff{count}": 100-teamDiff,
                 f"betterAverageTeam{count}":values,
             })
             finalListBetter.append([teams["number"], teams["average"], 100-teamDiff, values])
@@ -517,46 +507,35 @@ class Matches():
                     points = round(yAxisLength/8)
                     for numb in range(1, 9):
                         if numb != 8:
-                            values.append(score[numb*points])
+                            try:
+                                values.append(score[numb*points])
+                            except:
+                                pass
                         else:
                             values.append(score[-1])
 
                 else:
                     values = score
-                print(values)
             except:
                 values = ["No Data Could Be Found"]
             
             context.update({
-                f"worseTeamNumber{count}":teams["number"],
-                f"worseTeamAverage{count}":teams["average"],
-                f"worseTeamDiff{count}":100-teamDiff,
                 f"worseAverageTeam{count}":values,
             })
             finalListWorse.append([teams["number"], teams["average"], 100-teamDiff, values])
             count+=1
+
         context.update({
             "teamListBetter":finalListBetter,
             "teamListWorse":finalListWorse,
         })
           
     def Allmatches(self):
-        copyInput = myteam["matches"]
-        eventList = []
-        blueScoreList = []
-        redScoreList = []
-        matchList = []
-        resultList = []
-        dateList = []
-        fieldList = []
-        redList = []
-        blueList = []
-
-        for lt in copyInput:
+        eventList, blueScoreList, redScoreList, matchList, resultList, dateList, fieldList, redList, blueList = [], [], [], [], [], [], [], [], []
+        for lt in myteam["matches"]:
             if lt["blue1"] == myteam or lt["blue2"] == myteam or lt["blue3"] == myteam:
                 score = lt["bluescore"]
                 color = "blue"
-
                 if lt["redscore"] < lt["bluescore"]:
                     win = "win"
                 elif lt["redscore"] == lt["bluescore"]:
@@ -573,22 +552,20 @@ class Matches():
                 else:
                     win = "loss"
 
-            date = lt["scheduled"]
             matchRound = lt["round"]
             sku = lt["sku"]
-            print(lt)
-            event = getEvent(sku, "webDB_VEX")
+            event = mycolEvents.find_one({"sku":sku})
+            # event = getEvent(sku, "webDB_VEX")
             if matchRound > 2:
-                print(matchRound)
-                start, end = event.get_timings()
+                end = event["end"]
                 if matchRound == 3:
-                    subtractionValue = timedelta(minutes=30)
+                    subtractionValue = timedelta(minutes=3)
                     matchValue = "QF {0}".format(lt["matchnum"])
                 if matchRound == 4:
-                    subtractionValue = timedelta(minutes=20)
+                    subtractionValue = timedelta(minutes=2)
                     matchValue = "SM {0}".format(lt["matchnum"])
                 if matchRound == 5:
-                    subtractionValue = timedelta(minutes=10)
+                    subtractionValue = timedelta(minutes=1)
                     matchValue = "F {0}".format(lt["matchnum"])
                 if matchRound == 6:
                     subtractionValue = timedelta(minutes=0)
@@ -597,6 +574,7 @@ class Matches():
                 matchList.append(matchValue)
                 dateList.append(str(parser.parse(end)-subtractionValue))
             else:
+                date = lt["scheduled"]
                 if matchRound == 2:
                     matchValue = "Q {0}".format(lt["matchnum"])
                 if matchRound == 1:
@@ -605,27 +583,22 @@ class Matches():
                 matchList.append(matchValue)
                 dateList.append(date)
 
-            eventList.append(event.get_name())
+            eventList.append(event["name"])
             redScoreList.append(lt["redscore"])
             blueScoreList.append(lt["bluescore"])
             fieldList.append(lt["field"])
             redList.append([lt["blue1"],lt["blue2"],lt["blue3"]])
             blueList.append([lt["red1"], lt["red2"], lt["red3"]])
             resultList.append(win)
-        realDate, compScoreBlue, compScoreRed, compField, compRed, compBlue, compResult, compMatch, compEvent = (list(
+        try:
+            realDate, compScoreBlue, compScoreRed, compField, compRed, compBlue, compResult, compMatch, compEvent = (list(
             t) for t in zip(*sorted(zip(dateList, blueScoreList, redScoreList, fieldList, redList, blueList, resultList, matchList, eventList))))
+        except:
+            realDate, compScoreBlue, compScoreRed, compField, compRed, compBlue, compResult, compMatch, compEvent = [], [], [], [], [], [], [], [], [] 
 
-
-        compDate = []
-        for date in realDate:
-            d1 = parser.parse(date).strftime('%b %d %Y')
-            compDate.append(d1)
-
-
-        print(compMatch)
         context.update({
             "allDataTable":zip(
-                compDate,
+                realDate,
                 compScoreBlue,
                 compScoreRed,
                 compField,
@@ -639,9 +612,6 @@ class Matches():
 
 
     def worldMap(self, mapInfo):
-        print(mapInfo)
-        top10 = mycolTeams.find().sort("average", -1).limit(10)
-        bottom10 = mycolTeams.find().sort("average", 1).limit(10)
         if mapInfo == "myPosition":
             mypositionData = pycountry.countries.search_fuzzy(myteam["country"])[0].alpha_2
             context.update({
@@ -672,15 +642,10 @@ class Matches():
             justCountry = []
             fullTeamList = []
             for team in top10:
-                print(team)
-                teamList = []
                 countryName = pycountry.countries.search_fuzzy(team["country"])[0].alpha_2
                 if team["country"] not in justCountry:
                     justCountry.append(countryName)
-                teamList.append(team["country"])
-                teamList.append(team["number"])
-                teamList.append(team["average"])
-                teamList.append(countryName.lower())
+                teamList = [team["country"],team["number"],team["average"],countryName.lower()]
                 fullTeamList.append(teamList)
             context.update({
                 "justCountryMatches": justCountry,
@@ -690,14 +655,10 @@ class Matches():
             justCountry = []
             fullTeamList = []
             for team in bottom10:
-                teamList = []
                 countryName = pycountry.countries.search_fuzzy(team["country"])[0].alpha_2
                 if team["country"] not in justCountry:
                     justCountry.append(countryName)
-                teamList.append(team["country"])
-                teamList.append(team["number"])
-                teamList.append(team["average"])
-                teamList.append(countryName.lower())
+                teamList = [team["country"],team["number"],team["average"],countryName.lower()]
                 fullTeamList.append(teamList)
             context.update({
                 "justCountryMatches": justCountry,
@@ -756,25 +717,34 @@ class Skills():
             "skillsDriverGoal":skillsDriverGoal,
             "skillsProgGoal": skillsProgGoal,
             "skillsCombinedGoal": skillsCombinedGoal,
-            "DRIVERscore": Drivertotal/len(driver),
-            "PROGscore": Programmingtotal/len(programming),
-            "COMBINEDscore": Combinedtotal/len(combined),
-            "skillsDriverGoalTotal":  round(
-                ((Drivertotal/len(driver))/int(skillsDriverGoal))*100, 1),
-            "skillsProgGoalTotal": round(
-                ((Programmingtotal/len(programming))/int(skillsProgGoal))*100, 1),
-            "skillsCombinedGoalTotal": round(
-                ((Combinedtotal/len(combined))/int(skillsCombinedGoal))*100, 1),
         })
-
+        try:
+            context.update({
+                "DRIVERscore": Drivertotal/len(driver),
+                "PROGscore": Programmingtotal/len(programming),
+                "COMBINEDscore": Combinedtotal/len(combined),
+                "skillsDriverGoalTotal":  round(
+                ((Drivertotal/len(driver))/int(skillsDriverGoal))*100, 1),
+                "skillsProgGoalTotal": round(
+                    ((Programmingtotal/len(programming))/int(skillsProgGoal))*100, 1),
+                "skillsCombinedGoalTotal": round(
+                    ((Combinedtotal/len(combined))/int(skillsCombinedGoal))*100, 1),
+            })
+        except:
+            context.update({
+                "DRIVERscore": 0,
+                "PROGscore": 0,
+                "COMBINEDscore": 0,
+                "skillsDriverGoalTotal":  0,
+                "skillsProgGoalTotal": 0,
+                "skillsCombinedGoalTotal": 0,
+            })
     def driverScatterPlot(self, driverGraphInput):
-        print(driverGraphInput)
         if driverGraphInput == []:
             driverGraphInput.append("myPosition")
         if "myPosition" in driverGraphInput:
             AllDriver = formatter(driver).skillsFormatter()
-            print(AllDriver)
-            print(AllDriver)
+      
             team_name = myteam["number"]
             context.update({
                 "driverLinePlotData": [[team_name, AllDriver]],
@@ -879,9 +849,9 @@ class Skills():
                 points = round(yAxisLength/8)
                 for numb in range(1, 9):
                     if numb != 8:
-                        values.append(teamProgramming[numb*points]["y"])
+                        values.append(teamDriver[numb*points]["y"])
                     else:
-                        values.append(teamProgramming[-1]["y"])
+                        values.append(teamDriver[-1]["y"])
                     
             else:
                 for roundNumber in teamDriver:
@@ -938,8 +908,11 @@ class Skills():
         similarAveragesGreaterFull2 = []
         for teams in similarAveragesGreater:
             teamtopScore = teams["driverTopScore"]
-            teamDiff = round(teams["driverTopScore"] /
+            try:
+                teamDiff = round(teams["driverTopScore"] /
                              myteam["driverTopScore"]*100)
+            except:
+                teamDiff=100000
 
             context.update({
                 f"betterDriverTeamNumbertopScore{count}": teams["number"],
@@ -981,7 +954,6 @@ class Skills():
             "similarAveragesLesserFull1": similarAveragesLesserFull1,
             "similarAveragesLesserFull2": similarAveragesLesserFull2,
         })
-    #     print(Competitor1Driver)
 
     def programmingScatterPlot(self, programmingGraphInput):
         if programmingGraphInput == []:
@@ -1089,11 +1061,12 @@ class Skills():
             teamProgramming = formatter(
             teams["ProgrammingData"]).skillsFormatter()
             yAxisLength = len(teamProgramming)
-            teamDiff = round(teams["programmingAverage"] /
+            try:
+                teamDiff = round(teams["programmingAverage"] /
                             myteam["programmingAverage"]*100)
-            print(teams["programmingAverage"], "otherteam")
-            print(myteam["programmingAverage"], "myteam")
-            print(teamDiff)
+            except:
+                teamDiff = 1000
+     
             values = []
             if yAxisLength > 8:
                 points = round(yAxisLength/8)
@@ -1123,9 +1096,7 @@ class Skills():
             yAxisLength = len(teamProgramming)
             teamDiff = round(teams["programmingAverage"] /
                              myteam["programmingAverage"]*100)
-            print(teams["programmingAverage"],"prog")
-            print(myteam["programmingAverage"], "prog")
-            print(teamDiff)
+
             values = []
             if yAxisLength > 8:
                 points = round(yAxisLength/8)
@@ -1210,6 +1181,8 @@ class Skills():
                 "tableListcombined": [[myteam["number"], myteam["combinedTopScore"], round(myteam["combinedAverage"], 1)]],
             })
 
+            print([[myteam["number"], myteam["combinedTopScore"],
+                    round(myteam["combinedAverage"], 1)]])
         if "myCompetitors" in combinedGraphInput:
             Competitor1combined = formatter(
                 competitor1Find["CombinedData"]).skillsFormatter()
@@ -1561,7 +1534,7 @@ class Rankings():
             tableData = [myteam["number"], rankingsData["rank"],rankingsData["wins"],rankingsData["losses"],rankingsData["ties"],rankingsData["ap"],rankingsData["wp"],rankingsData["sp"],rankingsData["max_score"],rankingsData["opr"],rankingsData["dpr"],rankingsData["trsp"],rankingsData["ccwm"]]
             context.update({
                 "barGraphData":[[myteam["number"], data]],
-                "tableData":tableData,
+                "tableData":[tableData],
             })
         elif "top10" in inputData:
             allData = []
@@ -1661,8 +1634,7 @@ class Rankings():
                 ]
             ])
         
-        
-        
+        print(betterTeamsFullData)
         context.update({
             "barLabels":["wins","losses","ties","ap","wp","sp","max_score","opr","dpr","trsp","ccwm","rank"],
             "betterTeamData1": [betterTeamsFullData[0]] if betterTeamsFullData != [] else [],
@@ -1698,22 +1670,23 @@ class teamSearchMain():
         myteam = getTeam(self.myTeamName, "webDB_VEX").get()
         
     def first(self):        
-        betterTeams, worseTeams = getTeam(self.myTeamName, "webDB_VEX").specialChars1(myteam["average"], 7)
+        betterTeams, worseTeams = getTeam(
+            self.myTeamName, "webDB_VEX").specialChars1(myteam["average"], 4)
         betterTeamList = []
         worseTeamList = []
         mixTeamList = []
         for count, team in enumerate(betterTeams):
             listAppend = [
-                    team["number"],
-                    True,
-                    team["average"],
-                    team["driverTopScore"],
-                    team["programmingTopScore"],
-                    team["country"],
-                    team["grade"],
-                    team["team_name"]
-                ]
-            if count < 2:
+                team["number"],
+                True,
+                team["average"],
+                team["driverTopScore"],
+                team["programmingTopScore"],
+                team["country"],
+                team["grade"],
+                team["team_name"]
+            ]
+            if count < 1:
                 mixTeamList.append(listAppend)
             else:
                 betterTeamList.append(listAppend)
@@ -1729,13 +1702,13 @@ class teamSearchMain():
                 team["grade"],
                 team["team_name"]
             ]
-            if count < 2:
+            if count < 1:
                 mixTeamList.append(listAppend)
             else:
                 worseTeamList.append(listAppend)
 
         mixTeamList.append([
-            myteam["number"],
+            "My Team",
             "1",
             myteam["average"],
             myteam["driverTopScore"],
@@ -1746,13 +1719,35 @@ class teamSearchMain():
         ])
 
         mixTeamList.sort(key=operator.itemgetter(2), reverse=True)
-        worseList = reversed(worseTeamList)
-      
+        worseList = worseTeamList[::-1]
+
         context.update({
-            "betterList":betterTeamList,
-            "worseList":list(worseList),
-            "mixedList":list(reversed(mixTeamList)),
+            "betterList": betterTeamList,
+            "worseList": list(worseList),
+            "mixedList": list(reversed(mixTeamList)),
         })
+        if len(list(mixTeamList)) < 3:
+            iterList=[]
+            for numb in range(3-len(list(mixTeamList))):
+                iterList.append( numb )
+            context.update({
+                "mixfiller":iterList,
+            })
+        if len(worseList) < 3:
+            iterList=[]
+            for numb in range(3-len(list(worseList))):
+                iterList.append( numb )
+            context.update({
+                "worsefiller":iterList,
+            })
+        if len(betterTeamList) < 3:
+            iterList=[]
+            for numb in range(3-len(list(betterTeamList))):
+                iterList.append( numb )
+            context.update({
+                "betterfiller":iterList,
+            })
+
 
     def get(self):
         return context
@@ -1767,7 +1762,7 @@ class chat():
         myTeam = getUserInfo(self.username, "webDB_VEX")
         global context
         context={}
-        myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+        myclient = pymongo.MongoClient('mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority')
         mydb = myclient[f"webDB_VEX"]
         global mycolchat
         mycolchat = mydb["Chat"]
@@ -1807,7 +1802,6 @@ class chat():
         }}})
 
     def invite(self, member, code):
-        print(code)
         if member != self.username:
             email = mycolAuthUser.find_one({"username":member})
             if email:
@@ -1853,7 +1847,6 @@ class chat():
                 lastMessageList.append([])
         myProfile =             profilePic=mycolUserInfo.find_one({"username":self.username})['profilePic']
         
-        print(contactsList)
         context.update({
             "zippedData":list(zip(chatIDList,contactsList,messageList, profileList, lastMessageList)),
             "myProfile":myProfile,
@@ -1870,7 +1863,7 @@ class calendar():
         self.db = db
         global context
         context = {}
-        myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+        myclient = pymongo.MongoClient('mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority')
         mydb = myclient[f"{self.db}"]
         global mycolUserInfo
         mycolUserInfo = mydb["userInfo"]
@@ -1888,7 +1881,6 @@ class calendar():
             "$push": {"calendar": data}
         })
     def load(self):
-        print("load")
         if myTeam.getCalendar() != False:
             context.update({
                 "events":mycolUserInfo.find_one({"username":self.username})["calendar"]
@@ -1931,7 +1923,7 @@ class homePage():
         programming = myteam["ProgrammingData"]
         global combined
         combined = myteam["CombinedData"]
-        myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+        myclient = pymongo.MongoClient('mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority')
         mydb = myclient["webDB_VEX"]
         global mycolEvents
         mycolEvents = mydb["Events"]
@@ -1951,22 +1943,12 @@ class homePage():
         skillsDriver = round(myteam["driverAverage"]/int(skillsGoals[0])*100, 2)
         skillsProgramming = round(myteam["programmingAverage"]/int(skillsGoals[1])*100, 2)
         profilePic = myTeam.getProfilePic()
-        print(profilePic)
+
         def Average(lst): 
             return round(sum(lst) / len(lst), 1) 
 
-        wins = []
-        losses = []
-        ties = []
-        ap = []
-        wp = []
-        sp = []
-        maxScore = []
-        opr = []
-        dpr = []
-        trsp = []
-        ccwm = []
-        rank = []
+        wins, losses, ties, ap, wp ,sp, maxScore, opr, dpr, trsp, ccwm, rank = [], [], [], [], [], [], [], [], [], [], [], []
+        
         for eventer in myteam["rankings"]:
             event=myteam["rankings"][eventer]
             wins.append(event["wins"])
@@ -2001,8 +1983,9 @@ class homePage():
     
     def main(self, option):
         label = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-
-        print("optionasdkfjsa", option)
+        myclient = pymongo.MongoClient('mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority')
+        mydb = myclient["webDB_VEX"]
+        mycolEvents = mydb["Events"]
         if option == None:
             option='match'
         if option == 'match':
@@ -2016,16 +1999,15 @@ class homePage():
                 date = lt["scheduled"]
                 matchRound = lt["round"]
                 sku = lt["sku"]
-                event = getEvent(sku, "webDB_VEX")
                 score = lt[f"{color}score"]
                 if matchRound > 2:
-                    start, end = event.get_timings()
+                    end = mycolEvents.find_one({"sku":sku})["end"]
                     if matchRound == 3:
-                        subtractionValue = timedelta(minutes=30)
+                        subtractionValue = timedelta(minutes=3)
                     if matchRound == 4:
-                        subtractionValue = timedelta(minutes=20)
+                        subtractionValue = timedelta(minutes=2)
                     if matchRound == 5:
-                        subtractionValue = timedelta(minutes=10)
+                        subtractionValue = timedelta(minutes=1)
                     if matchRound == 6:
                         subtractionValue = timedelta(minutes=0)
 
@@ -2058,10 +2040,11 @@ class homePage():
                 "data":[['My Team',realScore]]
             })
         elif option=="skills":
+           
             copyInputDriver = myteam["DriverData"]
             driverDict = {}
             for event in copyInputDriver:
-                start, end = getEvent(event["sku"], "webDB_VEX").get_timings()
+                start = mycolEvents.find_one({"sku":event["sku"]})["end"]
                 date=parser.parse(start)
                 score=event["score"]
                 if date.month not in driverDict.keys():
@@ -2081,8 +2064,8 @@ class homePage():
             copyInputProgramming = myteam["ProgrammingData"]
             ProgrammingDict = {}
             for event in copyInputProgramming:
-                start, end = getEvent(event["sku"], "webDB_VEX").get_timings()
-                date=parser.parse(start)
+                start = mycolEvents.find_one({"sku": event["sku"]})["end"]
+                date = parser.parse(start)
                 score=event["score"]
                 if date.month not in ProgrammingDict.keys():
                     ProgrammingDict.update({
@@ -2101,8 +2084,8 @@ class homePage():
             copyInputCombined = myteam["CombinedData"]
             CombinedDict = {}
             for event in copyInputCombined:
-                start, end = getEvent(event["sku"], "webDB_VEX").get_timings()
-                date=parser.parse(start)
+                start = mycolEvents.find_one({"sku": event["sku"]})["end"]
+                date = parser.parse(start)
                 score=event["score"]
                 if date.month not in CombinedDict.keys():
                     CombinedDict.update({
@@ -2141,16 +2124,15 @@ class homePage():
             date = lt["scheduled"]
             matchRound = lt["round"]
             sku = lt["sku"]
-            event = getEvent(sku, "webDB_VEX")
             score = lt[f"{color}score"]
             if matchRound > 2:
-                start, end = event.get_timings()
+                end = mycolEvents.find_one({"sku": sku})["end"]
                 if matchRound == 3:
-                    subtractionValue = timedelta(minutes=30)
+                    subtractionValue = timedelta(minutes=3)
                 if matchRound == 4:
-                    subtractionValue = timedelta(minutes=20)
+                    subtractionValue = timedelta(minutes=2)
                 if matchRound == 5:
-                    subtractionValue = timedelta(minutes=10)
+                    subtractionValue = timedelta(minutes=1)
                 if matchRound == 6:
                     subtractionValue = timedelta(minutes=0)
 
@@ -2175,7 +2157,7 @@ class homePage():
 
             eventDict = {}
             for event, values in copyInputevent.items():
-                start, end = getEvent(event, "webDB_VEX").get_timings()
+                start = mycolEvents.find_one({"sku": event})["start"]
                 date = parser.parse(start)
                 eventDict.update({date: values})
                 
@@ -2318,8 +2300,7 @@ class homePage():
             is_validVar=False
             fullList = []
         
-        print(fullList)
-        print(is_validVar)
+     
         context.update({
             "fullActivityList":fullList,
             "is_validVar":is_validVar
@@ -2355,7 +2336,6 @@ class homePage():
                 ])
             else:
                 break
-        print(chatList)
         context.update({
             "textMessageList":chatList
         })
@@ -2395,6 +2375,13 @@ def teams(request, slug):
         context={}
         curUser = request.user.username
 
+        myclient = pymongo.MongoClient('mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority')
+        mydb = myclient["webDB_VEX"]
+        mycolUserInfo = mydb["userInfo"]
+
+        profile = mycolUserInfo.find_one({"username":curUser})["profilePic"]
+        context.update({"profilePic":profile})
+
         myTeamInfo = getTeam(slug, "webDB_VEX").get()
         graphInfoDriver = request.POST.getlist('driverLineGraph')
         graphInfoProgramming = request.POST.getlist('programmingLineGraph')
@@ -2402,12 +2389,16 @@ def teams(request, slug):
         mapInfoTeam = request.POST.getlist('map')
         mapInfoType = request.POST.getlist('type')
 
-        instance = Skills(slug, curUser)
+        try:
+            instance = Skills(slug, curUser)
+        except:
+            return render(request, "backupTeam.html", context=context)
+
         instance.topBar()
-        instance.driverScatterPlot(graphInfoDriver)
-        instance.programmingScatterPlot(graphInfoProgramming)
-        instance.combinedScatterPlot(graphInfoCombined)
-        instance.worldMap(mapInfoTeam, mapInfoType)
+        instance.driverScatterPlot(['myPosition'])
+        instance.programmingScatterPlot(['myPosition'])
+        instance.combinedScatterPlot(['myPosition'])
+        instance.worldMap(mapInfoTeam, ['myPosition'])
         contextSkills = instance.get()
         context.update(contextSkills)
 
@@ -2416,24 +2407,37 @@ def teams(request, slug):
 
         instance = Matches(slug, curUser)
         instance.lineGraphData()
-        instance.table(tableInfo)
+        instance.table(['myPosition'])
         instance.SimilarTeams()
         instance.Allmatches()
-        instance.worldMap(mapInfo)
+        instance.worldMap('myPosition')
         contextMatches = instance.get()
         context.update(contextMatches)
-
-        tableInfo = request.POST.getlist('tableInfo')
+       
+        tableInfo = request.POST.get('listInput')
+        curUser = request.user.username
+        myTeam = getUserInfo(curUser, "webDB_VEX")
         instance = Rankings(slug, curUser)
         instance.navigator()
-        for key, value in request.POST.items():
-            if key == "listInput":
-                instance.showGraphs(value, tableInfo)
-                instance.worldMap(value)
+        skuVal=None
+
+        if tableInfo != None:
+
+            for key, value in request.POST.items():
+                if key == "listInput":
+                    skuVal=value
+        else:
+            firstEvent = list(getTeam(slug,
+                                      "webDB_VEX").get()["rankings"])[0]
+            print(firstEvent)
+            skuVal=firstEvent
+
+        instance.showGraphs(skuVal, ["myPosition"])
+        instance.worldMap(skuVal)
 
         contextRankings = instance.get()
         context.update(contextRankings)
-
+        
         context.update({
             "robot_name":myTeamInfo["robot_name"],
             "organisation": myTeamInfo["organisation"],
@@ -2448,7 +2452,6 @@ def teams(request, slug):
 
 @login_required(login_url="/login/")
 def settings(request):
-    print("hello")
     def checkData(data):
         myTeam = data["teamNumb"]
         comp1 = data["competitor1"]
@@ -2471,7 +2474,6 @@ def settings(request):
             checkList.append(True)
         else:
             checkList.append(False)
-        print(checkList)
         return False if False in checkList else True
     def uploadFile(file):
         try:
@@ -2481,7 +2483,7 @@ def settings(request):
         except:
             pass
 
-    myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+    myclient = pymongo.MongoClient('mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority')
     mydb = myclient["webDB_VEX"]
     user = request.user.username
     mycolUserInfo = mydb["userInfo"]
@@ -2514,7 +2516,6 @@ def settings(request):
     }
     message=""
     try:
-        print(user)
         findUser = getUserInfo(user, "webDB_VEX").getMyTeam()
         checker = checkData(data)
         if checker:
@@ -2531,7 +2532,6 @@ def settings(request):
                 message+="One Of your teams is NOT supported by us. We apologize for the inconvenience."
             
     except Exception as e:
-        print(e)
         if None not in data.values():
             checker = checkData(data)
             if checker:
@@ -2563,6 +2563,7 @@ def settings(request):
             "matchesAverageGoal":findUser["matchesAverageGoal"],
             "matchesTopScoreGoal":findUser["matchesTopScoreGoal"],
             "matchesRankGoal": findUser["matchesRankGoal"],
+            "profilePic":findUser["profilePic"],
         })
     except:
         contextVar.update({
@@ -2591,16 +2592,21 @@ def matches(request):
         
         tableInfo = request.POST.getlist('tableInfo')
         mapInfo = request.POST.get('map')
-
+            
         curUser = request.user.username
-        myTeam = getUserInfo(curUser, "webDB_VEX").getMyTeam()
-        instance = Matches(myTeam, curUser)
-        instance.lineGraphData()
-        instance.table(tableInfo)
-        instance.SimilarTeams()
-        instance.Allmatches()
-        instance.worldMap(mapInfo)
+        myTeam = getUserInfo(curUser, "webDB_VEX")
+        instance = Matches(myTeam.getMyTeam(), curUser)
+        pool = Pool(processes=10)
+        pool.apply_async(instance.lineGraphData())
+        pool.apply_async(instance.table(tableInfo) if tableInfo != [] else instance.table(['myPosition']))
+        pool.apply_async(instance.SimilarTeams())
+        pool.apply_async(instance.Allmatches())
+        pool.apply_async(instance.worldMap(mapInfo) if mapInfo != None else instance.worldMap('myPosition'),)
+            
         context = instance.get()
+        context.update({
+            "profilePic":myTeam.getProfilePic()
+        })
         try:
             template = loader.get_template('pages/matches.html')
             return HttpResponse(template.render(context, request))
@@ -2618,14 +2624,17 @@ def skills(request):
         mapInfoTeam=request.POST.getlist('map')
         mapInfoType=request.POST.getlist('type')
         curUser = request.user.username
-        myTeam = getUserInfo(curUser,"webDB_VEX").getMyTeam()
-        instance = Skills(myTeam,curUser)
+        myTeam = getUserInfo(curUser,"webDB_VEX")
+        instance = Skills(myTeam.getMyTeam(), curUser)
         instance.topBar()
         instance.driverScatterPlot(graphInfoDriver)
         instance.programmingScatterPlot(graphInfoProgramming)
         instance.combinedScatterPlot(graphInfoCombined)
         instance.worldMap(mapInfoTeam, mapInfoType)
         context=instance.get()
+        context.update({
+            "profilePic":myTeam.getProfilePic(),
+        })
         try:
             template = loader.get_template('pages/skills.html')
             return HttpResponse(template.render(context, request))
@@ -2650,6 +2659,9 @@ def calendarPage(request):
             pass    
         instance.load()
         context=instance.get()
+        context.update({
+            "profilePic":myTeam.getProfilePic()
+        })
 
         try:
             template = loader.get_template('pages/calendar.html')
@@ -2665,21 +2677,36 @@ def rankings(request):
     if page_validator(request.user.username):
         curUser = request.user.username
         tableInfo=request.POST.getlist('tableInfo')
-        instance = Rankings(curUser)
+        curUser = request.user.username
+        myTeam = getUserInfo(curUser,"webDB_VEX")
+        instance = Rankings(myTeam.getMyTeam(), curUser)
         instance.navigator()
-        for key, value in request.POST.items():
-            if key == "listInput":
-                instance.showGraphs(value, tableInfo)
-                instance.worldMap(value)
+        if tableInfo != []:
+            for key, value in request.POST.items():
+                if key == "listInput":
+                    try:
+                        instance.showGraphs(value, tableInfo)
+                        instance.worldMap(value)
+                    except:
+                        pass
+        else:
+            try:
+                firstEvent = list(getTeam(myTeam.getMyTeam(), "webDB_VEX").get()["rankings"])[0]
+                instance.showGraphs(firstEvent, ["myPosition"])
+                instance.worldMap(firstEvent)
+            except:
+                pass            
 
         context = instance.get()
-
-        try:
-            template = loader.get_template('pages/rankings.html')
-            return HttpResponse(template.render(context, request))
-        except:
-            template = loader.get_template('pages/error-404.html')
-            return HttpResponse(template.render(context, request))
+        context.update({
+            "profilePic":myTeam.getProfilePic()
+        })
+        # try:
+        template = loader.get_template('pages/rankings.html')
+        return HttpResponse(template.render(context, request))
+        # except :
+        #     template = loader.get_template('pages/error-404.html')
+        #     return HttpResponse(template.render(context, request))
     else:
         return render(request, "backup.html")
 
@@ -2705,6 +2732,10 @@ def messages(request):
 
         instance.load()
         context=instance.get()
+        myTeam = getUserInfo(curUser, "webDB_VEX")
+        context.update({
+            "profilePic": myTeam.getProfilePic()
+        })
         
         try:
             template = loader.get_template('pages/text_message.html')
@@ -2722,11 +2753,18 @@ def team_search(request):
     if page_validator(request.user.username):
         searchInfo = request.POST.get('search')
         curUser = request.user.username
-        instance = teamSearchMain("BLRS", curUser)
+        myTeam = getUserInfo(curUser, "webDB_VEX")
+        instance = teamSearchMain(myTeam.getMyTeam(), curUser)
         instance.first()
         if searchInfo != None:
             return redirect(f"team/{searchInfo}")
+
         context = instance.get()
+        curUser = request.user.username
+        myTeam = getUserInfo(curUser, "webDB_VEX")
+        context.update({
+            "profilePic":myTeam.getProfilePic()
+        })
         
         try:
             template = loader.get_template('pages/team_search.html')
@@ -2740,6 +2778,20 @@ def team_search(request):
 
 def home(request):    
     context={}
+    myclient = pymongo.MongoClient('mongodb+srv://ZaynRekhi:assimo11!@clustor0-vxk4l.mongodb.net/test?retryWrites=true&w=majority')
+    mydb = myclient[f"webDB_VEX"]
+    mycolAuthUser = mydb["auth_user"]
+    mycolTeams = mydb["Teams"]
+    mycolBlog = mydb["blog_post"]
+    AuthLength=mycolAuthUser.find().count()
+    TeamsLength=mycolTeams.find().count()
+    BlogLength = mycolBlog.find().count()
+    context.update({
+        "teams":TeamsLength,
+        "users":AuthLength,
+        "blog":BlogLength
+    })
+
     try:
         authVar = True
         if request.user.is_authenticated:
@@ -2748,7 +2800,6 @@ def home(request):
         template = loader.get_template('home/index.html')
         return HttpResponse(template.render(context, request))
     except Exception as e:
-        print(e)
         template = loader.get_template('pages/error-404.html')
         return HttpResponse(template.render(context, request))
 
@@ -2756,11 +2807,44 @@ def home(request):
 def aboutUs(request):
     context = {}
     try:
+        authVar = True
+        if request.user.is_authenticated:
+            authVar = False
+        context.update({"isAllowed": authVar})
         template = loader.get_template('home/about.html')
         return HttpResponse(template.render(context, request))
     except Exception as e:
         template = loader.get_template('pages/error-404.html')
         return HttpResponse(template.render(context, request))
+
+def contacts(request):
+    context = {}
+    firstName = request.POST.get("fname")
+    lastName = request.POST.get("lname")
+    email = request.POST.get("email")
+    subject = request.POST.get("subject")
+    message = request.POST.get("message")
+    fullList = [firstName, lastName, email, subject, message]
+    if not None in fullList:
+        send_mail(
+            f'Contacts-{subject}',
+            f'{firstName}\n{lastName}\n{email}\n{subject}\n{message}',
+            'dashboardvex@gmail.com',
+            ["rekhi.zayn@gmail.com"],
+            fail_silently=True,
+        )
+    try:
+        authVar = True
+        if request.user.is_authenticated:
+            authVar = False
+        context.update({"isAllowed": authVar})
+        template = loader.get_template('home/contact.html')
+        return HttpResponse(template.render(context, request))
+    except Exception as e:
+        template = loader.get_template('pages/error-404.html')
+        return HttpResponse(template.render(context, request))
+
+
 
 
 
