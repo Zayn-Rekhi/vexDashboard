@@ -3,24 +3,23 @@
 License: MIT
 Copyright (c) 2019 - present AppSeed.us
 """
-
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
 from django.core.files.storage import default_storage, FileSystemStorage
-import multiprocessing
-from multiprocessing import Pool
-from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.utils.crypto import get_random_string
-from django.conf import settings
 from django.core.mail import send_mail
-from django.template import loader
 from django.http import HttpResponse
+from django.contrib import messages
+from django.template import loader
+import dateutil.parser as parser
+from django.conf import settings
+from multiprocessing import Pool
 from operator import itemgetter
+from datetime import timedelta
+import multiprocessing
 import pymongo
 import pycountry
-from datetime import timedelta
-import dateutil.parser as parser
 import datetime
 import operator
 import random
@@ -51,24 +50,17 @@ class getUserInfo():
         return find["profilePic"]
     def getMyTeam(self):
         return find["teamNumb"]
-
     def getCompetitors(self):
         return find["competitor1"], find["competitor2"], find["competitor3"]
-
     def getMatchesGoals(self):
         return find["matchesAverageGoal"], find["matchesRankGoal"], find["matchesTopScoreGoal"]
-
     def getSkillsGoals(self):
         return find["skillsDriverGoal"], find["skillsProgGoal"], find["skillsRankGoal"]
-
     def getCalendar(self):
         try:
             return find["calendar"]
         except:
             return False
-
-
-
 
 
 class getTeam():
@@ -1947,7 +1939,7 @@ class homePage():
         def Average(lst): 
             return round(sum(lst) / len(lst), 1) 
 
-        wins, losses, ties, ap, wp ,sp, maxScore, opr, dpr, trsp, ccwm, rank = [], [], [], [], [], [], [], [], [], [], [], []
+        wins, losses, ties, ap, wp, sp, maxScore, opr, dpr, trsp, ccwm, rank = [], [], [], [], [], [], [], [], [], [], [], []
         
         for eventer in myteam["rankings"]:
             event=myteam["rankings"][eventer]
