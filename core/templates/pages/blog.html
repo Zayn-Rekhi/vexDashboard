@@ -29,8 +29,12 @@
                                     {{post.title}}
                                 </a>
                             </h3>
-                            <p class="card-text">{{post.content}}</p>
-                            <a href="post/{{post.id}}" class="btn btn-primary btn-rounded btn-sm">Read More</a>
+                            {% if post.content|length > 100 %}
+                                <p class="card-text">{{post.content|truncatechars:400}}</p>
+                            {% else %}
+                                <p class="card-text">{{post.content}}</p>
+                            {% endif %}
+                            <a href="post/{{post.id}}" class="btn btn-danger btn-rounded btn-sm">Read More</a>
                         </div>
                     </div>
                 </div>
