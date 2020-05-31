@@ -427,6 +427,11 @@
 					mode: 'index',
 					intersect: false
 				},
+				animation: {
+					onProgress: function (animation) {
+						progress.value = animation.animationObject.currentStep / animation.animationObject.numSteps;
+					}
+				},
 				onHover: (event) => {
 					event.target.style.cursor = 'crosshair';
 				}
