@@ -841,7 +841,10 @@ class Skills():
                 points = round(yAxisLength/8)
                 for numb in range(1, 9):
                     if numb != 8:
-                        values.append(teamDriver[numb*points]["y"])
+                        try:
+                            values.append(score[numb*points])
+                        except:
+                            pass
                     else:
                         values.append(teamDriver[-1]["y"])
                     
