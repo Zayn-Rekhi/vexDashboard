@@ -2,7 +2,7 @@ alive-progress==1.5.1
 asgiref==3.2.7
 autopep8==1.5.2
 bson==0.5.8
-certifi==2020.4.5.1
+certifi==2022.12.7
 chardet==3.0.4
 dataclasses==0.6
 dateinfer==0.2.0
